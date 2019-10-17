@@ -156,14 +156,6 @@
                 android:inputType="textPersonName" />
 
 
-            <TextView
-                android:id="@+id/phoneNumberTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="Phone Number" />
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -190,14 +182,6 @@
 
                 android:inputType="textPassword" />
 
-
-
-            <TextView
-                android:id="@+id/passwordTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="Password" />
 
         </LinearLayout>
 
