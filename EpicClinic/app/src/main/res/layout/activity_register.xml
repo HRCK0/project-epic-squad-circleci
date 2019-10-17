@@ -18,7 +18,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/FirstNameEditText"
+                android:id="@+id/firstNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -45,7 +45,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/lastNameEdit"
+                android:id="@+id/lastNameEditText"
                 android:layout_width="467dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -69,7 +69,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/emailEditText"
+                android:id="@+id/phoneNumberEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -93,7 +93,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/userNameEditText"
+                android:id="@+id/phoneNumberEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
