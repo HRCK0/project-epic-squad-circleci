@@ -1,4 +1,4 @@
-package ca.uottawa.mali165.epicclinic;
+package ca.uottawa.mali165.epicclinic.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.AuthResult;
@@ -46,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             passwordEditText.setError("Please enter a password");
             passwordEditText.requestFocus();
         } else if (password.isEmpty() && email.isEmpty()) {
-            Toast.makeText(RegisterActivity.this, "Required Fields are Empty!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Required Fields are Empty!", Toast.LENGTH_SHORT).show();
         } else {
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
