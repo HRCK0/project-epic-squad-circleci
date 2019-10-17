@@ -1,20 +1,21 @@
-package ca.uottawa.mali165.epicclinic.AccountTypes;
+package ca.uottawa.mali165.epicclinic;
 
 public abstract class Person {
 
-    private String phoneNum;
+    private String phoneNumber;
     private String password;
     private String firstName;
     private String lastName;
     private AccountType accountType;
     private String email;
-    enum AccountType
+    public enum AccountType
     {
         ADMIN,PATIENT,EMPLOYEE
     }
-    public Person(String phoneNum,String password, String firstName, String lastName, String email, AccountType accountType )
+
+    public Person(String firstName, String lastName, String email, String phoneNumber, AccountType accountType )
     {
-        this.phoneNum=phoneNum;
+        this.phoneNumber=phoneNumber;
         this.password=password;
         this.firstName=firstName;
         this.lastName=lastName;
@@ -38,17 +39,13 @@ public abstract class Person {
         return lastName;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public String getPhoneNumber() {
-        return phoneNum;
+        return phoneNumber;
     }
 
-    public void setEmail(String newEmail)
+    public void setEmail(String email)
     {
-        this.email=newEmail;
+        this.email=email;
     }
 
     public void setAccountType(AccountType accountType) {
@@ -63,12 +60,9 @@ public abstract class Person {
         this.lastName = lastName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
-    public void setPhoneNumber(String userName) {
-        this.phoneNum = userName;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
 

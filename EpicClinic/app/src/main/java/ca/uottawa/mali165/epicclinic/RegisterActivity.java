@@ -1,4 +1,4 @@
-package ca.uottawa.mali165.epicclinic.Activities;
+package ca.uottawa.mali165.epicclinic;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

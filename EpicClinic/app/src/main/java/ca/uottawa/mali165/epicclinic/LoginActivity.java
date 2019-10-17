@@ -1,4 +1,4 @@
-package ca.uottawa.mali165.epicclinic.Activities;
+package ca.uottawa.mali165.epicclinic;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +15,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import ca.uottawa.mali165.epicclinic.Activities.RegisterActivity;
+import ca.uottawa.mali165.epicclinic.WelcomeActivity;
 import ca.uottawa.mali165.epicclinic.R;
 
 public class LoginActivity extends AppCompatActivity {
