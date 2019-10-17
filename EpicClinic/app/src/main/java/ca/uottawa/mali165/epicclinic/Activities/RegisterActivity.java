@@ -11,10 +11,10 @@ import android.widget.Toast;
 import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
-import ca.uottawa.mali165.epicclinic.MainActivity;
+import ca.uottawa.mali165.epicclinic.R;
 
 public class RegisterActivity extends AppCompatActivity {
 

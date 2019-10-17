@@ -1,6 +1,8 @@
-package ca.uottawa.mali165.epicclinic.Activities
+package ca.uottawa.mali165.epicclinic.Activities;
+import ca.uottawa.mali165.epicclinic.R;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 
 import android.os.Bundle;
 

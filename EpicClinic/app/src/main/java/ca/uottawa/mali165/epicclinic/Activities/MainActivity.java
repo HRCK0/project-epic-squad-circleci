@@ -5,7 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import ca.uottawa.mali165.epicclinic.R;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,12 +18,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void loginBtnClicked(View loginBtn){
-        Intent openLoginWindow = new Intent(getApplicationContext(), ca.uottawa.mali165.epicclinic.LoginActivity.class);
+        Intent openLoginWindow = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(openLoginWindow);
     }
 
     public void registerBtnClicked(View registerBtn){
-        Intent openRegisterBtn = new Intent(getApplicationContext(), ca.uottawa.mali165.epicclinic.RegisterActivity.class);
+        Intent openRegisterBtn = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(openRegisterBtn);
     }
 

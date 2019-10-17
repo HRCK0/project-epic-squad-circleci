@@ -11,10 +11,12 @@ import android.widget.Toast;
 import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import ca.uottawa.mali165.epicclinic.Activities.RegisterActivity;
+import ca.uottawa.mali165.epicclinic.R;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -55,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 // task is successful, do whatever you want with it
-                                Intent openWelcomeWindow = new Intent(getApplicationContext(), ca.uottawa.mali165.epicclinic.WelcomeActivity.class);
+                                Intent openWelcomeWindow = new Intent(getApplicationContext(), WelcomeActivity.class);
                                 startActivity(openWelcomeWindow);
                             } else {
                                 // sign in/up fails, display message to user
