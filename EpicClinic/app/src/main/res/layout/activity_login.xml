@@ -65,7 +65,7 @@
                 app:fontFamily="@font/roboto_thin" />
 
             <EditText
-                android:id="@+id/editEmail"
+                android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:ems="10"
@@ -92,7 +92,7 @@
                 app:fontFamily="@font/roboto_thin" />
 
             <EditText
-                android:id="@+id/editPassword"
+                android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="220dp"
@@ -108,7 +108,7 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
