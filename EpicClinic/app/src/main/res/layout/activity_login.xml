@@ -37,9 +37,10 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/EmailView"
+                android:id="@+id/LoginView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:text="Log into EpiClinic"
                 android:textColor="#000000"
                 android:textSize="33sp"
@@ -54,7 +55,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/usernameView"
+                android:id="@+id/EmailView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -65,7 +66,7 @@
                 app:fontFamily="@font/roboto_thin" />
 
             <EditText
-                android:id="@+id/editEmail"
+                android:id="@+id/EmailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:ems="10"
@@ -92,7 +93,7 @@
                 app:fontFamily="@font/roboto_thin" />
 
             <EditText
-                android:id="@+id/editPassword"
+                android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="220dp"
