@@ -65,8 +65,10 @@
                 android:textStyle="bold" />
 
             <EditText
+
                 android:id="@+id/firstNameEditText"
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:ems="10"
@@ -146,7 +148,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/phoneNumberEditText"
+                android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
