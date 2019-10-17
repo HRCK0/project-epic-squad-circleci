@@ -93,12 +93,12 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/emailEditText"
+                android:id="@+id/phoneNumberEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:gravity="center_horizontal"
-                android:hint="Please Enter Username"
+                android:hint="Please Enter Phone Number"
                 android:inputType="textPersonName" />
 
             <TextView
@@ -106,7 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="Username" />
+                android:text="Phone Number" />
 
         </LinearLayout>
 
@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:gravity="center_horizontal"
-                android:hint="Please Enter Your Phone Number"
+                android:hint="Please Enter Your Password"
                 android:inputType="textPassword" />
 
             <TextView
@@ -130,7 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="Phone Number " />
+                android:text="Password" />
         </LinearLayout>
 
         <RadioGroup
