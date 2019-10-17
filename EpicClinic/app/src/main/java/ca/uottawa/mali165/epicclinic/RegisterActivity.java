@@ -8,20 +8,33 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import ca.uottawa.mali165.epicclinic.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
     EditText firstNameEditText, lastNameEditText, emailEditText, phoneNumberEditText, passwordEditText;
     Button registerButton;
+    RadioGroup radioGroup;
     FirebaseAuth mAuth;
+    FirebaseFirestore db;
+
+    Map<String, Object> user;
 
     private static final String TAG = "RegisterActivity";
 
@@ -31,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         firstNameEditText = findViewById(R.id.firstNameEditText);
         lastNameEditText = findViewById(R.id.lastNameEditText);
@@ -38,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
         phoneNumberEditText = findViewById(R.id.phoneNumberEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
 
+        radioGroup = findViewById(R.id.radioGroup);
         registerButton = findViewById(R.id.registerBtn);
     }
 
@@ -49,7 +64,16 @@ public class RegisterActivity extends AppCompatActivity {
         String phoneNumber = phoneNumberEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        Log.d(TAG, email);
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+        RadioButton btn = findViewById(selectedId);
+        String role = btn.getText().toString().toLowerCase();
+
+        user = new HashMap<>();
+        user.put("firstName", firstName);
+        user.put("lastName", lastName);
+        user.put("email", email);
+        user.put("phoneNumber", phoneNumber);
+        user.put("role", role);
 
         if (email.isEmpty()) {
             emailEditText.setError("Please enter an email");
@@ -66,6 +90,21 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 // task is successful, do whatever you want with it
+
+                                db.collection("users").document(mAuth.getUid())
+                                        .set(user)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "Document has successfully been written");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Document error", e);
+                                            }
+                                        });
                                 Log.d(TAG, "createUserWithEmail:success");
                                 Intent openWelcomeWindow = new Intent(getApplicationContext(), WelcomeActivity.class);
                                 startActivity(openWelcomeWindow);

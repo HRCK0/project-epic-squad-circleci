@@ -192,12 +192,13 @@
             android:orientation="horizontal">
 
             <RadioGroup
+                android:id="@+id/radioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
                 <RadioButton
-                    android:id="@+id/PatientButton"
+                    android:id="@+id/patientButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -205,7 +206,7 @@
                     android:textColor="@android:color/black" />
 
                 <RadioButton
-                    android:id="@+id/EmployeeButton"
+                    android:id="@+id/employeeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
