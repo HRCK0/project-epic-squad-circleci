@@ -37,7 +37,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/EmailView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Log into EpiClinic"
@@ -58,18 +58,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="USERNAME "
+                android:text="EMAIL"
+
                 android:textColor="#443C3C"
                 android:textStyle="bold"
                 app:fontFamily="@font/roboto_thin" />
 
             <EditText
-                android:id="@+id/editUsername"
+                android:id="@+id/editEmail"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:ems="10"
                 android:gravity="center_horizontal"
-                android:inputType="textPersonName" />
+
+                >
+
         </LinearLayout>
 
         <LinearLayout
