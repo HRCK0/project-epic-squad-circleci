@@ -17,12 +17,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void loginBtnClicked(View loginBtn){
-        Intent openLoginWindow = new Intent(getApplicationContext(), LoginActivity.class);
+        Intent openLoginWindow = new Intent(getApplicationContext(), ca.uottawa.mali165.epicclinic.LoginActivity.class);
         startActivity(openLoginWindow);
     }
 
     public void registerBtnClicked(View registerBtn){
-        Intent openRegisterBtn = new Intent(getApplicationContext(), RegisterActivity.class);
+        Intent openRegisterBtn = new Intent(getApplicationContext(), ca.uottawa.mali165.epicclinic.RegisterActivity.class);
         startActivity(openRegisterBtn);
     }
 
