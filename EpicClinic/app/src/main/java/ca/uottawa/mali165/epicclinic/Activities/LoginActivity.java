@@ -15,7 +15,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     
     public void loginBtnClicked(View loginBtn){
-        Intent openWelcomeWindow = new Intent(getApplicationContext(), WelcomeActivity.class);
+        Intent openWelcomeWindow = new Intent(getApplicationContext(), ca.uottawa.mali165.epicclinic.WelcomeActivity.class);
         startActivity(openWelcomeWindow);
     }
 }
