@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.AuthResult;
@@ -60,6 +61,8 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 // task is successful, do whatever you want with it
+                                Intent openWelcomeWindow = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                startActivity(openWelcomeWindow);
                             } else {
                                 // sign in/up fails, display message to user
                                 Toast.makeText(RegisterActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
@@ -67,9 +70,5 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     });
         }
-
-
-        Intent openWelcomeWindow = new Intent(getApplicationContext(), WelcomeActivity.class);
-        startActivity(openWelcomeWindow);
     }
 }
