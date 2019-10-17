@@ -6,6 +6,6 @@ public class Patient extends Person{
         String password, String firstname, String lastname, 
         String emailAdress, String phoneNumber)
     {
-        super(password, firstname, lastname, emailAdress, /*accountType*/, phoneNumber);
+        super(password, firstname, lastname, emailAdress, AccountType.Patient, phoneNumber);
     }
 }
