@@ -16,10 +16,5 @@
             android:layout_height="175dp"
             android:layout_gravity="center_horizontal|center_vertical" />
 
-        <TextView
-            android:id="@+id/nameView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hi, <NAME>, you are logged in as <TYPE>" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
