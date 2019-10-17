@@ -13,6 +13,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
     }
+    
     public void loginBtnClicked(View loginBtn){
         Intent openWelcomeWindow = new Intent(getApplicationContext(), WelcomeActivity.class);
         startActivity(openWelcomeWindow);
