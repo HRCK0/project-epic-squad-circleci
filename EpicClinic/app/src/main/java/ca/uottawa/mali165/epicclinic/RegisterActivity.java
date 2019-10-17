@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,6 +23,8 @@ public class RegisterActivity extends AppCompatActivity {
     Button registerButton;
     FirebaseAuth mAuth;
 
+    private static final String TAG = "RegisterActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         firstNameEditText = findViewById(R.id.firstNameEditText);
         lastNameEditText = findViewById(R.id.lastNameEditText);
-        emailEditText = findViewById(R.id.phoneNumberEditText);
+        emailEditText = findViewById(R.id.emailEditText);
         phoneNumberEditText = findViewById(R.id.phoneNumberEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
 
@@ -45,6 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         String phoneNumber = phoneNumberEditText.getText().toString();
         String password = passwordEditText.getText().toString();
+
+        Log.d(TAG, email);
 
         if (email.isEmpty()) {
             emailEditText.setError("Please enter an email");
@@ -61,9 +66,11 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 // task is successful, do whatever you want with it
+                                Log.d(TAG, "createUserWithEmail:success");
                                 Intent openWelcomeWindow = new Intent(getApplicationContext(), WelcomeActivity.class);
                                 startActivity(openWelcomeWindow);
                             } else {
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                 // sign in/up fails, display message to user
                                 Toast.makeText(RegisterActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
                             }

@@ -20,6 +20,8 @@ import ca.uottawa.mali165.epicclinic.R;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "LoginActivity";
+
     EditText emailEditText, passwordEditText;
     Button loginButton;
     FirebaseAuth mAuth;
