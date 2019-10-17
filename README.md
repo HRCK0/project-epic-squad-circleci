@@ -4,6 +4,8 @@
 
 | Name | Student Number |
 | --- | --- |
-| Andrew Forward | 1484511  |
-| Andrew Forward | 1929204  |
-| Ayana Nurse | 2128439 |
+| Ruwani De Alwis | 300057076 |
+| Mustafa Ali  | 300060406 |
+| Georges Chamoun | 300060437 |
+| Gabriel Granata | 300057462
+| Vanja Prokic | 300057417 |
