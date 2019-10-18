@@ -3,7 +3,6 @@ package ca.uottawa.mali165.epicclinic;
 public abstract class Person {
 
     private String phoneNumber;
-    private String password;
     private String firstName;
     private String lastName;
     private AccountType accountType;
@@ -16,7 +15,6 @@ public abstract class Person {
     public Person(String firstName, String lastName, String email, String phoneNumber, AccountType accountType )
     {
         this.phoneNumber=phoneNumber;
-        this.password=password;
         this.firstName=firstName;
         this.lastName=lastName;
         this.accountType=accountType;
