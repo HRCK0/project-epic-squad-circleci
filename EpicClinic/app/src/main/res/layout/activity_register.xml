@@ -9,6 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/black"
         android:orientation="vertical"
         android:visibility="visible">
 
@@ -18,13 +19,26 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imageViewLogo"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="43dp"
-                android:layout_weight="1"
-                android:background="#33FFAD"
-                app:srcCompat="@drawable/logo" />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/imageViewLogo"
+                    android:layout_width="556dp"
+                    android:layout_height="94dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/logo3" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -33,6 +47,7 @@
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:layout_weight="1"
+            android:background="@android:color/black"
             android:orientation="vertical"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp">
@@ -50,11 +65,11 @@
                     android:layout_gravity="center"
                     android:foregroundGravity="clip_horizontal"
                     android:gravity="center"
-                    android:text="Sign Up for Epiclinic"
-                    android:textColor="@android:color/black"
+                    android:text="Sign Up for eCare"
+                    android:textColor="@android:color/white"
                     android:textSize="25sp"
                     android:textStyle="bold"
-                    app:fontFamily="@font/roboto_medium" />
+                    app:fontFamily="@font/roboto_thin" />
 
             </LinearLayout>
 
@@ -72,7 +87,7 @@
                     android:gravity="center|start"
                     android:hint="Please Enter Your Full Name"
                     android:text="FIRST NAME"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textStyle="bold" />
 
                 <EditText
@@ -82,10 +97,12 @@
 
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:backgroundTint="@android:color/white"
                     android:ems="10"
                     android:foregroundGravity="clip_horizontal"
                     android:gravity="center_horizontal"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/white" />
 
             </LinearLayout>
 
@@ -103,7 +120,7 @@
                     android:fontFamily="@font/roboto_thin"
                     android:gravity="start|center_horizontal"
                     android:text="LAST NAME"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textStyle="bold" />
 
                 <EditText
@@ -111,10 +128,12 @@
                     android:layout_width="467dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:backgroundTint="@android:color/white"
                     android:ems="10"
                     android:foregroundGravity="clip_horizontal"
                     android:gravity="center|center_horizontal"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/white" />
 
             </LinearLayout>
 
@@ -131,16 +150,18 @@
                     android:fontFamily="@font/roboto_thin"
                     android:gravity="start"
                     android:text="E-MAIL"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/emailEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/white"
                     android:ems="10"
                     android:gravity="center_horizontal"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:textColor="@android:color/white" />
 
             </LinearLayout>
 
@@ -158,16 +179,18 @@
                     android:fontFamily="@font/roboto_thin"
                     android:gravity="start|center_horizontal"
                     android:text="PHONE NUMBER "
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/phoneNumberEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/white"
                     android:ems="10"
                     android:gravity="center_horizontal"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/white" />
 
 
             </LinearLayout>
@@ -185,17 +208,19 @@
                     android:fontFamily="@font/roboto_thin"
                     android:gravity="start|center_horizontal"
                     android:text="PASSWORD "
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/passwordEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/white"
                     android:ems="10"
-                    android:gravity="center_horizontal"
 
-                    android:inputType="textPassword" />
+                    android:gravity="center_horizontal"
+                    android:inputType="textPassword"
+                    android:textColor="@android:color/white" />
 
 
             </LinearLayout>
@@ -209,28 +234,38 @@
                 <RadioGroup
                     android:id="@+id/radioGroup"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_gravity="center|center_horizontal"
                     android:layout_weight="1"
+                    android:foregroundGravity="center"
+                    android:gravity="center"
                     android:orientation='horizontal'>
 
                     <RadioButton
                         android:id="@+id/employeeButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:buttonTint="@android:color/white"
                         android:fontFamily="@font/roboto_thin"
+
+                        android:foregroundGravity="center"
                         android:text="Employee"
-                        android:textColor="@android:color/black" />
+                        android:textColor="@android:color/white" />
 
                     <RadioButton
                         android:id="@+id/patientButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:buttonTint="@android:color/white"
                         android:fontFamily="@font/roboto_thin"
+
                         android:foregroundGravity="center"
                         android:text="Patient"
-                        android:textColor="@android:color/black" />
+                        android:textColor="@android:color/white" />
                 </RadioGroup>
 
             </LinearLayout>
@@ -248,7 +283,10 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/btn_rounded"
                     android:onClick="RegisterBtnClicked"
-                    android:text="Register" />
+
+                    android:text="Register"
+                    android:textColor="@android:color/white" />
+
 
                 <Space
                     android:layout_width="match_parent"
