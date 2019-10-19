@@ -1,7 +1,7 @@
 # ScreenShots of Walk-In-Clinic App
 
 ###  MAIN ACTIVITY 
-![Image of Main Activity](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/ssMainActivity.png)
+![Image of Main Activity]<img src="https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/ssMainActivity.png" width=50% height=50%)
 
 ### Creating an Employee Account
 
