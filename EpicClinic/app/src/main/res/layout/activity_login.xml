@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/bottom_shadow"
+            android:background="#33ffad"
             android:orientation="vertical">
 
             <ImageView
@@ -64,7 +64,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -86,8 +85,9 @@
                     android:id="@+id/emailEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginBottom="10dp"
 
+                    android:layout_weight="1"
                     android:ems="10"
                     android:gravity="center_horizontal"
                     android:inputType="textEmailAddress" />
@@ -97,7 +97,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -116,6 +115,7 @@
                     android:id="@+id/passwordEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="1"
                     android:ems="10"
                     android:gravity="center_horizontal"
@@ -125,6 +125,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:gravity="top"
                 android:orientation="vertical">
