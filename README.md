@@ -12,6 +12,6 @@
 
 # Deliverable 1
 
-For screenshots related to Deliverable 1, please see [the screenshot folder]( https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/output.md). 
+For screenshots related to Deliverable 1, please see [the screenshot folder]( https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/output.md) 
 
  [APK File]( https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/app-debug.apk). 
