@@ -8,20 +8,20 @@
 #### Registration: 
 ![Image of Employee Account Creation](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/ssAliMustafaRegister.PNG)
 
-![Image of Employee Account Creation](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/PatientGabrielRegister.png)
+![Image of Employee Account Creation](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/patientGabrielRegister.png)
 
 
 #### Welcome Screen: 
 ![Image of Employee Account Welcome Screen](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/ssAliMustafaWelcome.PNG)
 
-![Image of Employee Account Welcome Screen](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/PatientGabrielWelcome.png)
+![Image of Employee Account Welcome Screen](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/patientGabrielWelcome.png)
 
 
 #### Login to Already Created Account
 
 ![Image of Patient Account Login](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/ssAliMustafaLogin.PNG)
 
-![Image of Employee Account Login](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/PatientGabrielLogin.png)
+![Image of Employee Account Login](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/patientGabrielLogin.png)
 ### Creating an Employee Account
 #### Registration: 
 ![Image of Patient Account Creation](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/ssEmployee1Register.png)
