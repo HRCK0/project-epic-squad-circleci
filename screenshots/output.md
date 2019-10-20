@@ -11,7 +11,9 @@
 #### Welcome Screen: 
 ![Image of Employee Account Welcome Screen](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/ssAliMustafaWelcome.PNG)
 
+#### Login to Already Created Account
 
+![Image of Employee Account Login](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/ssAliMustafaLogin.PNG)
 
 ### Creating an Employee Account
 #### Registration: 
@@ -19,3 +21,11 @@
 
 #### Welcome Screen: 
 ![Image of Patient Account Welcome Screen](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/ssEmployee1Welcome.png)
+
+### Admin
+
+#### Admin Login 
+![Image of Admin Login](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/ssAdminLogin.png)
+
+#### Admin Welcome Screen
+![Image of Admin Weclome](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/ssAdminWelcome.png)
