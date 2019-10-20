@@ -27,7 +27,6 @@ public class WelcomeActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseFirestore db;
 
-    String uid;
     String role;
     String firstName;
     String lastName;
@@ -46,9 +45,8 @@ public class WelcomeActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        uid = mAuth.getCurrentUser().getUid();
 
-        DocumentReference dr = db.collection("users").document(uid);
+        DocumentReference dr = db.collection("users").document(getIntent().getStringExtra("CurrentUser_UID"));
         dr.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
