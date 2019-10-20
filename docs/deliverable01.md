@@ -1,6 +1,8 @@
 
 # Deliverable 1
 
+=======
+
 ## GitHub Project
 
 You can create your project using GitHub Class, following
@@ -32,6 +34,7 @@ should be in `f/deliverable01` prior to the submission deadline.
 
 The very first contributor can create the branch using
 (Do not blindly follow these instructions, professor and TA not responsible for lost work)
+=======
 
 ```
 git checkout -b f/deliverable01
@@ -44,12 +47,12 @@ Other contributors will need to checkout that new branch
 git fetch
 git checkout f/deliverable01
 ```
-
 Please consider using feature branches for individual work and using
 pull requests back into `f/deliverable02` as a workflow to coordinate
 between team members.  Make them SMALL, focused and merge them often.
 
 ## Git Branch on The Terminal
+=======
 
 In addition, you might want a script similar to the following
 to easily tell you which branch you are on
@@ -106,8 +109,8 @@ You can install [Hub](https://github.com/github/hub)
 a command line tool to create pull requests
 from your terminal directly into GitHub.
 
-For deliverable 1, create a Pull Request with
-the following information
+=======
+For deliverable one, create a Pull Request with the following information
 
 ```
 hub pull-request -o -b master -m "Deliverable 1"

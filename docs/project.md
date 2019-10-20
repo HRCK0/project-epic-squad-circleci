@@ -95,6 +95,8 @@ Click on the deliverable name for more details.
 | 3 | [Walk-in employee user functionality](/docs/deliverable03.md) | 100 | 3% | Nov 20 |
 | 4 | [Patient and application functionality](/docs/deliverable04.md) | 130 | 9% | Dec 04 |
 | 5 | [Demo (during labs / tutorials)](/docs/deliverable05.md) | 100 | 2% | Last week |
+=======
+
 
 The project is to be carried out throughout the session and students are
 strongly encouraged to maintain a log of their project activities,
