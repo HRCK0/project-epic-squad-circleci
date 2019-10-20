@@ -72,6 +72,8 @@ public class WelcomeActivity extends AppCompatActivity {
                             user = new Employee(firstName, lastName, email, phoneNumber);
                         } else if (role == "patient") {
                             user = new Patient(firstName, lastName, email, phoneNumber);
+                        } else if (role == "admin"){
+                            user = new Admin(firstName, lastName, email, phoneNumber);
                         }
 
                     } else {
