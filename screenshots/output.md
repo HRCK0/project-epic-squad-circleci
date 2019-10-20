@@ -20,16 +20,16 @@
 #### Registration: 
 ![Image of Patient Account Creation](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/ssEmployee1Register.png)
 
-![Image of Employee Account Creation](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/employeeGeorgesRegister.PNG)
+![Image of Employee Account Creation](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/employeeGeorgesRegister.png)
 
 #### Welcome Screen: 
 ![Image of Patient Account Welcome Screen](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/ssEmployee1Welcome.png)
 
-![Image of Employee Account Creation](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/employeeGeorgesWelcome.PNG)
+![Image of Employee Account Creation](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/employeeGeorgesWelcome.png)
 
 #### Login to Already Created Account
 
-![Image of Employee Account Login](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/employeeGeorgesLogin.PNG)
+![Image of Employee Account Login](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/employeeGeorgesLogin.png)
 ### Admin
 
 #### Admin Login 
