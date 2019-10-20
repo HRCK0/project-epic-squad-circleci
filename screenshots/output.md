@@ -30,6 +30,8 @@
 #### Login to Already Created Account
 
 ![Image of Employee Account Login](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/employeeGeorgesLogin.png)
+
+![Image of Employee Account Login](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/ssEmployee1Login.png)
 ### Admin
 
 #### Admin Login 
