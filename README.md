@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-
-Placeholder for your project coverpage,
-please refer to the [project details](/docs/project.md)
-before getting started.
-
-
-
-=======
 # eCare Inc.
 
 ## Team Members
@@ -24,4 +15,3 @@ before getting started.
 For screenshots related to Deliverable 1, please see [the screenshot folder]( https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/output.md). 
 
  [APK File]( https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/app-debug.apk). 
->>>>>>> f/deliverable01
