@@ -107,6 +107,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         });
                                 Log.d(TAG, "createUserWithEmail:success");
                                 Intent openWelcomeWindow = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                openWelcomeWindow.putExtra("CurrentUser_UID", mAuth.getCurrentUser().getUid());
                                 startActivity(openWelcomeWindow);
                             } else {
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
