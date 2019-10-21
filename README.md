@@ -15,3 +15,7 @@
 For screenshots related to Deliverable 1, please see [the screenshot folder]( https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/screenshots/output.md) 
 
  [APK File]( https://github.com/professor-forward/project-epic-squad/blob/f/deliverable01/app-debug.apk). 
+ 
+ # Please Read
+We were not able to create a Pull Request, therefore our commits are all on the master branch, and the professor said this  was fine for deliverable 1. 
+Thanks!
