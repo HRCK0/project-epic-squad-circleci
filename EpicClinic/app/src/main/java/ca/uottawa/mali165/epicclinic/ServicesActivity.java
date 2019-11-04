@@ -3,11 +3,13 @@ package ca.uottawa.mali165.epicclinic;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Service;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,6 +26,7 @@ public class ServicesActivity extends AppCompatActivity {
 
     EditText serviceNameEditText, priceEditText;
     Button addServiceButton;
+    ScrollView scrollView;
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
@@ -34,16 +37,23 @@ public class ServicesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_services);
+        scrollView = (ScrollView) findViewById(R.id.scrollView);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
         serviceNameEditText = findViewById(R.id.newServiceNameEditText);
         priceEditText = findViewById(R.id.newServicePriceEditText);
-        addServiceButton = findViewById(R.id.addServiceButton);
+        addServiceButton = findViewById(R.id.addButton);
 
         //TODO:
         // populate services field with previously added services from the database
+        ServiceTemplate s1 = new ServiceTemplate(getApplicationContext());
+        s1.init();
+        s1.setCategory("test");
+        s1.setServiceName("name");
+        s1.setPrice("0");
+        scrollView.addView(s1);
     }
 
     public void onCreateNewService(View serviceBtn) {
@@ -73,8 +83,7 @@ public class ServicesActivity extends AppCompatActivity {
                             Log.d(TAG, "Service Successfully Created");
                             serviceNameEditText.setText("");
                             priceEditText.setText("");
-                            //TODO:
-                            // add new service to app UI
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
