@@ -117,11 +117,12 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/addButton"
+                    android:id="@+id/addServiceButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@android:drawable/ic_input_add" />
+                    android:background="@android:drawable/ic_input_add"
+                    android:onClick="onCreateNewService" />
             </LinearLayout>
 
         </LinearLayout>
