@@ -3,16 +3,41 @@ class Person
     email;
    firstName;
    accountType;
-  lastName;
-phoneNum;
+   lastName;
+   phoneNum;
 enum{Admin, Employee, Patient}
 }
+
+
+class Service
+{
+  
+    String name;
+    double price;
+   *--* Patient;
+  *--* Employee;
+  *--* Admin;
+}
+
 
 class Admin
 {
   isA Person;
   1 -- 1..* Employee;
   1 -- * Patient;
+  void addService()
+  {
+    
+  }
+  
+   Service deleteService()
+  {
+  }
+  
+  void editService()
+  {
+    
+  }
 }
 
 class Employee
@@ -26,30 +51,31 @@ class Patient
   isA Person;
 }
 
-//$?[End_of_model]$?
+
 
 namespace -;
 
 
 class Person
 {
-  position 156 93 109 141;
+  position 526 42 160 143;
 }
 
 class Admin
 {
-  position 31 271 109 41;
+  position 24 321 197 129;
   position.association Admin__Employee 109,20 0,22;
-  position.association Admin__Patient 109,39 0,22;
+  position.association Admin__Patient 204,52 0,22;
+  
 }
 
 class Employee
 {
-  position 193 272 109 41;
+  position 373 79 89 84;
   position.association Employee__Patient 94,39 4,0;
 }
 
 class Patient
 {
-  position 321 346 109 41;
+  position 663 349 89 84;
 }
