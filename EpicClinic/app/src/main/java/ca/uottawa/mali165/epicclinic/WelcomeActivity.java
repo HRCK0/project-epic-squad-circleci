@@ -7,8 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -82,5 +84,10 @@ public class WelcomeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void servicesBtnClicked(View servicesBtn) {
+        Intent openServicesWindow = new Intent(getApplicationContext(), ServicesActivity.class);
+        startActivity(openServicesWindow);
     }
 }
