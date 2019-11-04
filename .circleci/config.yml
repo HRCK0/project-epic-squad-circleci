@@ -14,7 +14,7 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/postgres:9.4
 
-    working_directory: ./EpicClinic
+    working_directory: ~/app
 
     environment:
       # Customize the JVM maximum heap limit
@@ -38,5 +38,11 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
+      run_login_activity_test:
+        title: Running LoginActivityTest
+        commands:
+          - javac LoginActivityTest.java
+          - java LoginActivityTest
+
       # run tests!
-      - run: echo 'Will it work?' #gradle test #ExampleUnitTest.java
+      - run: run_login_activity_test #echo 'Will it work?' #gradle test #ExampleUnitTest.java
