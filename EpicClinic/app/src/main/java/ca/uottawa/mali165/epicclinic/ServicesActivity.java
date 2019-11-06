@@ -7,8 +7,10 @@ import android.app.Service;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -24,9 +26,14 @@ public class ServicesActivity extends AppCompatActivity {
 
     private static final String TAG = "ServicesActivity";
 
+    String[] serviceNames = {"Service1", "Service2", "Service3"};
+    String[] categoryNames = {"category1", "caegory2", "category3"};
+    String[] priceNames = {"price1", "price2", "price3"};
+    Integer[]  serviceIds = {1, 2, 3};
+
     EditText serviceNameEditText, priceEditText;
     Button addServiceButton;
-    ScrollView scrollView;
+    ListView listView;
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
@@ -37,7 +44,7 @@ public class ServicesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_services);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
+        listView = (ListView) findViewById(R.id.listView);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -48,12 +55,10 @@ public class ServicesActivity extends AppCompatActivity {
 
         //TODO:
         // populate services field with previously added services from the database
-        ServiceTemplate s1 = new ServiceTemplate(getApplicationContext());
-        s1.init();
-        s1.setCategory("test");
-        s1.setServiceName("name");
-        s1.setPrice("0");
-        scrollView.addView(s1);
+
+        
+        ServicesListViewAdapter whatever = new ServicesListViewAdapter(this, serviceIds,serviceNames , priceNames, categoryNames );
+        listView.setAdapter(whatever);
     }
 
     public void onCreateNewService(View serviceBtn) {

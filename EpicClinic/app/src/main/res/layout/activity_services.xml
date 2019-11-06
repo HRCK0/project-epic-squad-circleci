@@ -133,14 +133,10 @@
             android:background="#000000"
             android:orientation="horizontal">
 
-            <ScrollView
-                android:id="@+id/scrollView"
+            <ListView
+                android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-
-            </ScrollView>
-
+                android:layout_height="match_parent" />
         </LinearLayout>
     </LinearLayout>
 
