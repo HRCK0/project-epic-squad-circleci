@@ -39,14 +39,15 @@ public class LoginActivityTest2 {
     public ActivityTestRule<LoginActivity> myActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
     public ActivityTestRule<WelcomeActivity> myActivityTestRule2 = new ActivityTestRule<>(WelcomeActivity.class);
     @Test
-    public void adminIsInvalid(){
+    public void adminIsInvalid() throws InterruptedException {
         onView(withId(R.id.emailEditText)).perform(typeText("admin@ecare.com"), closeSoftKeyboard());
         onView(withId(R.id.passwordEditText)).perform(typeText("5T5ptQ"), closeSoftKeyboard());
         Intents.init();
         onView(withId(R.id.loginButton)).perform(click());
+        Thread.sleep(1000);
         //intended(hasComponent(WelcomeActivity.class.getName()));
         //onView(withText("Invalid Email")).check(matches(isDisplayed()));
         onView(withId(R.id.welcomeTextView));
-        onView(withId(R.id.welcomeTextView)).check(matches(withText(containsString("TextView" ))));
+        onView(withId(R.id.welcomeTextView)).check(matches(isDisplayed()));
     }
 }
