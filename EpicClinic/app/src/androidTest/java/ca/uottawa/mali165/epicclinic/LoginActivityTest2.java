@@ -44,10 +44,35 @@ public class LoginActivityTest2 {
         onView(withId(R.id.passwordEditText)).perform(typeText("5T5ptQ"), closeSoftKeyboard());
         Intents.init();
         onView(withId(R.id.loginButton)).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(4000);
         //intended(hasComponent(WelcomeActivity.class.getName()));
         //onView(withText("Invalid Email")).check(matches(isDisplayed()));
         onView(withId(R.id.welcomeTextView));
-        onView(withId(R.id.welcomeTextView)).check(matches(isDisplayed()));
+        //onView(withId(R.id.welcomeTextView)).check(matches(isDisplayed()));
+        onView(withId(R.id.welcomeTextView)).check(matches(withText(containsString("You are logged in as ADMIN")))); //welcome message is displayed
+    }
+
+
+
+    @Test
+    public void employeeIsInvalid() throws InterruptedException {
+        onView(withId(R.id.emailEditText)).perform(typeText("rdeal081@uottawa.ca"), closeSoftKeyboard());
+        onView(withId(R.id.passwordEditText)).perform(typeText("seg2105"), closeSoftKeyboard());
+        Intents.init();
+        onView(withId(R.id.loginButton)).perform(click());
+        Thread.sleep(4000);
+        onView(withId(R.id.welcomeTextView));
+        onView(withId(R.id.welcomeTextView)).check(matches(withText(containsString("You are logged in as EMPLOYEE")))); //welcome message is displayed
+    }
+
+    @Test
+    public void patientIsInvalid() throws InterruptedException {
+        onView(withId(R.id.emailEditText)).perform(typeText("gabriel@ecare.com"), closeSoftKeyboard());
+        onView(withId(R.id.passwordEditText)).perform(typeText("password"), closeSoftKeyboard());
+        Intents.init();
+        onView(withId(R.id.loginButton)).perform(click());
+        Thread.sleep(4000);
+        onView(withId(R.id.welcomeTextView));
+        onView(withId(R.id.welcomeTextView)).check(matches(withText(containsString("You are logged in as PATIENT")))); //welcome message is displayed
     }
 }
