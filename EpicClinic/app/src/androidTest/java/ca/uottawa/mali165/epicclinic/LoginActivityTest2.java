@@ -16,17 +16,10 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.StringContains.containsString;
 
-//DELETE THIS
-import org.junit.runner.*;
-import android.view.*;
-import android.widget.*;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -42,7 +35,6 @@ public class LoginActivityTest2 {
     public void adminIsInvalid() throws InterruptedException {
         onView(withId(R.id.emailEditText)).perform(typeText("admin@ecare.com"), closeSoftKeyboard());
         onView(withId(R.id.passwordEditText)).perform(typeText("5T5ptQ"), closeSoftKeyboard());
-        Intents.init();
         onView(withId(R.id.loginButton)).perform(click());
         Thread.sleep(4000);
         //intended(hasComponent(WelcomeActivity.class.getName()));
@@ -58,7 +50,7 @@ public class LoginActivityTest2 {
     public void employeeIsInvalid() throws InterruptedException {
         onView(withId(R.id.emailEditText)).perform(typeText("rdeal081@uottawa.ca"), closeSoftKeyboard());
         onView(withId(R.id.passwordEditText)).perform(typeText("seg2105"), closeSoftKeyboard());
-        Intents.init();
+
         onView(withId(R.id.loginButton)).perform(click());
         Thread.sleep(4000);
         onView(withId(R.id.welcomeTextView));
@@ -69,7 +61,6 @@ public class LoginActivityTest2 {
     public void patientIsInvalid() throws InterruptedException {
         onView(withId(R.id.emailEditText)).perform(typeText("gabriel@ecare.com"), closeSoftKeyboard());
         onView(withId(R.id.passwordEditText)).perform(typeText("password"), closeSoftKeyboard());
-        Intents.init();
         onView(withId(R.id.loginButton)).perform(click());
         Thread.sleep(4000);
         onView(withId(R.id.welcomeTextView));
