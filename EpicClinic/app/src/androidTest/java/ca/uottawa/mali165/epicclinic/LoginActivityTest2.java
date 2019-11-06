@@ -21,11 +21,20 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.core.StringContains.containsString;
+
+//DELETE THIS
+import org.junit.runner.*;
+import android.view.*;
+import android.widget.*;
 
 
 @RunWith(AndroidJUnit4.class)
 
+
+
 public class LoginActivityTest2 {
+
     @Rule
     public ActivityTestRule<LoginActivity> myActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
     public ActivityTestRule<WelcomeActivity> myActivityTestRule2 = new ActivityTestRule<>(WelcomeActivity.class);
@@ -33,9 +42,11 @@ public class LoginActivityTest2 {
     public void adminIsInvalid(){
         onView(withId(R.id.emailEditText)).perform(typeText("admin@ecare.com"), closeSoftKeyboard());
         onView(withId(R.id.passwordEditText)).perform(typeText("5T5ptQ"), closeSoftKeyboard());
-        onView(withId(R.id.loginButton)).perform(click());
         Intents.init();
-        intended(hasComponent(WelcomeActivity.class.getName()));
+        onView(withId(R.id.loginButton)).perform(click());
+        //intended(hasComponent(WelcomeActivity.class.getName()));
         //onView(withText("Invalid Email")).check(matches(isDisplayed()));
+        onView(withId(R.id.welcomeTextView));
+        onView(withId(R.id.welcomeTextView)).check(matches(withText(containsString("TextView" ))));
     }
 }
