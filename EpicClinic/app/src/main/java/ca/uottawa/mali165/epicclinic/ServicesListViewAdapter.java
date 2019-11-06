@@ -7,31 +7,20 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class ServicesListViewAdapter extends ArrayAdapter {
 
     //to reference the Activity that the list view is on
     private final Activity context;
 
-    private final Integer[] serviceIds;
+    private final List<Service> serviceList;
 
-    //to store the animal images
-    private final String[] serviceNamesArray;
+    public ServicesListViewAdapter(Activity context, List<Service> serviceList){
 
-    //to store the list of countries
-    private final String[] pricesArray;
-
-    //to store the list of countries
-    private final String[] categoriesArray;
-
-    public ServicesListViewAdapter(Activity context, Integer[] serviceIdsParam, String[] serviceNamesArrayParam, String[] pricesArrayParam, String[] categoriesArrayParam){
-
-        super(context,R.layout.service_template , serviceIdsParam); //secon param is referencing the xml of eah row in the list view
+        super(context,R.layout.service_template , serviceList); //secon param is referencing the xml of eah row in the list view
         this.context = context;
-        this.categoriesArray=categoriesArrayParam;
-        this.pricesArray=pricesArrayParam;
-        this.serviceNamesArray=serviceNamesArrayParam;
-        this.serviceIds=serviceIdsParam;
-
+        this.serviceList=serviceList;
     }
 
     @Override
@@ -45,9 +34,9 @@ public class ServicesListViewAdapter extends ArrayAdapter {
         TextView categoryTextField = (TextView) rowView.findViewById(R.id.category);
 
         //this code sets the values of the objects to values from the arrays
-        serviceNameTextField.setText(serviceNamesArray[position]);
-        priceTextField.setText(pricesArray[position]);
-        categoryTextField.setText(categoriesArray[position]);
+        serviceNameTextField.setText(serviceList.get(position).getName());
+        priceTextField.setText(serviceList.get(position).getPrice());
+        categoryTextField.setText(serviceList.get(position).getCategory());
 
         return rowView;
 

@@ -3,15 +3,12 @@ package ca.uottawa.mali165.epicclinic;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Service;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -19,7 +16,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class ServicesActivity extends AppCompatActivity {
@@ -30,6 +30,8 @@ public class ServicesActivity extends AppCompatActivity {
     String[] categoryNames = {"category1", "caegory2", "category3"};
     String[] priceNames = {"price1", "price2", "price3"};
     Integer[]  serviceIds = {1, 2, 3};
+
+    List<Service> serviceList = new LinkedList<>();
 
     EditText serviceNameEditText, priceEditText;
     Button addServiceButton;
@@ -53,12 +55,14 @@ public class ServicesActivity extends AppCompatActivity {
         priceEditText = findViewById(R.id.newServicePriceEditText);
         addServiceButton = findViewById(R.id.addButton);
 
-        //TODO:
-        // populate services field with previously added services from the database
+        //TODO: RETRIEVE SERVICES FROM DATABASE AND DISPLAY ON VIEW
 
-        
-        ServicesListViewAdapter whatever = new ServicesListViewAdapter(this, serviceIds,serviceNames , priceNames, categoryNames );
-        listView.setAdapter(whatever);
+        for(int i =0; i<3; i++){
+            serviceList.add(new Service(serviceIds[i], serviceNames[i], priceNames[i], categoryNames[i]));
+        }
+
+        ServicesListViewAdapter servicesListViewAdapter = new ServicesListViewAdapter(this, serviceList);
+        listView.setAdapter(servicesListViewAdapter);
     }
 
     public void onCreateNewService(View serviceBtn) {
