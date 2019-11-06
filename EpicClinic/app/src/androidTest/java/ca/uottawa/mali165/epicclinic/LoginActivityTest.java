@@ -3,12 +3,15 @@ package ca.uottawa.mali165.epicclinic;
 
 import android.widget.TextView;
 import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import androidx.test.annotation.UiThreadTest;
 import androidx.test.rule.ActivityTestRule;
+
+
 
 public class LoginActivityTest {
     @Rule
