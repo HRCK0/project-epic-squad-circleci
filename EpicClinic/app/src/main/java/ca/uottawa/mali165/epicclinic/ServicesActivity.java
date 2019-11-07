@@ -20,10 +20,14 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+
+import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +43,7 @@ public class ServicesActivity extends AppCompatActivity {
 
   List<Service> serviceList = new LinkedList<>();
 
-  EditText serviceNameEditText, priceEditText;ListView listView;
+  ListView listView;
 
   FirebaseAuth mAuth;
   FirebaseFirestore db;
@@ -69,39 +73,70 @@ public class ServicesActivity extends AppCompatActivity {
     serviceNameInput.setHint("Name");
     final EditText servicePriceInput = new EditText(this);
     servicePriceInput.setHint("Price");
+    final EditText categoryInput = new EditText(this);
+    categoryInput.setHint("Category of Service");
 
     serviceNameInput.setInputType(InputType.TYPE_CLASS_TEXT);
     servicePriceInput.setInputType(InputType.TYPE_CLASS_NUMBER);
+    categoryInput.setInputType(InputType.TYPE_CLASS_TEXT);
 
     layout.addView(serviceNameInput);
     layout.addView(servicePriceInput);
+    layout.addView(categoryInput);
 
     builder.setView(layout);
 
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialogInterface, int i) {
-        String serviceName = serviceNameInput.getText().toString();
-        String price = servicePriceInput.getText().toString();
-//        String category = categoryInput.getText().toString();
+
+        final String serviceName = serviceNameInput.getText().toString();
+        final String price = servicePriceInput.getText().toString();
+        final String category = categoryInput.getText().toString();
 
         if (serviceName.isEmpty()){
-          serviceNameEditText.setError("Please enter a service name");
-          serviceNameEditText.requestFocus();
+          serviceNameInput.setError("Please enter a service name");
+          serviceNameInput.requestFocus();
         } else if (price.isEmpty()) {
-          priceEditText.setError("Please enter a price");
-          priceEditText.requestFocus();
+          servicePriceInput.setError("Please enter a price");
+          servicePriceInput.requestFocus();
+        } else if (category.isEmpty()) {
+          categoryInput.setError("Please enter a category");
+          categoryInput.requestFocus();
         } else {
           // successful
           db = FirebaseFirestore.getInstance();
 
-          HashMap service = new HashMap();
+          final HashMap service = new HashMap();
 
           service.put("name", serviceName);
           service.put("price", price);
 
           db.collection("services")
-                  .document(serviceName).set(service)
+                  .document("services").get()
+                  .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                      Map servicesData = documentSnapshot.getData();
+
+                      if (servicesData.containsKey(category)) {
+                        db.collection("services").document("services").update(category, service)
+                          .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                              Log.d(TAG, "New Service Succesfully Created");
+                            }
+                          });
+                      } else {
+                        Map categoryData = new HashMap();
+                        categoryData.put(serviceName, service);
+                        db.collection("services").document("services").update(categoryData);
+                      }
+                    }
+                  });
+
+          db.collection("services")
+                  .document("services").set(service)
                   .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -128,20 +163,28 @@ public class ServicesActivity extends AppCompatActivity {
 
     final Activity t = this;
 
-    db.collection("services").get()
-            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    db.collection("services")
+            .document("services").get()
+            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
               @Override
-              public void onComplete(@NonNull Task<QuerySnapshot> task) {
+              public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
                 if (task.isSuccessful()) {
                   ArrayList<Service> list = new ArrayList<>();
-                  for (QueryDocumentSnapshot document : task.getResult()) {
-                    Map<String, Object> data = document.getData();
+                  Map categories = task.getResult().getData();
 
-                    String serviceName = data.get("name").toString();
-                    String price = data.get("price").toString();
+                  for (Object category : categories.keySet()) {
+                    Map categoryData = (Map) categories.get(category);
 
-                    list.add(new Service(serviceName, price, "category"));
+                    for (Object service : categoryData.keySet()) {
+                      Map serviceData = (Map) categoryData.get(service);
 
+                      String serviceName = serviceData.get("name").toString();
+                      String price = serviceData.get("price").toString();
+
+                      list.add(new Service(serviceName, price, (String) category));
+
+                    }
 
                   }
                   serviceList = list;
