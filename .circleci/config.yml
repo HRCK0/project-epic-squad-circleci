@@ -45,5 +45,7 @@ jobs:
       #     - java LoginActivityTest
 
       # run tests!
-      - run: javac LoginActivityTest.java #echo 'Will it work?' #gradle test #ExampleUnitTest.java
-      - run: java LoginActivityTest
+      - run: 
+        command: javac LoginActivityTest.java #echo 'Will it work?' #gradle test #ExampleUnitTest.java
+      - run:
+        command: java LoginActivityTest
