@@ -7,9 +7,8 @@ public class Service{
     private String price;
     private String category;
 
-    Service(int id, String serviceName, String price, String category){
+    Service(int id, String serviceName, String price){
         this.serviceName=serviceName;
-        this.category=category;
         this.id=id;
         this.price=price;
     }
