@@ -51,18 +51,18 @@ public class ServicesActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        serviceNameEditText = findViewById(R.id.newServiceNameEditText);
-        priceEditText = findViewById(R.id.newServicePriceEditText);
-        addServiceButton = findViewById(R.id.addButton);
+//        serviceNameEditText = findViewById(R.id.newServiceNameEditText);
+//        priceEditText = findViewById(R.id.newServicePriceEditText);
+//        addServiceButton = findViewById(R.id.addButton);
 
         //TODO: RETRIEVE SERVICES FROM DATABASE AND DISPLAY ON VIEW
 
-        for(int i =0; i<3; i++){
-            serviceList.add(new Service(serviceIds[i], serviceNames[i], priceNames[i], categoryNames[i]));
-        }
-
-        ServicesListViewAdapter servicesListViewAdapter = new ServicesListViewAdapter(this, serviceList);
-        listView.setAdapter(servicesListViewAdapter);
+//        for(int i =0; i<3; i++){
+//            serviceList.add(new Service(serviceIds[i], serviceNames[i], priceNames[i], categoryNames[i]));
+//        }
+//
+//        ServicesListViewAdapter servicesListViewAdapter = new ServicesListViewAdapter(this, serviceList);
+//        listView.setAdapter(servicesListViewAdapter);
     }
 
     public void onCreateNewService(View serviceBtn) {
@@ -102,6 +102,13 @@ public class ServicesActivity extends AppCompatActivity {
                         }
                     });
         }
+
+    }
+
+    public void onClickAddNewService(View newServiceBtn) {
+
+        NewServiceDialog dialog = new NewServiceDialog();
+        dialog.show();
 
     }
 }
