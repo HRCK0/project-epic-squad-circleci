@@ -3,96 +3,154 @@ package ca.uottawa.mali165.epicclinic;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Service;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class ServicesActivity extends AppCompatActivity {
 
-    private static final String TAG = "ServicesActivity";
+  private final Context t = this;
 
-    EditText serviceNameEditText, priceEditText;
-    Button addServiceButton;
-    ScrollView scrollView;
+  private static final String TAG = "ServicesActivity";
 
-    FirebaseAuth mAuth;
-    FirebaseFirestore db;
+  List<Service> serviceList = new LinkedList<>();
 
-    Map<String, Object> service;
+  EditText serviceNameEditText, priceEditText;ListView listView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_services);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
+  FirebaseAuth mAuth;
+  FirebaseFirestore db;
 
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_services);
+    listView = (ListView) findViewById(R.id.listView);
 
-        serviceNameEditText = findViewById(R.id.newServiceNameEditText);
-        priceEditText = findViewById(R.id.newServicePriceEditText);
-        addServiceButton = findViewById(R.id.addButton);
+    mAuth = FirebaseAuth.getInstance();
+    db = FirebaseFirestore.getInstance();
 
-        //TODO:
-        // populate services field with previously added services from the database
-        ServiceTemplate s1 = new ServiceTemplate(getApplicationContext());
-        s1.init();
-        s1.setCategory("test");
-        s1.setServiceName("name");
-        s1.setPrice("0");
-        scrollView.addView(s1);
-    }
+    updateUI();
+  }
 
-    public void onCreateNewService(View serviceBtn) {
 
-        String serviceName = serviceNameEditText.getText().toString();
-        String servicePrice = priceEditText.getText().toString();
+  public void onClickAddNewService(View newServiceBtn) {
 
-        service = new HashMap<>();
-        service.put("serviceName", serviceName);
-        service.put("servicePrice", servicePrice);
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle("Add a new Service");
 
-        if (serviceName.isEmpty()) {
-            serviceNameEditText.setError("Please enter a service name");
-            serviceNameEditText.requestFocus();
-        } else if (servicePrice.isEmpty()) {
-            priceEditText.setError("Please enter a price");
-            priceEditText.requestFocus();
-            //TODO;
-            // validate service price is a number somehow
-        } else if (serviceName.isEmpty() && servicePrice.isEmpty()) {
-            Toast.makeText(this, "Required Fields are Empty!", Toast.LENGTH_SHORT).show();
+    LinearLayout layout = new LinearLayout(this);
+    layout.setOrientation(LinearLayout.VERTICAL);
+
+    final EditText serviceNameInput = new EditText(this);
+    serviceNameInput.setHint("Name");
+    final EditText servicePriceInput = new EditText(this);
+    servicePriceInput.setHint("Price");
+
+    serviceNameInput.setInputType(InputType.TYPE_CLASS_TEXT);
+    servicePriceInput.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+    layout.addView(serviceNameInput);
+    layout.addView(servicePriceInput);
+
+    builder.setView(layout);
+
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialogInterface, int i) {
+        String serviceName = serviceNameInput.getText().toString();
+        String price = servicePriceInput.getText().toString();
+//        String category = categoryInput.getText().toString();
+
+        if (serviceName.isEmpty()){
+          serviceNameEditText.setError("Please enter a service name");
+          serviceNameEditText.requestFocus();
+        } else if (price.isEmpty()) {
+          priceEditText.setError("Please enter a price");
+          priceEditText.requestFocus();
         } else {
-            db.collection("services").document(serviceName).set(service)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "Service Successfully Created");
-                            serviceNameEditText.setText("");
-                            priceEditText.setText("");
+          // successful
+          db = FirebaseFirestore.getInstance();
 
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Service Not Created - Document Error", e);
-                        }
-                    });
+          HashMap service = new HashMap();
+
+          service.put("name", serviceName);
+          service.put("price", price);
+
+          db.collection("services")
+                  .document(serviceName).set(service)
+                  .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                      Log.d(TAG, "Service Successfully Created");
+                      updateUI();
+                    }
+                  })
+                  .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                      Log.w(TAG, "Service Not Created - Document Error", e);
+                    }
+                  });
         }
+      }
+    });
 
-    }
+    builder.show();
+
+  }
+
+  public void updateUI() {
+    // implement code to update list with firebase services
+
+    final Activity t = this;
+
+    db.collection("services").get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+              @Override
+              public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                  ArrayList<Service> list = new ArrayList<>();
+                  for (QueryDocumentSnapshot document : task.getResult()) {
+                    Map<String, Object> data = document.getData();
+
+                    String serviceName = data.get("name").toString();
+                    String price = data.get("price").toString();
+
+                    list.add(new Service(serviceName, price, "category"));
+
+
+                  }
+                  serviceList = list;
+                }
+                ServicesListViewAdapter servicesListViewAdapter = new ServicesListViewAdapter(t, serviceList);
+                listView.setAdapter(servicesListViewAdapter);
+              }
+            });
+    // this code doesnt work
+
+  }
 }
