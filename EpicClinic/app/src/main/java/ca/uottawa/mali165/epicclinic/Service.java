@@ -2,19 +2,14 @@ package ca.uottawa.mali165.epicclinic;
 
 public class Service{
 
-    private int id;
     private String serviceName;
     private String price;
     private String category;
 
     Service(String serviceName, String price, String category){
         this.serviceName=serviceName;
-        this.id=id;
+        this.category = category;
         this.price=price;
-    }
-
-    public int getId(){
-        return id;
     }
 
     public String getName(){
