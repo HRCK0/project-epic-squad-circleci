@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -175,6 +176,7 @@ public class ServicesActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                       Log.d(TAG, "Service Successfully Created");
+                      updateUI();
                     }
                   })
                   .addOnFailureListener(new OnFailureListener() {
@@ -194,6 +196,8 @@ public class ServicesActivity extends AppCompatActivity {
   public void updateUI() {
     // implement code to update list with firebase services
 
+    final Activity t = this;
+
     db.collection("services").get()
             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
               @Override
@@ -203,20 +207,20 @@ public class ServicesActivity extends AppCompatActivity {
                   for (QueryDocumentSnapshot document : task.getResult()) {
                     Map<String, Object> data = document.getData();
 
-                    String serviceName = data.get("serviceName").toString();
+                    String serviceName = data.get("name").toString();
                     String price = data.get("price").toString();
 
-                    list.add(new Service(0, serviceName, price));
+                    list.add(new Service(serviceName, price, "category"));
 
 
                   }
                   serviceList = list;
                 }
+                ServicesListViewAdapter servicesListViewAdapter = new ServicesListViewAdapter(t, serviceList);
+                listView.setAdapter(servicesListViewAdapter);
               }
             });
     // this code doesnt work
 
-    ServicesListViewAdapter servicesListViewAdapter = new ServicesListViewAdapter(this, serviceList);
-    listView.setAdapter(servicesListViewAdapter);
   }
 }
