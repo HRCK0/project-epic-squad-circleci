@@ -38,11 +38,12 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
-      runloginactivitytest:
-        title: Running LoginActivityTest
-        commands:
-          - javac LoginActivityTest.java
-          - java LoginActivityTest
+      # runloginactivitytest:
+      #   title: Running LoginActivityTest
+      #   commands:
+      #     - javac LoginActivityTest.java
+      #     - java LoginActivityTest
 
       # run tests!
-      - run: runloginactivitytest #echo 'Will it work?' #gradle test #ExampleUnitTest.java
+      - run: javac LoginActivityTest.java #echo 'Will it work?' #gradle test #ExampleUnitTest.java
+      - run: java LoginActivityTest
