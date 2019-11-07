@@ -4,12 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,7 +36,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class ServicesActivity extends AppCompatActivity implements  NewServiceDialog.NewServiceDialogListener {
+public class ServicesActivity extends AppCompatActivity {
 
   private final Context t = this;
 
@@ -119,14 +125,69 @@ public class ServicesActivity extends AppCompatActivity implements  NewServiceDi
 
   public void onClickAddNewService(View newServiceBtn) {
 
-    NewServiceDialog dialog = new NewServiceDialog();
-    dialog.show(getSupportFragmentManager(), "dialog");
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle("Add a new Service");
 
-  }
+    LinearLayout layout = new LinearLayout(this);
+    layout.setOrientation(LinearLayout.VERTICAL);
 
-  public void onDialogPositiveClick(DialogFragment dialog) {
-    // user touched the dialog's positive button
-    updateUI();
+    final EditText serviceNameInput = new EditText(this);
+    serviceNameInput.setHint("Name");
+    final EditText servicePriceInput = new EditText(this);
+    servicePriceInput.setHint("Price");
+//    final EditText categoryInput = new EditText(this);
+//    categoryInput.setHint("Category");
+
+    serviceNameInput.setInputType(InputType.TYPE_CLASS_TEXT);
+    servicePriceInput.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+    layout.addView(serviceNameInput);
+    layout.addView(servicePriceInput);
+//    layout.addView(categoryInput);
+
+    builder.setView(layout);
+
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialogInterface, int i) {
+        String serviceName = serviceNameInput.getText().toString();
+        String price = servicePriceInput.getText().toString();
+//        String category = categoryInput.getText().toString();
+
+        if (serviceName.isEmpty()){
+          serviceNameEditText.setError("Please enter a service name");
+          serviceNameEditText.requestFocus();
+        } else if (price.isEmpty()) {
+          priceEditText.setError("Please enter a price");
+          priceEditText.requestFocus();
+        } else {
+          // successful
+          db = FirebaseFirestore.getInstance();
+
+          HashMap service = new HashMap();
+
+          service.put("name", serviceName);
+          service.put("price", price);
+
+          db.collection("services")
+                  .document(serviceName).set(service)
+                  .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                      Log.d(TAG, "Service Successfully Created");
+                    }
+                  })
+                  .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                      Log.w(TAG, "Service Not Created - Document Error", e);
+                    }
+                  });
+        }
+      }
+    });
+
+    builder.show();
 
   }
 
@@ -154,7 +215,7 @@ public class ServicesActivity extends AppCompatActivity implements  NewServiceDi
               }
             });
     // this code doesnt work
-    
+
     ServicesListViewAdapter servicesListViewAdapter = new ServicesListViewAdapter(this, serviceList);
     listView.setAdapter(servicesListViewAdapter);
   }
