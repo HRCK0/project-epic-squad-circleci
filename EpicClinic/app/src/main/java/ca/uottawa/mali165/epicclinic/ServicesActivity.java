@@ -2,6 +2,7 @@ package ca.uottawa.mali165.epicclinic;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class ServicesActivity extends AppCompatActivity {
+public class ServicesActivity extends AppCompatActivity implements  NewServiceDialog.NewServiceDialogListener {
 
     private static final String TAG = "ServicesActivity";
 
@@ -108,7 +109,17 @@ public class ServicesActivity extends AppCompatActivity {
     public void onClickAddNewService(View newServiceBtn) {
 
         NewServiceDialog dialog = new NewServiceDialog();
-        dialog.show();
+        dialog.show(getSupportFragmentManager(), "dialog");
 
+    }
+
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        // user touched the dialog's positive button
+        updateUI();
+
+    }
+
+    public void updateUI() {
+        // implement code to update list with firebase services
     }
 }

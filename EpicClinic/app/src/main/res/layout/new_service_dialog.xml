@@ -7,51 +7,71 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="170sp"
+        android:layout_height="60sp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editText3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15sp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Add a new Service"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180sp"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="200sp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/nameEditText"
+                    android:id="@+id/newServiceNameEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="50sp"
                     android:layout_weight="1"
                     android:background="@drawable/edit_text_border"
                     android:ems="10"
+                    android:hint="Name"
                     android:inputType="textPersonName"
-                    android:text="Name"
+                    android:textColor="@android:color/white"
                     android:textColorHint="@color/hintColour" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="150sp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/priceEditText"
+                    android:id="@+id/newServicePriceEditText"
+                    android:layout_width="match_parent"
                     android:layout_height="50sp"
                     android:layout_weight="1"
                     android:background="@drawable/edit_text_border"
                     android:ems="10"
                     android:hint="Price"
-                    android:inputType="textPersonName"
-                    android:text="Name"
-                    android:textColorHint="@color/hintColour" />
+                    android:inputType="number"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/textColour" />
             </LinearLayout>
         </LinearLayout>
 
@@ -65,8 +85,8 @@
             <Spinner
                 android:id="@+id/categorySpinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/categories_array" />
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
     </LinearLayout>
 

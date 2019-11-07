@@ -85,6 +85,7 @@
                 android:layout_marginRight="45sp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
+                android:onClick="onClickAddNewService"
                 android:text="Add a New Service" />
         </LinearLayout>
     </LinearLayout>
