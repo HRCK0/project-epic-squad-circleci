@@ -4,6 +4,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -110,7 +111,8 @@
                         android:id="@+id/delBtn"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/delete_icon" />
+                        android:background="@drawable/delete_icon"
+                        android:onClick="onDelBtnClick" />
                 </LinearLayout>
 
             </LinearLayout>

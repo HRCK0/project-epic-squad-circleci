@@ -11,9 +11,11 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,6 +29,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class ServicesActivity extends AppCompatActivity {
 
@@ -164,8 +167,9 @@ public class ServicesActivity extends AppCompatActivity {
 
                       String serviceName = serviceData.get("name").toString();
                       String price = serviceData.get("price").toString();
+                      String id = serviceData.get("id").toString();
 
-                      list.add(new Service(serviceName, price, (String) category));
+                      list.add(new Service(serviceName, price, (String) category, id));
 
                     }
 
@@ -174,6 +178,7 @@ public class ServicesActivity extends AppCompatActivity {
                 }
                 ServicesListViewAdapter servicesListViewAdapter = new ServicesListViewAdapter(t, serviceList);
                 listView.setAdapter(servicesListViewAdapter);
+
               }
             });
     // this code doesnt work
