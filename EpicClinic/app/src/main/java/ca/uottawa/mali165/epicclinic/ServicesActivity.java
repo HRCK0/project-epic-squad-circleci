@@ -120,7 +120,10 @@ public class ServicesActivity extends AppCompatActivity {
                       Map servicesData = documentSnapshot.getData();
 
                       if (servicesData.containsKey(category)) {
-                        db.collection("services").document("services").update(category, service)
+                        Map categoryData = (Map) servicesData.remove(category);
+                        categoryData.put(serviceName, service);
+                        servicesData.put(category, categoryData);
+                        db.collection("services").document("services").set(servicesData)
                           .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -130,26 +133,13 @@ public class ServicesActivity extends AppCompatActivity {
                       } else {
                         Map categoryData = new HashMap();
                         categoryData.put(serviceName, service);
-                        db.collection("services").document("services").update(categoryData);
+                        servicesData.put(category, categoryData);
+                        db.collection("services").document("services").set(servicesData);
                       }
+                      updateUI();
                     }
                   });
 
-          db.collection("services")
-                  .document("services").set(service)
-                  .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                      Log.d(TAG, "Service Successfully Created");
-                      updateUI();
-                    }
-                  })
-                  .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                      Log.w(TAG, "Service Not Created - Document Error", e);
-                    }
-                  });
         }
       }
     });
