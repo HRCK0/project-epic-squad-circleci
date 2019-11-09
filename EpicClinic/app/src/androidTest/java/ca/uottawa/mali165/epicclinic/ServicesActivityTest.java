@@ -22,18 +22,23 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.Espresso.onData;
 import static org.hamcrest.CoreMatchers.anything;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
+
 import static org.hamcrest.CoreMatchers.not;
 
 @RunWith(AndroidJUnit4.class)
-
+@FixMethodOrder (MethodSorters.NAME_ASCENDING)
 //To ensure the backend is not clogged, please run all of ServiceActivityTest so the same service, is added, edited and then removed from the database
 public class ServicesActivityTest
 {
     @Rule
     public ActivityTestRule<ServicesActivity> myActivityTestRule = new ActivityTestRule<>(ServicesActivity.class);
 
+
+
     @Test
-    public void A_testAddingService() throws InterruptedException
+    public void AtestAddingService() throws InterruptedException
     {
         String name="Test";
         String price="42";
@@ -55,7 +60,7 @@ public class ServicesActivityTest
     }
 
     @Test
-    public void B_testEditingService() throws InterruptedException
+    public void BtestEditingService() throws InterruptedException
     {
         Thread.sleep(4000);
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).onChildView(withId(R.id.editBtn)).perform(click()); //edit the service at the top
@@ -68,7 +73,7 @@ public class ServicesActivityTest
         onView((withHint("Price"))).perform(clearText()).perform(typeText(price));
         onView((withHint("Category of Service"))).perform(clearText()).perform(typeText(category));
         onView(withText("Save")).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         // the UI only displays the service if the value was sucessfully edited within the database --> so it is sufficient to just check the UI to validate both claims
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).onChildView(withId(R.id.serviceName)).check(matches(withText(name)));
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).onChildView(withId(R.id.category)).check(matches(withText(category)));
@@ -76,11 +81,11 @@ public class ServicesActivityTest
 
     }
     @Test
-    public void C_testDeletingService() throws InterruptedException
+    public void CtestDeletingService() throws InterruptedException
     {
         Thread.sleep(4000);
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).onChildView(withId(R.id.delBtn)).perform(click()); //delete the service at the top
-
+        Thread.sleep(2000);
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).onChildView(withId(R.id.serviceName)).check(matches(not(withText("Test-Edited"))));
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).onChildView(withId(R.id.category)).check(matches(not(withText("3"))));
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).onChildView(withId(R.id.price)).check(matches(not(withText("50"))));
