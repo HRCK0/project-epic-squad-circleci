@@ -111,8 +111,7 @@
                         android:id="@+id/delBtn"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/delete_icon"
-                        android:onClick="onDelBtnClick" />
+                        android:background="@drawable/delete_icon" />
                 </LinearLayout>
 
             </LinearLayout>
