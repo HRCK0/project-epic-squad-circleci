@@ -37,6 +37,7 @@ public class LoginActivityTest2 {
         Thread.sleep(4000);
         onView(withId(R.id.welcomeTextView));
         onView(withId(R.id.welcomeTextView)).check(matches(withText(containsString("You are logged in as ADMIN")))); //welcome message is displayed
+
     }
 
 

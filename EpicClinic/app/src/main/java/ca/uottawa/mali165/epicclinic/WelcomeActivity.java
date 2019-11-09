@@ -87,7 +87,17 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void servicesBtnClicked(View servicesBtn) {
-        Intent openServicesWindow = new Intent(getApplicationContext(), ServicesActivity.class);
-        startActivity(openServicesWindow);
+        //edit this so a different serivce is opened based the current user instance
+        if(role.toUpperCase().equals("ADMIN"))
+        {
+            Intent openServicesWindow = new Intent(getApplicationContext(), ServicesActivity.class);
+            startActivity(openServicesWindow);
+        }
+        else
+        {
+            Intent openServicesWindow = new Intent(getApplicationContext(), ServicesActivityNonAdmin.class);
+            startActivity(openServicesWindow);
+        }
+
     }
 }

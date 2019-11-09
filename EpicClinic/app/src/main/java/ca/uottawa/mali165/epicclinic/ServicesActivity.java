@@ -72,7 +72,7 @@ public class ServicesActivity extends AppCompatActivity {
     db = FirebaseFirestore.getInstance();
 
     final HashMap service = new HashMap();
-
+    final Activity t = this;
     service.put("name", serviceName);
     service.put("price", price);
 
@@ -109,7 +109,13 @@ public class ServicesActivity extends AppCompatActivity {
                   db.collection("services").document("services").set(servicesData);
                 }
                 if(dialog!=null){dialog.dismiss();}
-                updateUI();
+                serviceList.add(0,new Service(serviceName, price, category)); //add the new element
+
+                ServicesListViewAdapter servicesListViewAdapter = new ServicesListViewAdapter(t,serviceList);
+                listView.setAdapter(servicesListViewAdapter);
+
+
+                //updateUI();
               }
             });
   }
