@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -60,9 +59,83 @@ public class ServicesActivity extends AppCompatActivity {
     Toast.makeText(ServicesActivity.this, textToShow, Toast.LENGTH_SHORT).show();
   }
 
-  public void onClickAddNewService(View newServiceBtn) {
+  public void updateDBAndUIToAddService(String servicename, String priceName, String cat, AlertDialog alertDialog){
+    final String category = cat;
+    final String serviceName = servicename;
+    final String price = priceName;
+    final AlertDialog dialog = alertDialog;
 
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    db = FirebaseFirestore.getInstance();
+
+    final HashMap service = new HashMap();
+
+    service.put("name", serviceName);
+    service.put("price", price);
+
+    db.collection("services")
+            .document("services").get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+              @Override
+              public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Map servicesData = documentSnapshot.getData();
+                if (servicesData.containsKey(category)) {
+
+                  Map servicesWithinCategoryMap = (Map) servicesData.remove(category);
+                  for(Object service : servicesWithinCategoryMap.keySet()){
+                    Map serviceMap = (Map) servicesWithinCategoryMap.get(service);
+                    if(serviceMap.get("name").equals(serviceName)){
+                      showToast("Service Name Already Exists for Category");
+                      return;
+                    }
+                  }
+
+                  servicesWithinCategoryMap.put(serviceName, service);
+                  servicesData.put(category, servicesWithinCategoryMap);
+                  db.collection("services").document("services").set(servicesData)
+                          .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                              Log.d(TAG, "New Service Succesfully Created");
+                            }
+                          });
+                } else {
+                  Map categoryData = new HashMap();
+                  categoryData.put(serviceName, service);
+                  servicesData.put(category, categoryData);
+                  db.collection("services").document("services").set(servicesData);
+                }
+                if(dialog!=null){dialog.dismiss();}
+                updateUI();
+              }
+            });
+  }
+
+  public void addNewService(View newServiceBtn, String defServiceName, String defPrice, String defCat, final boolean edit){
+
+    final String serviceNameDefault;
+    final String categoryDefault;
+    final String priceDefault;
+
+
+    if(defServiceName==null){
+      serviceNameDefault="";
+    } else{
+      serviceNameDefault=defServiceName;
+    }
+
+    if(defPrice==null){
+      priceDefault="";
+    } else{
+      priceDefault=defPrice;
+    }
+
+    if(defCat==null){
+      categoryDefault="";
+    } else{
+      categoryDefault=defCat;
+    }
+
+    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setTitle("Add a new Service");
 
     LinearLayout layout = new LinearLayout(this);
@@ -70,10 +143,14 @@ public class ServicesActivity extends AppCompatActivity {
 
     final EditText serviceNameInput = new EditText(this);
     serviceNameInput.setHint("Name");
+    serviceNameInput.setText(serviceNameDefault);
     final EditText servicePriceInput = new EditText(this);
     servicePriceInput.setHint("Price");
+    servicePriceInput.setText(priceDefault);
     final EditText categoryInput = new EditText(this);
     categoryInput.setHint("Category of Service");
+    categoryInput.setText(categoryDefault);
+
 
     serviceNameInput.setInputType(InputType.TYPE_CLASS_TEXT);
     servicePriceInput.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -85,6 +162,17 @@ public class ServicesActivity extends AppCompatActivity {
 
     builder.setView(layout);
 
+    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        if(edit){
+
+          updateDBAndUIToAddService(serviceNameDefault, priceDefault, categoryDefault, null);
+        }
+        finish();
+      }
+    });
+
     builder.setPositiveButton("Save",
             new DialogInterface.OnClickListener()
             {
@@ -94,6 +182,8 @@ public class ServicesActivity extends AppCompatActivity {
             });
 
     final AlertDialog dialog = builder.create();
+    dialog.setCancelable(false);
+    dialog.setCanceledOnTouchOutside(false);
     dialog.show();
 
     //Overriding the handler immediately after show is probably a better approach than OnShowListener as described below
@@ -117,53 +207,17 @@ public class ServicesActivity extends AppCompatActivity {
           categoryInput.requestFocus();
         } else {
           // successful
-          db = FirebaseFirestore.getInstance();
 
-          final HashMap service = new HashMap();
-
-          service.put("name", serviceName);
-          service.put("price", price);
-
-          db.collection("services")
-                  .document("services").get()
-                  .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                      Map servicesData = documentSnapshot.getData();
-                      if (servicesData.containsKey(category)) {
-
-                        Map servicesWithinCategoryMap = (Map) servicesData.remove(category);
-                        for(Object service : servicesWithinCategoryMap.keySet()){
-                          Map serviceMap = (Map) servicesWithinCategoryMap.get(service);
-                          if(serviceMap.get("name").equals(serviceName)){
-                            showToast("Service Name Already Exists for Category");
-                            return;
-                          }
-                        }
-
-                        servicesWithinCategoryMap.put(serviceName, service);
-                        servicesData.put(category, servicesWithinCategoryMap);
-                        db.collection("services").document("services").set(servicesData)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                  @Override
-                                  public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "New Service Succesfully Created");
-                                  }
-                                });
-                      } else {
-                        Map categoryData = new HashMap();
-                        categoryData.put(serviceName, service);
-                        servicesData.put(category, categoryData);
-                        db.collection("services").document("services").set(servicesData);
-                      }
-                      dialog.dismiss();
-                      updateUI();
-                    }
-                  });
+          updateDBAndUIToAddService(serviceName, price, category, dialog);
 
         }
       }
     });
+  }
+
+  public void onClickAddNewService(View newServiceBtn) {
+
+  addNewService(newServiceBtn, null, null, null, false);
 
   }
 
@@ -204,6 +258,54 @@ public class ServicesActivity extends AppCompatActivity {
             });
     // this code doesnt work
 
+  }
+
+  public void onEditServiceClick(View editBtn){
+    LinearLayout serviceLayout = (LinearLayout) editBtn.getParent().getParent().getParent().getParent();
+    TextView serviceNameView = serviceLayout.findViewById(R.id.serviceName);
+    TextView categoryNameView = serviceLayout.findViewById(R.id.category);
+    TextView priceNameView = serviceLayout.findViewById(R.id.price);
+    final String serviceNameInitial = serviceNameView.getText().toString();
+    final String categoryNameInitial = categoryNameView.getText().toString();
+    final String priceNameInitial = priceNameView.getText().toString();
+
+
+    db.collection("services")
+            .document("services").get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+              @Override
+              public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Map servicesData = documentSnapshot.getData();
+
+                //the code to verify the service being edited is there is not really necessary since by editing you assume its already in the db
+                boolean found = false;
+                if (servicesData.containsKey(categoryNameInitial)) {
+
+                  Map servicesWithinCategoryMap = (Map) servicesData.remove(categoryNameInitial);
+                  for (Object service : servicesWithinCategoryMap.keySet()) {
+                    Map serviceMap = (Map) servicesWithinCategoryMap.get(service);
+                    if (serviceMap.get("name").equals(serviceNameInitial)) {
+                      found = true;
+                    }
+                  }
+                  if(found){
+                    servicesWithinCategoryMap.remove(serviceNameInitial);
+                  }
+                  if(!servicesWithinCategoryMap.isEmpty()){
+                    servicesData.put(categoryNameInitial, servicesWithinCategoryMap);
+                  }
+                }
+
+                db.collection("services").document("services").set(servicesData)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                          @Override
+                          public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Old Service Removed to Edit New One");
+                            addNewService(findViewById(R.id.addNewServiceBtn), serviceNameInitial, priceNameInitial, categoryNameInitial, true);
+                          }
+                        });
+              }
+            });
   }
 
   public void onDeleteService(View deleteBtn) {

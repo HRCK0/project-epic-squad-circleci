@@ -97,7 +97,8 @@
                         android:id="@+id/editBtn"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/edit_icon" />
+                        android:background="@drawable/edit_icon"
+                        android:onClick="onEditServiceClick" />
                 </LinearLayout>
 
                 <LinearLayout
