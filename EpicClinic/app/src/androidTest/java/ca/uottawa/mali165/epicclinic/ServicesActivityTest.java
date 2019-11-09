@@ -55,7 +55,7 @@ public class ServicesActivityTest
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).onChildView(withId(R.id.category)).check(matches(withText(category)));
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).onChildView(withId(R.id.price)).check(matches(withText(price)));
 
-        //to maintain the backend of the database
+
 
     }
 
@@ -78,6 +78,7 @@ public class ServicesActivityTest
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).onChildView(withId(R.id.serviceName)).check(matches(withText(name)));
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).onChildView(withId(R.id.category)).check(matches(withText(category)));
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).onChildView(withId(R.id.price)).check(matches(withText(price)));
+        Thread.sleep(2000); //delay on the editing
 
     }
     @Test
