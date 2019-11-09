@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ServicesActivityNonAdmin"></activity>
         <activity android:name=".ServicesActivity"></activity>
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".RegisterActivity" />
