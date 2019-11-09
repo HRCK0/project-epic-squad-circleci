@@ -190,8 +190,6 @@ public class ServicesActivity extends AppCompatActivity {
 
                       String serviceName = serviceData.get("name").toString();
                       String price = serviceData.get("price").toString();
-
-
                       list.add(new Service(serviceName, price, (String) category));
 
                     }
@@ -206,5 +204,43 @@ public class ServicesActivity extends AppCompatActivity {
             });
     // this code doesnt work
 
+  }
+
+  public void onDeleteService(View deleteBtn) {
+
+    LinearLayout serviceLayout = (LinearLayout) deleteBtn.getParent().getParent().getParent().getParent();
+    TextView serviceNameView = serviceLayout.findViewById(R.id.serviceName);
+    TextView categoryNameView = serviceLayout.findViewById(R.id.category);
+
+    final String serviceName = serviceNameView.getText().toString();
+    final String categoryName = categoryNameView.getText().toString();
+
+    db.collection("services")
+            .document("services").get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+              @Override
+              public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                Map servicesData = (Map) documentSnapshot.getData();
+                Map categoryData = (Map) servicesData.remove(categoryName);
+
+                categoryData.remove(serviceName);
+
+                if (!categoryData.isEmpty()) {
+                  servicesData.put(categoryName, categoryData);
+                }
+
+                db.collection("services")
+                        .document("services").set(servicesData)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                          @Override
+                          public void onSuccess(Void aVoid) {
+                            Log.d(TAG, (serviceName + " deleted from category " + categoryName));
+                            updateUI();
+                          }
+                        });
+
+              }
+            });
   }
 }
