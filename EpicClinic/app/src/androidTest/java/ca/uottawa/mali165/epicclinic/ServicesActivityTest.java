@@ -27,18 +27,40 @@ import org.junit.runners.MethodSorters;
 
 import static org.hamcrest.CoreMatchers.not;
 
+import android.app.Service;
+import android.content.Intent;
+import android.content.Context;
+import androidx.test.platform.app.InstrumentationRegistry;
+
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder (MethodSorters.NAME_ASCENDING)
-//To ensure the backend is not clogged, please run all of ServiceActivityTest so the same service, is added, edited and then removed from the database
+//To ensure the backend is not clogged, pleas
 public class ServicesActivityTest
 {
     @Rule
-    public ActivityTestRule<ServicesActivity> myActivityTestRule = new ActivityTestRule<>(ServicesActivity.class);
+    public ActivityTestRule<ServicesActivity> myActivityTestRule = new ActivityTestRule<ServicesActivity>(ServicesActivity.class)
+    {
+        @Override
+        protected Intent getActivityIntent() {
+            Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+            Intent result = new Intent(targetContext, ServicesActivity.class); //intent of the service class
+            result.putExtra("admin", new Admin("mock","mock","mock","mock"));
+            return result;
+        }
+    };
 
 
+    //To avoid clogging the backend, please just run testAllServiceFunctions which calls all the other 3 espressoTests
+    @Test
+    public void testAllServiceFunctions()throws InterruptedException
+    {
+        testAddingService();
+        testEditingService();
+        testDeletingService();
+    }
 
     @Test
-    public void AtestAddingService() throws InterruptedException
+    public void testAddingService() throws InterruptedException
     {
         String name="Test";
         String price="42";
@@ -55,12 +77,15 @@ public class ServicesActivityTest
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).onChildView(withId(R.id.category)).check(matches(withText(category)));
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).onChildView(withId(R.id.price)).check(matches(withText(price)));
 
+        //Calling the other two tests within the first test
+
+
 
 
     }
 
     @Test
-    public void BtestEditingService() throws InterruptedException
+    public void testEditingService() throws InterruptedException
     {
         Thread.sleep(4000);
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).onChildView(withId(R.id.editBtn)).perform(click()); //edit the service at the top
@@ -82,7 +107,7 @@ public class ServicesActivityTest
 
     }
     @Test
-    public void CtestDeletingService() throws InterruptedException
+    public void testDeletingService() throws InterruptedException
     {
         Thread.sleep(4000);
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).onChildView(withId(R.id.delBtn)).perform(click()); //delete the service at the top
@@ -93,4 +118,6 @@ public class ServicesActivityTest
         Thread.sleep(2000);
 
     }
+
+
 }

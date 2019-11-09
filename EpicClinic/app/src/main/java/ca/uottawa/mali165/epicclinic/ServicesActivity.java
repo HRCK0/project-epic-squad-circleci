@@ -20,7 +20,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.content.Intent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -42,10 +42,13 @@ public class ServicesActivity extends AppCompatActivity {
 
   List<Service> serviceList = new LinkedList<>();
 
+
+
   ListView listView;
 
   FirebaseAuth mAuth;
   FirebaseFirestore db;
+  Admin user;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class ServicesActivity extends AppCompatActivity {
     mAuth = FirebaseAuth.getInstance();
     db = FirebaseFirestore.getInstance();
 
+    user = getIntent().getExtras().getParcelable("admin");
     updateUI();
   }
 
@@ -113,7 +117,7 @@ public class ServicesActivity extends AppCompatActivity {
 
                 ServicesListViewAdapter servicesListViewAdapter = new ServicesListViewAdapter(t,serviceList);
                 listView.setAdapter(servicesListViewAdapter);
-
+                user.addService(new Service(serviceName,price,category));
 
                 //updateUI();
               }
@@ -334,6 +338,7 @@ public class ServicesActivity extends AppCompatActivity {
 
     TextView serviceNameView = serviceLayout.findViewById(R.id.serviceName);
     TextView categoryNameView = serviceLayout.findViewById(R.id.category);
+    TextView priceNameView = serviceLayout.findViewById(R.id.price);
 
     final String serviceName = serviceNameView.getText().toString();
     final String categoryName = categoryNameView.getText().toString();
@@ -365,5 +370,6 @@ public class ServicesActivity extends AppCompatActivity {
 
               }
             });
+    user.deleteService(new Service(serviceName,priceNameView.getText().toString(),categoryName));
   }
 }
