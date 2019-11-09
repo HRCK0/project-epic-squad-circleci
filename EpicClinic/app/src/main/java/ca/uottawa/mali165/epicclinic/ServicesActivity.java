@@ -3,10 +3,13 @@ package ca.uottawa.mali165.epicclinic;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -136,7 +140,8 @@ public class ServicesActivity extends AppCompatActivity {
     }
 
     final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    builder.setTitle("Add a new Service");
+    String title = edit ? "Editing Service" : "Adding a new Service";
+    builder.setTitle(title);
 
     LinearLayout layout = new LinearLayout(this);
     layout.setOrientation(LinearLayout.VERTICAL);
@@ -311,6 +316,16 @@ public class ServicesActivity extends AppCompatActivity {
   public void onDeleteService(View deleteBtn) {
 
     LinearLayout serviceLayout = (LinearLayout) deleteBtn.getParent().getParent().getParent().getParent();
+
+    RelativeLayout relativeLayout = (RelativeLayout) serviceLayout.getParent();
+
+    int colorFrom = Color.BLACK;
+    int colorTo = Color.RED;
+    int duration = 1000;
+    ObjectAnimator.ofObject(serviceLayout, "backgroundColor", new ArgbEvaluator(), colorFrom, colorTo)
+            .setDuration(duration)
+            .start();
+
     TextView serviceNameView = serviceLayout.findViewById(R.id.serviceName);
     TextView categoryNameView = serviceLayout.findViewById(R.id.category);
 

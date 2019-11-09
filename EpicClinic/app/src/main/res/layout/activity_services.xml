@@ -23,6 +23,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
                 android:layout_marginRight="25dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
@@ -52,13 +53,12 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_margin="20dp"
-                    android:background="@drawable/btn_rounded"
+                    android:background="@drawable/add_icon"
                     android:onClick="onClickAddNewService"
                     android:shadowColor="#A8CACACA"
                     android:shadowDx="5"
                     android:shadowDy="5"
                     android:shadowRadius="10"
-                    android:text="+"
                     android:textColor="#DDDCDC"
                     android:textSize="30sp" />
             </LinearLayout>
