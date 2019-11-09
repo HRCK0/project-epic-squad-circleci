@@ -30,7 +30,7 @@ public class LoginActivityTest2 {
 
     @Rule
     public ActivityTestRule<LoginActivity> myActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
-    public ActivityTestRule<WelcomeActivity> myActivityTestRule2 = new ActivityTestRule<>(WelcomeActivity.class);
+
     @Test
     public void adminIsInvalid() throws InterruptedException {
         onView(withId(R.id.emailEditText)).perform(typeText("admin@ecare.com"), closeSoftKeyboard());

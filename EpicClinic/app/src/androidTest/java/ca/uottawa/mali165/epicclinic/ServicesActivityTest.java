@@ -1,43 +1,24 @@
-package ca.uottawa.mali165.epicclinic;
+/*package ca.uottawa.mali165.epicclinic;
 
-import android.widget.TextView;
-import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import android.app.Activity;
 
-import androidx.test.annotation.UiThreadTest;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.runner.AndroidJUnit4;
+import androidx.test.espresso.Espresso;
 import androidx.test.rule.ActivityTestRule;
 
-public class ServicesActivityTest {
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-    @Rule
-    public ActivityTestRule<ServicesActivity>  myActivityTestRule = new ActivityTestRule((ServicesActivity.class));
-    private ServicesActivity myActivity = null;
-    private TextView text;
-    private TextView text2;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.core.StringContains.containsString;
 
-
-    @Before
-    public void setUp() throws Exception{
-        myActivity = myActivityTestRule.getActivity();
-    }
-
-    @Test
-    @UiThreadTest
-    public void checkAddingService() throws Exception{
-        text = myActivity.findViewById(R.id.newServiceNameEditText);
-        text.setText("Hourly ");
-        assertNotNull(myActivity.findViewById(R.id.emailEditText));
-        String name = text.getText().toString();
-        assertEquals("admin@ecare.com", name);
-
-        text2 = myActivity.findViewById((R.id.passwordEditText));
-        text2.setText("5T5ptQ");
-        assertNotNull(myActivity.findViewById(R.id.passwordEditText));
-        String pass = text2.getText().toString();
-        assertEquals("5T5ptQ", pass);
-    }
-
-
-}
+@RunWith(AndroidJUnit4.class)
+*/
