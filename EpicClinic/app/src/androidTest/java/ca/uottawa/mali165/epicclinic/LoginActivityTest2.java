@@ -21,9 +21,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.StringContains.containsString;
 
 
-
 @RunWith(AndroidJUnit4.class)
-
 
 
 public class LoginActivityTest2 {
@@ -37,10 +35,7 @@ public class LoginActivityTest2 {
         onView(withId(R.id.passwordEditText)).perform(typeText("5T5ptQ"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
         Thread.sleep(4000);
-        //intended(hasComponent(WelcomeActivity.class.getName()));
-        //onView(withText("Invalid Email")).check(matches(isDisplayed()));
         onView(withId(R.id.welcomeTextView));
-        //onView(withId(R.id.welcomeTextView)).check(matches(isDisplayed()));
         onView(withId(R.id.welcomeTextView)).check(matches(withText(containsString("You are logged in as ADMIN")))); //welcome message is displayed
     }
 
