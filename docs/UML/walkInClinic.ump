@@ -2,21 +2,20 @@ class Person
 {
     email;
    firstName;
-   accountType;
+   AccountType accountType;
    lastName;
    phoneNum;
-enum{Admin, Employee, Patient}
+enum AccountType{Admin, Employee, Patient}
 }
-
 
 class Service
 {
+   price;
+  category;
+  serviceName;
+  *--1 Admin;
   
-    String name;
-    double price;
-   *--* Patient;
-  *--* Employee;
-  *--* Admin;
+  
 }
 
 
@@ -30,7 +29,7 @@ class Admin
     
   }
   
-   Service deleteService()
+   void deleteService()
   {
   }
   
@@ -64,14 +63,14 @@ class Person
 class Admin
 {
   position 24 321 197 129;
-  position.association Admin__Employee 109,20 0,22;
+  position.association Admin__Employee 145,0 0,22;
   position.association Admin__Patient 204,52 0,22;
   
 }
 
 class Employee
 {
-  position 373 79 89 84;
+  position 372 279 89 84;
   position.association Employee__Patient 94,39 4,0;
 }
 
