@@ -1,51 +1,81 @@
-# Java Gradle CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-java/ for more details
-#
 version: 2
 jobs:
   build:
+    working_directory: ~/project-epic-squad
     docker:
-      # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: EpicClinic\app\src\androidTest\java\ca\uottawa\mali165\epicclinic
-
+      - image: ccistaging/android:api-28
     environment:
-      # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
-      TERM: dumb
-
     steps:
-      - checkout
-
-      # Download and cache dependencies
+     - checkout
       - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "build.gradle" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: gradle dependencies
-
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Chmod permissions
+          command: sudo chmod +x ./gradlew
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
       - save_cache:
           paths:
-            - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
-
-      # runloginactivitytest:
-      #   title: Running LoginActivityTest
-      #   commands:
-      #     - javac LoginActivityTest.java
-      #     - java LoginActivityTest
-
-      # run tests!
-      - run: 
-          command: javac LoginActivityTest.java #echo 'Will it work?' #gradle test #ExampleUnitTest.java
+           - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          command: java LoginActivityTest
+          name: Run UnitTest
+          command: ./gradlew test
+      - store_artifacts:
+          path: app/build/outputs/apk/debug/
+          destination: apks/
+      - store_test_results:
+          path: app/build/test-results
+
+
+# # Java Gradle CircleCI 2.0 configuration file
+# #
+# # Check https://circleci.com/docs/2.0/language-java/ for more details
+# #
+# version: 2
+# jobs:
+#   build:
+#     docker:
+#       # specify the version you desire here
+#       - image: circleci/openjdk:8-jdk
+
+#       # Specify service dependencies here if necessary
+#       # CircleCI maintains a library of pre-built images
+#       # documented at https://circleci.com/docs/2.0/circleci-images/
+#       # - image: circleci/postgres:9.4
+
+#     working_directory: ~\EpicClinic\app\src\androidTest\java\ca\uottawa\mali165\epicclinic
+
+#     environment:
+#       # Customize the JVM maximum heap limit
+#       JVM_OPTS: -Xmx3200m
+#       TERM: dumb
+
+#     steps:
+#       - checkout
+
+#       # Download and cache dependencies
+#       - restore_cache:
+#           keys:
+#             - v1-dependencies-{{ checksum "build.gradle" }}
+#             # fallback to using the latest cache if no exact match is found
+#             - v1-dependencies-
+
+#       - run: gradle dependencies
+
+#       - save_cache:
+#           paths:
+#             - ~/.gradle
+#           key: v1-dependencies-{{ checksum "build.gradle" }}
+
+#       # runloginactivitytest:
+#       #   title: Running LoginActivityTest
+#       #   commands:
+#       #     - javac LoginActivityTest.java
+#       #     - java LoginActivityTest
+
+#       # run tests!
+#       - run: javac LoginActivityTest.java #echo 'Will it work?' #gradle test #ExampleUnitTest.java
+#       - run: java LoginActivityTest
