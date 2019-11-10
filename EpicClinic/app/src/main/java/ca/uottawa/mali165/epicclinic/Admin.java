@@ -11,7 +11,7 @@ public class Admin  extends Person implements Parcelable{
     public Admin(String firstName, String lastName, String email, String phoneNumber) {
         super(firstName, lastName, email, phoneNumber, Person.AccountType.ADMIN);
     }
-    private int mData;
+
     @Override
     public int describeContents() {
         return 0;
@@ -51,26 +51,26 @@ public class Admin  extends Person implements Parcelable{
     }
 
 
-    public boolean addService(Service service)
+    public void addService(Service service)
     {
-        servicesList.add(service);
-        return true;
+        if(servicesList.indexOf(service)==-1) //when the program is terminated, the obejct is killed so when we have to reload pre-existing services, makes sure only one of each service exists
+            servicesList.add(service);
+
     }
 
-    public boolean editService(Service oldService, Service newService)
+    public void editService(Service oldService, Service newService)
     {
 
         int x = servicesList.indexOf(oldService);
         servicesList.remove(oldService);
         servicesList.add(x,newService);
-        return true;
+
 
     }
-    public boolean deleteService(Service service)
+    public void deleteService(Service service)
     {
 
         servicesList.remove(service);
-        return true;
 
     }
 

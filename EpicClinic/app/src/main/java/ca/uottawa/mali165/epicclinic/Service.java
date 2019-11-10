@@ -37,6 +37,21 @@ public class Service implements Comparable{
         this.serviceName = serviceName;
     }
 
+    public boolean equals(Object o)
+    {
+        if(o instanceof Service )
+        {
+            Service object = (Service)o;
+            if(object.serviceName == this.serviceName && object.price == this.price && object.category == this.category )
+                return true;
+            else
+                return false;
+        }
+        else
+        {
+            return false;
+        }
+    }
     public int compareTo(Object o)
     {
         Service item;
@@ -61,13 +76,17 @@ public class Service implements Comparable{
                         return 1;
                     if(this.serviceName.compareTo(item.getName())<1)
                         return -1;
-                    //no need for an else statement because no completely equal services exist
                 }
 
 
             }
+            return 0;
         }
-        return 0;
+        else
+        {
+            return -1;
+        }
+
 
 
     }

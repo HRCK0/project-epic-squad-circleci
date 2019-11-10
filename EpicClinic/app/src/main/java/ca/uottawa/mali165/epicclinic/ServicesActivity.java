@@ -113,18 +113,19 @@ public class ServicesActivity extends AppCompatActivity {
                   db.collection("services").document("services").set(servicesData);
                 }
                 if(dialog!=null){dialog.dismiss();}
+                updateUI(); //TEST
                 serviceList.add(0,new Service(serviceName, price, category)); //add the new element
 
                 ServicesListViewAdapter servicesListViewAdapter = new ServicesListViewAdapter(t,serviceList);
                 listView.setAdapter(servicesListViewAdapter);
-                user.addService(new Service(serviceName,price,category));
 
-                //updateUI();
+
+
               }
             });
   }
 
-  public void addNewService(View newServiceBtn, String defServiceName, String defPrice, String defCat, final boolean edit){
+  public void addNewService(View newServiceBtn, final String defServiceName, final String defPrice, final String defCat, final boolean edit){
 
     final String serviceNameDefault;
     final String categoryDefault;
@@ -224,6 +225,10 @@ public class ServicesActivity extends AppCompatActivity {
           // successful
 
           updateDBAndUIToAddService(serviceName, price, category, dialog);
+          if(edit==true)
+            user.editService(new Service(defServiceName, defPrice, defCat), new Service(serviceName,price,category));
+          else
+            user.addService(new Service(serviceName,price,category));
 
         }
       }
@@ -260,6 +265,7 @@ public class ServicesActivity extends AppCompatActivity {
                       String serviceName = serviceData.get("name").toString();
                       String price = serviceData.get("price").toString();
                       list.add(new Service(serviceName, price, (String) category));
+                      user.addService(new Service(serviceName, price, (String) category)); //retain the old services
 
                     }
 
@@ -271,6 +277,7 @@ public class ServicesActivity extends AppCompatActivity {
 
               }
             });
+
     // this code doesnt work
 
   }
@@ -317,6 +324,7 @@ public class ServicesActivity extends AppCompatActivity {
                           public void onSuccess(Void aVoid) {
                             Log.d(TAG, "Old Service Removed to Edit New One");
                             addNewService(findViewById(R.id.addNewServiceBtn), serviceNameInitial, priceNameInitial, categoryNameInitial, true);
+
                           }
                         });
               }

@@ -34,7 +34,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder (MethodSorters.NAME_ASCENDING)
-//To ensure the backend is not clogged, pleas
+
 public class ServicesActivityTest
 {
     @Rule
@@ -44,7 +44,7 @@ public class ServicesActivityTest
         protected Intent getActivityIntent() {
             Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
             Intent result = new Intent(targetContext, ServicesActivity.class); //intent of the service class
-            result.putExtra("admin", new Admin("mock","mock","mock","mock"));
+            result.putExtra("admin", new Admin("mock","mock","mock","mock")); //mock intent created so that service activity can be tested
             return result;
         }
     };

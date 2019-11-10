@@ -93,7 +93,7 @@ public class WelcomeActivity extends AppCompatActivity {
         if(role.toUpperCase().equals("ADMIN"))
         {
             Intent openServicesWindow = new Intent(getApplicationContext(), ServicesActivity.class);
-            Admin adminUser = new Admin("asjidojasd","ajsidasd","jaisodjiasod","ajsodj");
+            Admin adminUser = (Admin)user;
             openServicesWindow.putExtra("admin",adminUser); //passing admin object to services page
             startActivity(openServicesWindow);
         }
