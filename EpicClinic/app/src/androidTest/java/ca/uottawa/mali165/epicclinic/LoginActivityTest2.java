@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
@@ -28,23 +29,24 @@ public class LoginActivityTest2 {
 
     @Rule
     public ActivityTestRule<LoginActivity> myActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
-    public ActivityTestRule<WelcomeActivity> myActivityTestRule2 = new ActivityTestRule<>(WelcomeActivity.class);
+
     @Test
     public void adminIsInvalid() throws InterruptedException {
-        onView(withId(R.id.emailEditText)).perform(typeText("admin@ecare.com"), closeSoftKeyboard());
-        onView(withId(R.id.passwordEditText)).perform(typeText("5T5ptQ"), closeSoftKeyboard());
+        onView(withId(R.id.emailEditText)).perform(clearText()).perform(typeText("admin@ecare.com"), closeSoftKeyboard());
+        onView(withId(R.id.passwordEditText)).perform(clearText()).perform(typeText("5T5ptQ"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
         Thread.sleep(4000);
         onView(withId(R.id.welcomeTextView));
         onView(withId(R.id.welcomeTextView)).check(matches(withText(containsString("You are logged in as ADMIN")))); //welcome message is displayed
+
     }
 
 
 
     @Test
     public void employeeIsInvalid() throws InterruptedException {
-        onView(withId(R.id.emailEditText)).perform(typeText("rdeal081@uottawa.ca"), closeSoftKeyboard());
-        onView(withId(R.id.passwordEditText)).perform(typeText("seg2105"), closeSoftKeyboard());
+        onView(withId(R.id.emailEditText)).perform(clearText()).perform(typeText("rdeal081@uottawa.ca"), closeSoftKeyboard());
+        onView(withId(R.id.passwordEditText)).perform(clearText()).perform(typeText("seg2105"), closeSoftKeyboard());
 
         onView(withId(R.id.loginButton)).perform(click());
         Thread.sleep(4000);
@@ -54,8 +56,8 @@ public class LoginActivityTest2 {
 
     @Test
     public void patientIsInvalid() throws InterruptedException {
-        onView(withId(R.id.emailEditText)).perform(typeText("gabriel@ecare.com"), closeSoftKeyboard());
-        onView(withId(R.id.passwordEditText)).perform(typeText("password"), closeSoftKeyboard());
+        onView(withId(R.id.emailEditText)).perform(clearText()).perform(typeText("gabriel@ecare.com"), closeSoftKeyboard());
+        onView(withId(R.id.passwordEditText)).perform(clearText()).perform(typeText("password"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
         Thread.sleep(4000);
         onView(withId(R.id.welcomeTextView));

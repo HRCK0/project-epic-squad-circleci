@@ -12,6 +12,14 @@ public abstract class Person {
         ADMIN,PATIENT,EMPLOYEE
     }
 
+    public Person()
+    {
+        this.phoneNumber=null;
+        this.firstName=null;
+        this.lastName=null;
+        this.accountType=null;
+        this.email=null;
+    }
     public Person(String firstName, String lastName, String email, String phoneNumber, AccountType accountType )
     {
         this.phoneNumber=phoneNumber;
