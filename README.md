@@ -31,6 +31,7 @@ For screenshots related to Deliverable 1, please see [the screenshot folder]( ht
 By loggining in with admin, you will be able to add, edit and delete serivces. To see how the services screen behaves with employees/patients, please login using the employee credentials.
 
 The [UML Diagram](https://github.com/professor-forward/project-epic-squad/tree/f/deliverable02/docs/UML).
+The [APK](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable02/app-debug.apk)
 
 
 #### Testing with Espresso
