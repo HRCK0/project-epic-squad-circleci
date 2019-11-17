@@ -75,6 +75,10 @@ public class RegisterActivity extends AppCompatActivity {
         user.put("phoneNumber", phoneNumber);
         user.put("role", role);
 
+        if (role.toUpperCase() == "EMPLOYEE") {
+            user.put("profileCompleted", false);
+        }
+
         if (email.isEmpty()) {
             emailEditText.setError("Please enter an email");
             emailEditText.requestFocus();

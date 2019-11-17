@@ -7,11 +7,12 @@ import ca.uottawa.mali165.epicclinic.Person;
 
 public class Employee extends Person implements Parcelable {
 
-    public Employee(
-            String firstName, String lastName,
-            String emailAddress, String phoneNumber)
+    boolean profileCompleted;
+
+    public Employee(String firstName, String lastName, String emailAddress, String phoneNumber, boolean profileCompleted)
     {
         super(firstName, lastName, emailAddress, phoneNumber, Person.AccountType.EMPLOYEE );
+        this.profileCompleted = profileCompleted;
     }
     @Override
     public int describeContents() {
