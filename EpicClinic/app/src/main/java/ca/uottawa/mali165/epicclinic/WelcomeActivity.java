@@ -65,7 +65,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-
                         role = document.get("role").toString();
                         firstName = document.get("firstName").toString();
                         lastName = document.get("lastName").toString();
@@ -78,7 +77,7 @@ public class WelcomeActivity extends AppCompatActivity {
                         String welcomeMessage = "Welcome " + firstName + " " + lastName + ". You are logged in as " + role.toUpperCase() + ".";
                         welcomeTextView.setText(welcomeMessage);
 
-                        if(role.toLowerCase()=="admin")
+                        if (role.toLowerCase().equals("admin"))
                             System.out.println("hi");
                         if (role.toUpperCase().equals("EMPLOYEE")) {
                             boolean profileCompleted = (boolean) document.get("profileCompleted");
