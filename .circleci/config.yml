@@ -32,7 +32,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/
+    working_directory: ~/project-epic-squad/EpicClinic
     docker:
       - image: ccistaging/android:api-28
     environment:
