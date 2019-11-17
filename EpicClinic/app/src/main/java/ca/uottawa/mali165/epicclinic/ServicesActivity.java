@@ -89,12 +89,10 @@ public class ServicesActivity extends AppCompatActivity {
                 if (servicesData.containsKey(category)) {
 
                   Map servicesWithinCategoryMap = (Map) servicesData.remove(category);
-                  for(Object service : servicesWithinCategoryMap.keySet()){
-                    Map serviceMap = (Map) servicesWithinCategoryMap.get(service);
-                    if(serviceMap.get("name").equals(serviceName)){
-                      showToast("Service Name Already Exists for Category");
-                      return;
-                    }
+                  Map serviceMap = (Map) servicesWithinCategoryMap.get(serviceName);
+                  if (serviceMap != null) {
+                     showToast("Service Name Already Exists for Category");
+                     return;
                   }
 
                   servicesWithinCategoryMap.put(serviceName, service);
