@@ -37,18 +37,16 @@ import java.util.Map;
 public class ServicesActivity extends AppCompatActivity {
 
   private final Context t = this;
-
   private static final String TAG = "ServicesActivity";
 
   List<Service> serviceList = new LinkedList<>();
-
-
 
   ListView listView;
 
   FirebaseAuth mAuth;
   FirebaseFirestore db;
   Admin user;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -120,33 +118,39 @@ public class ServicesActivity extends AppCompatActivity {
 
 
               }
-            });
+            }
+
+            servicesWithinCategoryMap.put(serviceName, service);
+            servicesData.put(category, servicesWithinCategoryMap);
+            db.collection("services").document("services").set(servicesData)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                      @Override
+                      public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "New Service Succesfully Created");
+                      }
+                    });
+          } else {
+            Map categoryData = new HashMap();
+            categoryData.put(serviceName, service);
+            servicesData.put(category, categoryData);
+            db.collection("services").document("services").set(servicesData);
+          }
+          if(dialog!=null){dialog.dismiss();}
+          updateUI(); //TEST
+          serviceList.add(0,new Service(serviceName, price, category)); //add the new element
+
+          ServicesListViewAdapter servicesListViewAdapter = new ServicesListViewAdapter(t,serviceList);
+          listView.setAdapter(servicesListViewAdapter);
+        }
+      });
   }
 
   public void addNewService(View newServiceBtn, final String defServiceName, final String defPrice, final String defCat, final boolean edit){
 
-    final String serviceNameDefault;
-    final String categoryDefault;
-    final String priceDefault;
+    final String serviceNameDefault = (defServiceName == null)? "": defServiceName;
+    final String categoryDefault = (defPrice == null)? "": defPrice;
+    final String priceDefault = (defCat == null)? "": defCat;
 
-
-    if(defServiceName==null){
-      serviceNameDefault="";
-    } else{
-      serviceNameDefault=defServiceName;
-    }
-
-    if(defPrice==null){
-      priceDefault="";
-    } else{
-      priceDefault=defPrice;
-    }
-
-    if(defCat==null){
-      categoryDefault="";
-    } else{
-      categoryDefault=defCat;
-    }
 
     final AlertDialog.Builder builder = new AlertDialog.Builder(this);
     String title = edit ? "Editing Service" : "Adding a new Service";
@@ -180,7 +184,6 @@ public class ServicesActivity extends AppCompatActivity {
       @Override
       public void onClick(DialogInterface dialog, int which) {
         if(edit){
-
           updateDBAndUIToAddService(serviceNameDefault, priceDefault, categoryDefault, null);
         }
         finish();
@@ -188,12 +191,11 @@ public class ServicesActivity extends AppCompatActivity {
     });
 
     builder.setPositiveButton("Save",
-            new DialogInterface.OnClickListener()
-            {
-              @Override
-              public void onClick(DialogInterface dialog, int which)
-              {}
-            });
+      new DialogInterface.OnClickListener()
+      {
+        @Override
+        public void onClick(DialogInterface dialog, int which){}
+      });
 
     final AlertDialog dialog = builder.create();
     dialog.setCancelable(false);
@@ -223,20 +225,17 @@ public class ServicesActivity extends AppCompatActivity {
           // successful
 
           updateDBAndUIToAddService(serviceName, price, category, dialog);
-          if(edit==true)
+          if(edit)
             user.editService(new Service(defServiceName, defPrice, defCat), new Service(serviceName,price,category));
           else
             user.addService(new Service(serviceName,price,category));
-
         }
       }
     });
   }
 
   public void onClickAddNewService(View newServiceBtn) {
-
-  addNewService(newServiceBtn, null, null, null, false);
-
+    addNewService(newServiceBtn, null, null, null, false);
   }
 
   public void updateUI() {
