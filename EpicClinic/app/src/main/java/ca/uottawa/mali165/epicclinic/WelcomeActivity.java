@@ -140,6 +140,6 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent openAvailabilityWindow = new Intent(getApplicationContext(), AvailabilityActivity.class);
         openAvailabilityWindow.putExtra("uid", getIntent().getStringArrayExtra("uid"));
         startActivity(openAvailabilityWindow);
-        
+
     }
 }
