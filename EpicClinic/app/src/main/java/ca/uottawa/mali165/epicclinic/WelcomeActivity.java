@@ -134,6 +134,13 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
     }
+    public void profileButtonClicked(View profileButtonClicked
+    {
+        Intent openCompleteProfileWindow = new Intent(getApplicationContext(), CompleteUserProfileActivity.class);
+        Employee employeeUser = (Employee) user;
+        openCompleteProfileWindow.putExtra("employee", employeeUser);
+        startActivity(openCompleteProfileWindow);
+    }
 
     public void availabilityBtnClicked(View availabilityBtn) {
 

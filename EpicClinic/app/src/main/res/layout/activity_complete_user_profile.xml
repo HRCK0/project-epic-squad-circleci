@@ -4,6 +4,212 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     tools:context=".CompleteUserProfileActivity">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="50dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/descriptionName"
+                android:layout_width="match_parent"
+                android:layout_height="91dp"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/roboto"
+                android:foregroundGravity="center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Complete Service Profile"
+                android:textColor="@android:color/white"
+                android:textSize="30sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/addressTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_thin"
+                android:text="ADDRESS"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/addressEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/white"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@android:color/white"
+                android:textColorLink="@android:color/white" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nameOfCompanyTextView"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:fontFamily="@font/roboto_thin"
+                android:text="NAME OF COMPANY"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/nameOfCompanyEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/white"
+                android:ems="10"
+                android:fontFamily="@font/roboto_thin"
+                android:inputType="textPersonName"
+                android:textColor="@android:color/white"
+                android:textColorHighlight="@android:color/white"
+                android:textColorHint="@android:color/white"
+                android:textColorLink="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/DescriptionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="9dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_thin"
+                android:text="DESCRIPTION"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/descriptionEditText"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:layout_marginBottom="30dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:backgroundTint="@android:color/white"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LICENSED"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/RadioGroupLicensed"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioButton2"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:buttonTint="@android:color/white"
+                        android:fontFamily="@font/roboto_thin"
+                        android:text="Yes"
+
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_weight="1"
+                        android:buttonTint="@android:color/white"
+                        android:fontFamily="@font/roboto_thin"
+                        android:text="No "
+
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+
+                </RadioGroup>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/btn_rounded"
+                android:maxHeight="48dip"
+                android:minHeight="48dip"
+                android:text="Save" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
