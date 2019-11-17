@@ -32,6 +32,8 @@
 version: 2
 jobs:
   build:
+    machine: 
+        image: ubuntu-1604:201903-01
     working_directory: ~/project-epic-squad/EpicClinic
     docker:
       - image: ccistaging/android:api-28
