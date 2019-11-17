@@ -138,7 +138,7 @@ public class WelcomeActivity extends AppCompatActivity {
     public void availabilityBtnClicked(View availabilityBtn) {
 
         Intent openAvailabilityWindow = new Intent(getApplicationContext(), AvailabilityActivity.class);
-        openAvailabilityWindow.putExtra("uid", getIntent().getStringArrayExtra("uid"));
+        openAvailabilityWindow.putExtra("uid", getIntent().getStringExtra("uid"));
         startActivity(openAvailabilityWindow);
 
     }

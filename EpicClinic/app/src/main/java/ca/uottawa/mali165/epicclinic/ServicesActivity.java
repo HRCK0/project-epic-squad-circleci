@@ -310,6 +310,7 @@ public class ServicesActivity extends AppCompatActivity {
                   }
                   if(found){
                     servicesWithinCategoryMap.remove(serviceNameInitial);
+
                   }
                   if(!servicesWithinCategoryMap.isEmpty()){
                     servicesData.put(categoryNameInitial, servicesWithinCategoryMap);
@@ -335,20 +336,18 @@ public class ServicesActivity extends AppCompatActivity {
 
     RelativeLayout relativeLayout = (RelativeLayout) serviceLayout.getParent();
 
-    int colorFrom = Color.BLACK;
-    int colorTo = Color.RED;
-    int duration = 1000;
-    ObjectAnimator.ofObject(serviceLayout, "backgroundColor", new ArgbEvaluator(), colorFrom, colorTo)
-            .setDuration(duration)
-            .start();
-
     TextView serviceNameView = serviceLayout.findViewById(R.id.serviceName);
     TextView categoryNameView = serviceLayout.findViewById(R.id.category);
     TextView priceNameView = serviceLayout.findViewById(R.id.price);
 
     final String serviceName = serviceNameView.getText().toString();
     final String categoryName = categoryNameView.getText().toString();
-
+    int colorFrom = Color.BLACK;
+    int colorTo = Color.RED;
+    int duration = 1000;
+    ObjectAnimator.ofObject(serviceLayout, "backgroundColor", new ArgbEvaluator(), colorFrom, colorTo)
+            .setDuration(duration)
+            .start();
     db.collection("services")
             .document("services").get()
             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
