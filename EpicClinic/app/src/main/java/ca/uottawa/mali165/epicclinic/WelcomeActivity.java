@@ -58,7 +58,7 @@ public class WelcomeActivity extends AppCompatActivity {
         servicesBtn = findViewById(R.id.servicesBtn);
         availabilityBtn = findViewById(R.id.availabilityBtn);
 
-        DocumentReference dr = db.collection("users").document(getIntent().getStringExtra("CurrentUser_UID"));
+        DocumentReference dr = db.collection("users").document(getIntent().getStringExtra("uid"));
         dr.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -133,5 +133,13 @@ public class WelcomeActivity extends AppCompatActivity {
             startActivity(openServicesWindow);
         }
 
+    }
+
+    public void availabilityBtnClicked(View availabilityBtn) {
+
+        Intent openAvailabilityWindow = new Intent(getApplicationContext(), AvailabilityActivity.class);
+        openAvailabilityWindow.putExtra("uid", getIntent().getStringArrayExtra("uid"));
+        startActivity(openAvailabilityWindow);
+        
     }
 }

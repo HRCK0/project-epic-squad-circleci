@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 // task is successful, do whatever you want with it
                                 Intent openWelcomeWindow = new Intent(getApplicationContext(), WelcomeActivity.class);
-                                openWelcomeWindow.putExtra("CurrentUser_UID", mAuth.getCurrentUser().getUid());
+                                openWelcomeWindow.putExtra("uid", mAuth.getCurrentUser().getUid());
                                 startActivity(openWelcomeWindow);
                             } else {
                                 // sign in/up fails, display message to user

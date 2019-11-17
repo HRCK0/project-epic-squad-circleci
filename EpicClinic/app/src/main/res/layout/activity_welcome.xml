@@ -93,6 +93,7 @@
                 android:layout_margin="15dp"
                 android:background="@drawable/btn_rounded"
                 android:fontFamily="@font/roboto_thin"
+                android:onClick="availabilityBtnClicked"
                 android:text="availability"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp" />
