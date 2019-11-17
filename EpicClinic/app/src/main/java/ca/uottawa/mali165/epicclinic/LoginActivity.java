@@ -38,6 +38,11 @@ public class LoginActivity extends AppCompatActivity {
 
         loginButton = findViewById(R.id.loginButton);
 
+        /*below three lines are for making testing faster
+        emailEditText.setText("gabriel@ecare.com");
+        passwordEditText.setText("password");
+        loginBtnClicked(loginButton);*/
+
         Button signUpButtonOnLoginScreen = (Button) findViewById(R.id.signUpFromLoginBtn);
 
         signUpButtonOnLoginScreen.setOnClickListener(new View.OnClickListener() {

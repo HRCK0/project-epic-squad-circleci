@@ -7,8 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -66,11 +68,13 @@ public class WelcomeActivity extends AppCompatActivity {
                         String welcomeMessage = "Welcome " + firstName + " " + lastName + ". You are logged in as " + role.toUpperCase() + ".";
                         welcomeTextView.setText(welcomeMessage);
 
-                        if (role == "employee") {
+                        if(role.toLowerCase()=="admin")
+                            System.out.println("hi");
+                        if (role.toUpperCase().equals("EMPLOYEE")) {
                             user = new Employee(firstName, lastName, email, phoneNumber);
-                        } else if (role == "patient") {
+                        } else if (role.toUpperCase().equals("PATIENT") ) {
                             user = new Patient(firstName, lastName, email, phoneNumber);
-                        } else if (role == "admin"){
+                        } else if (role.toUpperCase().equals("ADMIN")){
                             user = new Admin(firstName, lastName, email, phoneNumber);
                         }
 
@@ -82,5 +86,22 @@ public class WelcomeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void servicesBtnClicked(View servicesBtn) {
+        //edit this so a different serivce is opened based the current user instance
+        if(role.toUpperCase().equals("ADMIN"))
+        {
+            Intent openServicesWindow = new Intent(getApplicationContext(), ServicesActivity.class);
+            Admin adminUser = (Admin)user;
+            openServicesWindow.putExtra("admin",adminUser); //passing admin object to services page
+            startActivity(openServicesWindow);
+        }
+        else
+        {
+            Intent openServicesWindow = new Intent(getApplicationContext(), ServicesActivityNonAdmin.class);
+            startActivity(openServicesWindow);
+        }
+
     }
 }
