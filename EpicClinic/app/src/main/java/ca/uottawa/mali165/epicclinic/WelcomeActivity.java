@@ -126,6 +126,7 @@ public class WelcomeActivity extends AppCompatActivity {
             Intent openServicesWindow = new Intent(getApplicationContext(), ServicesActivityNonAdmin.class);
             Employee employeeUser = (Employee) user;
             openServicesWindow.putExtra("employee", employeeUser);
+            openServicesWindow.putExtra("CurrentUser_UID", getIntent().getStringExtra("CurrentUser_UID"));
             startActivity(openServicesWindow);
         }
         else

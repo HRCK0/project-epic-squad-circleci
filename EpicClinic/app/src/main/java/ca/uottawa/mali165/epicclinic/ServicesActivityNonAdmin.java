@@ -111,7 +111,7 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
         service.put("price", price);
 
         db.collection("users")
-                .document(getIntent().getStringExtra("uid")).get()
+                .document(getIntent().getStringExtra("CurrentUser_UID")).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
