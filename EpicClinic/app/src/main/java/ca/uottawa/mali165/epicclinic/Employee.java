@@ -14,6 +14,14 @@ public class Employee extends Person implements Parcelable {
         super(firstName, lastName, emailAddress, phoneNumber, Person.AccountType.EMPLOYEE );
         this.profileCompleted = profileCompleted;
     }
+    public boolean getProfileCompleted()
+    {
+        return profileCompleted;
+    }
+    public void setProfileCompleted(boolean profileCompleted)
+    {
+        this.profileCompleted=profileCompleted;
+    }
     @Override
     public int describeContents() {
         return 0;
