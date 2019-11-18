@@ -49,6 +49,32 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/phoneNumberTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="PHONE NUMBER"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/phoneNumberEditText"
+                android:layout_width="960dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/white"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
                 android:id="@+id/addressTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,7 +139,7 @@
             <TextView
                 android:id="@+id/DescriptionTextView"
                 android:layout_width="match_parent"
-                android:layout_height="9dp"
+                android:layout_height="35dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_thin"
                 android:text="DESCRIPTION"
@@ -129,7 +155,8 @@
                 android:backgroundTint="@android:color/white"
                 android:ems="10"
                 android:gravity="start|top"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
