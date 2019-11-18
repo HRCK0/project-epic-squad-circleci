@@ -1,7 +1,8 @@
 package ca.uottawa.mali165.epicclinic;
 
 import androidx.appcompat.app.AppCompatActivity;
-package ca.uottawa.mali165.epicclinic;
+import ca.uottawa.mali165.epicclinic.R;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,9 +32,10 @@ import android.os.Bundle;
 
 public class CompleteUserProfileActivity extends AppCompatActivity {
 
-    EditText addressEditText,descriptionEditText, companyEditText;
+    EditText addressEditText, descriptionEditText, companyEditText;
     Button savedButton;
     RadioGroup licensedRadioGroup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,27 +49,27 @@ public class CompleteUserProfileActivity extends AppCompatActivity {
         savedButton = findViewById(R.id.saveButton);
     }
 
-    public void savedButtonClicked(View saveButton)
-    {
-        String address= addressEditText.getText().toString();
+    public void savedButtonClicked(View saveButton) {
+        String address = addressEditText.getText().toString();
         if (address.isEmpty()) {
             addressEditText.setError("Please enter an email"); //address is a mandatory field
             addressEditText.requestFocus();
 
-        String description= descriptionEditText.getText().toString();
-        String company= companyEditText.getText().toString();
-        boolean licensed;
+            String description = descriptionEditText.getText().toString();
+            String company = companyEditText.getText().toString();
+            boolean licensed;
 
-        int selectedId = licensedRadioGroup.getCheckedRadioButtonId();
-        RadioButton btn = findViewById(selectedId);
-        String valueofbutton = btn.getText().toString().toLowerCase();
-        if(valueofbutton=="yes")
-            licensed=true;
-        else
-            licensed=false;
+            int selectedId = licensedRadioGroup.getCheckedRadioButtonId();
+            RadioButton btn = findViewById(selectedId);
+            String valueofbutton = btn.getText().toString().toLowerCase();
+            if (valueofbutton == "yes")
+                licensed = true;
+            else
+                licensed = false;
+
+
+        }
 
 
     }
-
-
 }

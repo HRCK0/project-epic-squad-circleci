@@ -134,7 +134,7 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
     }
-    public void profileButtonClicked(View profileButtonClicked
+    public void profileButtonClicked(View profileButtonClicked)
     {
         Intent openCompleteProfileWindow = new Intent(getApplicationContext(), CompleteUserProfileActivity.class);
         Employee employeeUser = (Employee) user;
