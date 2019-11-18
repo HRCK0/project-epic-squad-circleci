@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -96,9 +97,10 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
 
     public void onAdd(View buttonPickService){
 
+        Log.d(TAG, "onAdd: CALLED!!");
         db = FirebaseFirestore.getInstance();
 
-        LinearLayout serviceLayout = (LinearLayout) buttonPickService.getParent().getParent().getParent().getParent();
+        RelativeLayout serviceLayout = (RelativeLayout) buttonPickService.getParent().getParent().getParent().getParent();
         final TextView serviceName = serviceLayout.findViewById(R.id.serviceName2);
         final TextView price = serviceLayout.findViewById(R.id.price2);
         final TextView category = serviceLayout.findViewById(R.id.category2);
@@ -116,9 +118,7 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
 
                         Map empData = documentSnapshot.getData();
 
-                        if (empData.containsKey("Services")) {
-                            //I don't know what to put here yet
-                        }
+
 
                         Map services = (Map) documentSnapshot.get("Services");
 
@@ -135,6 +135,11 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
                             servicesWithinCategoryMap.put(serviceName, service);
                             services.put(category, servicesWithinCategoryMap);
 
+
+                            if (empData.containsKey("Services")) {
+                                empData.remove("Services");
+                            }
+
                             empData.put("Services", services);
 
 
@@ -150,6 +155,9 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
                             Map categoryData = new HashMap();
                             categoryData.put(serviceName, service);
                             services.put(category, categoryData);
+                            if (empData.containsKey("Services")) {
+                                empData.remove("Services");
+                            }
                             empData.put("Services", services);
                             db.collection("users").document(getIntent().getStringExtra("uid")).set(empData);
 

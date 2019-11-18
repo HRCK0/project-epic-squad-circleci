@@ -91,11 +91,14 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/buttonPickService"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="63dp"
                     android:layout_weight="3.5"
+                    android:background="@drawable/add_icon"
                     android:gravity="center_horizontal|center_vertical"
-                    android:orientation="vertical"/>
+                    android:onClick="onAdd"
+                    android:orientation="vertical" />
 
             </LinearLayout>
 
