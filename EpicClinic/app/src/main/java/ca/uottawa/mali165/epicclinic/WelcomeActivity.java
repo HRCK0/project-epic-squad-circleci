@@ -141,6 +141,8 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent openCompleteProfileWindow = new Intent(getApplicationContext(), CompleteUserProfileActivity.class);
         Employee employeeUser = (Employee) user;
         openCompleteProfileWindow.putExtra("employee", employeeUser);
+        openCompleteProfileWindow.putExtra("CurrentUser_UID", getIntent().getStringExtra("CurrentUser_UID"));
+
         startActivity(openCompleteProfileWindow);
     }
 
