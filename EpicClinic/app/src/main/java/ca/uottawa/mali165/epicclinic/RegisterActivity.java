@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
         user.put("phoneNumber", phoneNumber);
         user.put("role", role);
 
-        if (role.toUpperCase() == "EMPLOYEE") {
+        if (role.toUpperCase().equals("EMPLOYEE")) {
             user.put("profileCompleted", false);
         }
 

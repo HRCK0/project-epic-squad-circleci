@@ -37,16 +37,18 @@ import java.util.Map;
 public class ServicesActivity extends AppCompatActivity {
 
   private final Context t = this;
+
   private static final String TAG = "ServicesActivity";
 
   List<Service> serviceList = new LinkedList<>();
+
+
 
   ListView listView;
 
   FirebaseAuth mAuth;
   FirebaseFirestore db;
   Admin user;
-
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -118,15 +120,33 @@ public class ServicesActivity extends AppCompatActivity {
 
 
               }
-      });
+            });
   }
 
   public void addNewService(View newServiceBtn, final String defServiceName, final String defPrice, final String defCat, final boolean edit){
 
-    final String serviceNameDefault = (defServiceName == null)? "": defServiceName;
-    final String categoryDefault = (defPrice == null)? "": defPrice;
-    final String priceDefault = (defCat == null)? "": defCat;
+    final String serviceNameDefault;
+    final String categoryDefault;
+    final String priceDefault;
 
+
+    if(defServiceName==null){
+      serviceNameDefault="";
+    } else{
+      serviceNameDefault=defServiceName;
+    }
+
+    if(defPrice==null){
+      priceDefault="";
+    } else{
+      priceDefault=defPrice;
+    }
+
+    if(defCat==null){
+      categoryDefault="";
+    } else{
+      categoryDefault=defCat;
+    }
 
     final AlertDialog.Builder builder = new AlertDialog.Builder(this);
     String title = edit ? "Editing Service" : "Adding a new Service";
@@ -160,6 +180,7 @@ public class ServicesActivity extends AppCompatActivity {
       @Override
       public void onClick(DialogInterface dialog, int which) {
         if(edit){
+
           updateDBAndUIToAddService(serviceNameDefault, priceDefault, categoryDefault, null);
         }
         finish();
@@ -167,11 +188,12 @@ public class ServicesActivity extends AppCompatActivity {
     });
 
     builder.setPositiveButton("Save",
-      new DialogInterface.OnClickListener()
-      {
-        @Override
-        public void onClick(DialogInterface dialog, int which){}
-      });
+            new DialogInterface.OnClickListener()
+            {
+              @Override
+              public void onClick(DialogInterface dialog, int which)
+              {}
+            });
 
     final AlertDialog dialog = builder.create();
     dialog.setCancelable(false);
@@ -201,17 +223,20 @@ public class ServicesActivity extends AppCompatActivity {
           // successful
 
           updateDBAndUIToAddService(serviceName, price, category, dialog);
-          if(edit)
+          if(edit==true)
             user.editService(new Service(defServiceName, defPrice, defCat), new Service(serviceName,price,category));
           else
             user.addService(new Service(serviceName,price,category));
+
         }
       }
     });
   }
 
   public void onClickAddNewService(View newServiceBtn) {
-    addNewService(newServiceBtn, null, null, null, false);
+
+  addNewService(newServiceBtn, null, null, null, false);
+
   }
 
   public void updateUI() {

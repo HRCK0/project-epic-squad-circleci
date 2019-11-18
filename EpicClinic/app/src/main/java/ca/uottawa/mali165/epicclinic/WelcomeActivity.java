@@ -58,7 +58,7 @@ public class WelcomeActivity extends AppCompatActivity {
         servicesBtn = findViewById(R.id.servicesBtn);
         availabilityBtn = findViewById(R.id.availabilityBtn);
 
-        DocumentReference dr = db.collection("users").document(getIntent().getStringExtra("uid"));
+        DocumentReference dr = db.collection("users").document(getIntent().getStringExtra("CurrentUser_UID"));
         dr.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
