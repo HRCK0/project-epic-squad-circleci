@@ -58,6 +58,7 @@ public class WelcomeActivity extends AppCompatActivity {
         servicesBtn = findViewById(R.id.servicesBtn);
         availabilityBtn = findViewById(R.id.availabilityBtn);
 
+
         DocumentReference dr = db.collection("users").document(getIntent().getStringExtra("CurrentUser_UID"));
         dr.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -145,7 +146,7 @@ public class WelcomeActivity extends AppCompatActivity {
     public void availabilityBtnClicked(View availabilityBtn) {
 
         Intent openAvailabilityWindow = new Intent(getApplicationContext(), AvailabilityActivity.class);
-        openAvailabilityWindow.putExtra("uid", getIntent().getStringExtra("uid"));
+        openAvailabilityWindow.putExtra("CurrentUser_UID", getIntent().getStringExtra("CurrentUser_UID"));
         startActivity(openAvailabilityWindow);
 
     }

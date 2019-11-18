@@ -75,7 +75,7 @@ public class AvailabilityActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        empId = getIntent().getStringExtra("uid");
+        empId = getIntent().getStringExtra("CurrentUser_UID");
 
         System.out.println("HELLOOOOOOOOOOOOOOOO" + empId);
 
