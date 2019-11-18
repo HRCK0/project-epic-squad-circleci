@@ -97,7 +97,7 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
 
     public void onAdd(View buttonPickService){
 
-        Log.d(TAG, "onAdd: CALLED!!");
+
         db = FirebaseFirestore.getInstance();
 
         RelativeLayout serviceLayout = (RelativeLayout) buttonPickService.getParent().getParent().getParent().getParent();
@@ -118,55 +118,54 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
 
                         Map empData = documentSnapshot.getData();
 
+                        if (empData.containsKey("Services")) {
+                            Map services = (Map) documentSnapshot.get("Services");
 
+                            if (services.containsKey(category)){
+                                Map servicesWithinCategoryMap = (Map) services.remove(category);
+                                Map serviceMap = (Map) servicesWithinCategoryMap.get(serviceName);
 
-                        Map services = (Map) documentSnapshot.get("Services");
+                                if (serviceMap != null) {
+                                    showToast("Service Already Added");
+                                    return;
+                                }
 
+                                servicesWithinCategoryMap.put(serviceName, service);
+                                services.put(category, servicesWithinCategoryMap);
 
-                        if (services.containsKey(category)){
-                            Map servicesWithinCategoryMap = (Map) services.remove(category);
-                            Map serviceMap = (Map) servicesWithinCategoryMap.get(serviceName);
-
-                            if (serviceMap != null) {
-                                showToast("Service Already Added");
-                                return;
-                            }
-
-                            servicesWithinCategoryMap.put(serviceName, service);
-                            services.put(category, servicesWithinCategoryMap);
-
-
-                            if (empData.containsKey("Services")) {
                                 empData.remove("Services");
+
+                                empData.put("Services", services);
+                                db.collection("users").document(getIntent().getStringExtra("CurrentUser_UID")).set(empData)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "New Service Succesfully Created");
+                                            }
+                                        });
+                            }else {
+                                Map categoryData = new HashMap();
+                                categoryData.put(serviceName, service);
+                                services.put(category, categoryData);
+                                if (empData.containsKey("Services")) {
+                                    empData.remove("Services");
+                                }
+                                empData.put("Services", services);
+                                db.collection("users").document(getIntent().getStringExtra("CurrentUser_UID")).set(empData);
+
                             }
-
-                            empData.put("Services", services);
-
-
-                            db.collection("users").document(getIntent().getStringExtra("uid")).set(empData)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.d(TAG, "New Service Succesfully Created");
-                                        }
-                                    });
-
-                        }else {
+                        } else{
+                            Log.d(TAG, "onSuccess: CALLED!!!");
                             Map categoryData = new HashMap();
+                            Map services = new HashMap();
                             categoryData.put(serviceName, service);
                             services.put(category, categoryData);
-                            if (empData.containsKey("Services")) {
-                                empData.remove("Services");
-                            }
                             empData.put("Services", services);
-                            db.collection("users").document(getIntent().getStringExtra("uid")).set(empData);
-
+                            db.collection("users").document(getIntent().getStringExtra("CurrentUser_UID")).set(empData);
                         }
+                }
 
-
-                    }
                 });
-
     }
 
 }
