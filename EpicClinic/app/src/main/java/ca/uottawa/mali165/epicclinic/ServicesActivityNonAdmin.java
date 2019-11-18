@@ -105,10 +105,14 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
         final TextView price = serviceLayout.findViewById(R.id.price2);
         final TextView category = serviceLayout.findViewById(R.id.category2);
 
+        final String serviceName2 = serviceName.getText().toString();
+        final String price2 = price.getText().toString();
+        final String category2 = category.getText().toString();
+
         final HashMap service = new HashMap();
         final Activity t = this;
-        service.put("name", serviceName);
-        service.put("price", price);
+        service.put("name", serviceName2);
+        service.put("price", price2);
 
         db.collection("users")
                 .document(getIntent().getStringExtra("CurrentUser_UID")).get()
@@ -121,17 +125,17 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
                         if (empData.containsKey("Services")) {
                             Map services = (Map) documentSnapshot.get("Services");
 
-                            if (services.containsKey(category)){
-                                Map servicesWithinCategoryMap = (Map) services.remove(category);
-                                Map serviceMap = (Map) servicesWithinCategoryMap.get(serviceName);
+                            if (services.containsKey(category2)){
+                                Map servicesWithinCategoryMap = (Map) services.remove(category2);
+                                Map serviceMap = (Map) servicesWithinCategoryMap.get(serviceName2);
 
                                 if (serviceMap != null) {
                                     showToast("Service Already Added");
                                     return;
                                 }
 
-                                servicesWithinCategoryMap.put(serviceName, service);
-                                services.put(category, servicesWithinCategoryMap);
+                                servicesWithinCategoryMap.put(serviceName2, service);
+                                services.put(category2, servicesWithinCategoryMap);
 
                                 empData.remove("Services");
 
@@ -145,8 +149,8 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
                                         });
                             }else {
                                 Map categoryData = new HashMap();
-                                categoryData.put(serviceName, service);
-                                services.put(category, categoryData);
+                                categoryData.put(serviceName2, service);
+                                services.put(category2, categoryData);
                                 if (empData.containsKey("Services")) {
                                     empData.remove("Services");
                                 }
@@ -158,8 +162,8 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
                             Log.d(TAG, "onSuccess: CALLED!!!");
                             Map categoryData = new HashMap();
                             Map services = new HashMap();
-                            categoryData.put(serviceName, service);
-                            services.put(category, categoryData);
+                            categoryData.put(serviceName2, service);
+                            services.put(category2, categoryData);
                             empData.put("Services", services);
                             db.collection("users").document(getIntent().getStringExtra("CurrentUser_UID")).set(empData);
                         }
