@@ -118,30 +118,6 @@ public class ServicesActivity extends AppCompatActivity {
 
 
               }
-            }
-
-            servicesWithinCategoryMap.put(serviceName, service);
-            servicesData.put(category, servicesWithinCategoryMap);
-            db.collection("services").document("services").set(servicesData)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                      @Override
-                      public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "New Service Succesfully Created");
-                      }
-                    });
-          } else {
-            Map categoryData = new HashMap();
-            categoryData.put(serviceName, service);
-            servicesData.put(category, categoryData);
-            db.collection("services").document("services").set(servicesData);
-          }
-          if(dialog!=null){dialog.dismiss();}
-          updateUI(); //TEST
-          serviceList.add(0,new Service(serviceName, price, category)); //add the new element
-
-          ServicesListViewAdapter servicesListViewAdapter = new ServicesListViewAdapter(t,serviceList);
-          listView.setAdapter(servicesListViewAdapter);
-        }
       });
   }
 
