@@ -68,7 +68,7 @@
                 android:layout_height="50dp"
                 android:layout_margin="15dp"
                 android:background="@drawable/btn_rounded"
-                android:fontFamily="@font/roboto_thin"
+                android:fontFamily="sans-serif-medium"
                 android:onClick="profileButtonClicked"
                 android:text="Profile"
                 android:textColor="#FFFFFF"
@@ -80,12 +80,11 @@
                 android:layout_height="50dp"
                 android:layout_margin="15dp"
                 android:background="@drawable/btn_rounded"
-                android:fontFamily="@font/roboto_thin"
+                android:fontFamily="sans-serif-medium"
                 android:onClick="servicesBtnClicked"
                 android:text="Services"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/availabilityBtn"
@@ -93,7 +92,7 @@
                 android:layout_height="50dp"
                 android:layout_margin="15dp"
                 android:background="@drawable/btn_rounded"
-                android:fontFamily="@font/roboto_thin"
+                android:fontFamily="sans-serif-medium"
                 android:onClick="availabilityBtnClicked"
                 android:text="availability"
                 android:textColor="#FFFFFF"
