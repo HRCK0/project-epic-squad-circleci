@@ -119,13 +119,14 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
                                                 Log.d(TAG, "onComplete: ADDED TO MAIN LIST");
                                                 list.add(new Service(serviceName, price, (String) category));
                                             } else {
-                                                Log.d(TAG, "onComplete: " + category);
+                                               // Log.d(TAG, "HEEELLLLLLOOOOOOOOO");
                                                 //Log.d(TAG, "onComplete: " + service);
-                                               // deleteFromDB((String) category, (String) service);
+                                               deleteFromDB((String) category, (String) service);
                                             }
                                         }
                                     } else {
-                                       Log.d(TAG, "onComplete2: " + category);
+                                        //Log.d(TAG, "HEEELLLLLLOOOOOOOOO");
+                                       //Log.d(TAG, "onComplete2: " + category);
 
                                         deleteFromDB((String) category, null);
                                     }
@@ -160,13 +161,14 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
 
                         Map empData = documentSnapshot.getData();
                         Map services = (Map) documentSnapshot.get("Services");
-                        Map servicesWithinCategoryMap = (Map) services.remove(category);
+
 
                         empData.remove("Services");
 
                         if (service == null){
                             services.remove(category);
                         }else {
+                            Map servicesWithinCategoryMap = (Map) services.remove(category);
                             servicesWithinCategoryMap.remove(service);
                             services.put(category,servicesWithinCategoryMap);
                         }
