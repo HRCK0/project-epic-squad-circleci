@@ -65,79 +65,74 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
 
 
         final Activity t = this;
+        final Map[] servicesData = new Map[1];
 
         db.collection("services")
                 .document("services").get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        servicesData[0] = (Map) documentSnapshot.getData();
 
-                        if (task.isSuccessful()) {
-                            Map categories = task.getResult().getData();
+                        //querying users database
+                        db.collection("users")
+                                .document(getIntent().getStringExtra("CurrentUser_UID")).get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                            for (Object category : categories.keySet()) {
-                                Map categoryData = (Map) categories.get(category);
-                                Log.d(TAG, "ADDING TO LIST_CATEGORY: " + category);
-                                categoryList.add((String) category);
+                                        List serviceToDisplayList = new LinkedList();
 
-                                for (Object service : categoryData.keySet()) {
-                                  Log.d(TAG, "ADDING TO LIST_SERVICE: " + service);
-                                    serviceList2.add((String) service);
+                                        if(!documentSnapshot.getData().containsKey("Services")){return;}
 
-                                }
-                            }
-                        }
-                    }
-                });
 
-        db.collection("users")
-                .document(getIntent().getStringExtra("CurrentUser_UID")).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        Map userData = (Map) documentSnapshot.getData();
+                                        Map currentUserServicesData = (Map) userData.get("Services");
 
-                        if (task.isSuccessful()) {
-                            ArrayList<Service> list = new ArrayList<>();
-                            Map empData = task.getResult().getData();
-                            if (empData.containsKey("Services")) {
-                                Map services = (Map) empData.get("Services");
 
-                                for (Object category : services.keySet()) {
 
-                                    Map categoryData = (Map) services.get(category);
+                                        for(Object category : currentUserServicesData.keySet()){
+                                            if(servicesData[0].containsKey(category)){ //making sure that category of users service is a valid category
+                                                Map servicesWithinCategoryForAdmin = (Map) servicesData[0].get(category);
+                                                Map servicesWithinCategoryForUser = (Map) currentUserServicesData.get(category);
+                                                for(Object service : servicesWithinCategoryForUser.keySet()){ //if the category of users service was valid, then check to see if service name is valid
+                                                    if(servicesWithinCategoryForAdmin.containsKey(service)){
+                                                        Map serviceMap = (Map) servicesWithinCategoryForUser.get(service);
+                                                        Service serviceToAdd = new Service(serviceMap.get("name").toString(), serviceMap.get("price").toString(), category.toString());
+                                                        serviceToDisplayList.add(serviceToAdd);
 
-                                    if (categoryList.remove((String) category)) {
-
-                                        for (Object service : categoryData.keySet()) {
-
-                                            Map serviceData = (Map) categoryData.get(service);
-
-                                            if (serviceList2.remove((String) service)) {
-
-                                                String serviceName = serviceData.get("name").toString();
-                                                String price = serviceData.get("price").toString();
-                                                Log.d(TAG, "onComplete: ADDED TO MAIN LIST");
-                                                list.add(new Service(serviceName, price, (String) category));
-                                            } else {
-                                               // Log.d(TAG, "HEEELLLLLLOOOOOOOOO");
-                                                //Log.d(TAG, "onComplete: " + service);
-                                               deleteFromDB((String) category, (String) service);
+                                                    }else{
+                                                        currentUserServicesData.remove(category);
+                                                        servicesWithinCategoryForUser.remove(service);
+                                                        if(!servicesWithinCategoryForUser.keySet().isEmpty()){ //in case the service that was removed was last in category
+                                                            currentUserServicesData.put(category, servicesWithinCategoryForUser);
+                                                        }
+                                                    }
+                                                }
+                                            }else{
+                                                currentUserServicesData.remove(category);
                                             }
                                         }
-                                    } else {
-                                        //Log.d(TAG, "HEEELLLLLLOOOOOOOOO");
-                                       //Log.d(TAG, "onComplete2: " + category);
 
-                                        deleteFromDB((String) category, null);
-                                    }
-                                }
-                                serviceList = list;
-                            }
-                            ServicesListViewAdapterNonAdmin servicesListViewAdapter = new ServicesListViewAdapterNonAdmin(t, serviceList);
-                            listView.setAdapter(servicesListViewAdapter);
-                        }
-                    }
-                });
+                                        userData.remove("Services");
+                                        userData.put("Services", currentUserServicesData);
+
+                                        ServicesListViewAdapterNonAdmin servicesListViewAdapter = new ServicesListViewAdapterNonAdmin(t, serviceToDisplayList);
+                                        listView.setAdapter(servicesListViewAdapter);
+
+                                        db.collection("users").document(getIntent().getStringExtra("CurrentUser_UID")).set(userData)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Log.d(TAG, "Employee services updated succesfully");
+                                                    }
+                                                });
+
+
+                                    }});
+
+                    }});
+        
 
 
     }
