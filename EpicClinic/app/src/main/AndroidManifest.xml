@@ -12,6 +12,7 @@
         <activity android:name=".AvailabilityActivity"></activity>
         <activity android:name=".CompleteUserProfileActivity" />
         <activity android:name=".ServicesActivityNonAdmin" />
+        <activity android:name=".ServicesActivityNonAdmin_2" />
         <activity android:name=".ServicesActivity" />
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".RegisterActivity" />
