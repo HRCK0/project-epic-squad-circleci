@@ -77,11 +77,11 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
 
                             for (Object category : categories.keySet()) {
                                 Map categoryData = (Map) categories.get(category);
-                                //Log.d(TAG, "ADDING TO LIST_CATEGORY: " + category);
+                                Log.d(TAG, "ADDING TO LIST_CATEGORY: " + category);
                                 categoryList.add((String) category);
 
                                 for (Object service : categoryData.keySet()) {
-                                  //  Log.d(TAG, "ADDING TO LIST_SERVICE: " + service);
+                                  Log.d(TAG, "ADDING TO LIST_SERVICE: " + service);
                                     serviceList2.add((String) service);
 
                                 }
@@ -121,13 +121,13 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
                                             } else {
                                                 Log.d(TAG, "onComplete: " + category);
                                                 //Log.d(TAG, "onComplete: " + service);
-                                                //deleteFromDB((String) category, (String) service);
+                                               // deleteFromDB((String) category, (String) service);
                                             }
                                         }
                                     } else {
-                                       // Log.d(TAG, "onComplete2: " + category);
+                                       Log.d(TAG, "onComplete2: " + category);
 
-                                        //deleteFromDB((String) category, null);
+                                        deleteFromDB((String) category, null);
                                     }
                                 }
                                 serviceList = list;
@@ -166,7 +166,6 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
 
                         if (service == null){
                             services.remove(category);
-
                         }else {
                             servicesWithinCategoryMap.remove(service);
                             services.put(category,servicesWithinCategoryMap);
