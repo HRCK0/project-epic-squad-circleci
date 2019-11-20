@@ -101,15 +101,21 @@ public class CompleteUserProfileActivity extends AppCompatActivity {
 
     public void savedButtonClicked(View saveButton) {
         final String address = addressEditText.getText().toString();
+        final String phoneNumber = phoneNumberEditText.getText().toString();
         if (address.isEmpty()) {
             addressEditText.setError("Please enter an address"); //address is a mandatory field--> check
             addressEditText.requestFocus();
-            //phone number is also mandatory, but this is checked when registering
         }
+        //phone number is also mandatory
+
+        else if (phoneNumber.isEmpty()) {
+            phoneNumberEditText.setError("Please enter a phone number"); //phone number is a mandatory field--> check
+            phoneNumberEditText.requestFocus();
+
+        } else {
 
             final String description = descriptionEditText.getText().toString();
             final String nameOfCompany = companyEditText.getText().toString();
-            final String phoneNumber = phoneNumberEditText.getText().toString();
             final boolean licensed;
 
             int selectedId = licensedRadioGroup.getCheckedRadioButtonId();
@@ -120,7 +126,7 @@ public class CompleteUserProfileActivity extends AppCompatActivity {
             else
                 licensed = false;
             db = FirebaseFirestore.getInstance();
-                  Log.d(TAG, "sadioasjdoi"); //delete
+
             employeeId = getIntent().getStringExtra("CurrentUser_UID");
 
             db.collection("users")
@@ -151,7 +157,6 @@ public class CompleteUserProfileActivity extends AppCompatActivity {
                                 }
 
 
-
                             }
                             Log.d(TAG, "hellooooooo"); //delete
                             employeeData.put("Name of Company", nameOfCompany);
@@ -171,11 +176,11 @@ public class CompleteUserProfileActivity extends AppCompatActivity {
                             showToast("User Profile Updated");
 
 
-
                         }
 
                     });
         }
+    }
 
 
 
