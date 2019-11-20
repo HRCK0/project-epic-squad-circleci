@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.rpc.Help;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,14 +70,13 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
 
 
         final Activity t = this;
-        final Map[] servicesData = new Map[1];
 
         db.collection("services")
                 .document("services").get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        servicesData[0] = (Map) documentSnapshot.getData();
+                        final Map servicesData = (Map) documentSnapshot.getData();
 
                         //querying users database
                         db.collection("users")
@@ -91,34 +91,51 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
 
 
                                         Map userData = (Map) documentSnapshot.getData();
-                                        Map currentUserServicesData = (Map) userData.get("Services");
+                                        final Map currentUserServicesData = (Map) userData.get("Services");
 
+                                        List servicesThatNoLongerExist = new LinkedList();
+                                        List categorysThatNoLongerExist = new LinkedList();
 
 
                                         for(Object category : currentUserServicesData.keySet()){
-                                            if(servicesData[0].containsKey(category)){ //making sure that category of users service is a valid category
-                                                Map servicesWithinCategoryForAdmin = (Map) servicesData[0].get(category);
+                                            if(servicesData.containsKey(category)){ //making sure that category of users service is a valid category
+                                                Map servicesWithinCategoryForAdmin = (Map) servicesData.get(category);
                                                 Map servicesWithinCategoryForUser = (Map) currentUserServicesData.get(category);
                                                 for(Object service : servicesWithinCategoryForUser.keySet()){ //if the category of users service was valid, then check to see if service name is valid
+                                                    Map serviceMap = (Map) servicesWithinCategoryForUser.get(service);
                                                     if(servicesWithinCategoryForAdmin.containsKey(service)){
-                                                        Map serviceMap = (Map) servicesWithinCategoryForUser.get(service);
                                                         Service serviceToAdd = new Service(serviceMap.get("name").toString(), serviceMap.get("price").toString(), category.toString());
                                                         serviceToDisplayList.add(serviceToAdd);
 
                                                     }else{
-                                                        currentUserServicesData.remove(category);
-                                                        servicesWithinCategoryForUser.remove(service);
-                                                        if(!servicesWithinCategoryForUser.keySet().isEmpty()){ //in case the service that was removed was last in category
-                                                            currentUserServicesData.put(category, servicesWithinCategoryForUser);
-                                                        }
+
+                                                        Service serviceThatNoLongerExists = new Service(serviceMap.get("name").toString(), serviceMap.get("price").toString(), category.toString());
+                                                        servicesThatNoLongerExist.add(serviceThatNoLongerExists);
+
                                                     }
                                                 }
                                             }else{
-                                                currentUserServicesData.remove(category);
+                                                categorysThatNoLongerExist.add(category);
                                             }
                                         }
 
                                         userData.remove("Services");
+
+                                        //removing all categories that no longer exist from current users db
+                                        for(Object category : categorysThatNoLongerExist){
+                                            currentUserServicesData.remove(category.toString());
+                                        }
+
+                                        //removing all services that no longer exist from current users db
+                                        for(Object service : servicesThatNoLongerExist){
+                                            Service serviceToRemove = (Service) service;
+                                            Map servicesWithinCategoryContainingServiceToRemove = (Map) currentUserServicesData.remove(serviceToRemove.getCategory());
+                                            servicesWithinCategoryContainingServiceToRemove.remove(serviceToRemove.getName());
+                                            if(!servicesWithinCategoryContainingServiceToRemove.isEmpty()){ //ensuring that service removed wasnt last in category
+                                                currentUserServicesData.put(serviceToRemove.getCategory(), servicesWithinCategoryContainingServiceToRemove);
+                                            }
+                                        }
+
                                         userData.put("Services", currentUserServicesData);
 
                                         ServicesListViewAdapterNonAdmin servicesListViewAdapter = new ServicesListViewAdapterNonAdmin(t, serviceToDisplayList);
