@@ -176,7 +176,7 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
 
                         //this is in case no more services within a category
                         if (!servicesWithinCategoryForUser.isEmpty()) {
-                            servicesWithinCategoryForUser.put(categoryName, servicesWithinCategoryForUser);
+                            currentUserServicesData.put(categoryName, servicesWithinCategoryForUser);
                         }
 
                         userData.remove("Services");

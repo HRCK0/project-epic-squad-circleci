@@ -220,9 +220,7 @@ public class ServicesActivity extends AppCompatActivity {
 
     builder.setView(layout);
 
-    String positiveButtonText = editBtnClicked  ? "Edit" : "Add";
-
-    builder.setPositiveButton(positiveButtonText, new DialogInterface.OnClickListener() {
+    builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
         //being overwritten below to precisely control when to close dialog
