@@ -1,8 +1,12 @@
 package ca.uottawa.mali165.epicclinic;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -127,15 +131,73 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
                                                         Log.d(TAG, "Employee services updated succesfully");
                                                     }
                                                 });
-
-
                                     }});
-
                     }});
-        
+    }
 
+    public void onClickDeleteService(View delServiceBtn){
+
+        //Using the delete button that was clicked to get the other textfields relative to it
+        //specifcially text in service name field, category field and price field
+        LinearLayout serviceLayout = (LinearLayout) delServiceBtn.getParent().getParent().getParent().getParent();
+        TextView serviceNameView = serviceLayout.findViewById(R.id.serviceName2);
+        TextView categoryNameView = serviceLayout.findViewById(R.id.category2);
+        TextView priceView = serviceLayout.findViewById(R.id.price2);
+        final String serviceName = serviceNameView.getText().toString();
+        final String categoryName = categoryNameView.getText().toString();
+        final String price = priceView.getText().toString();
+
+        //Animating the service from black to red
+        int colorFrom = Color.BLACK;
+        int colorTo = Color.RED;
+        int duration = 1000;
+        ObjectAnimator.ofObject(serviceLayout, "backgroundColor", new ArgbEvaluator(), colorFrom, colorTo)
+                .setDuration(duration)
+                .start();
+
+        deleteService(serviceName, price, categoryName);
 
     }
+
+    public void deleteService(final String serviceName, final String price, final String categoryName) {
+
+        db.collection("users")
+                .document(getIntent().getStringExtra("CurrentUser_UID")).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        Map userData = (Map) documentSnapshot.getData();
+                        Map currentUserServicesData = (Map) userData.get("Services");
+                        Map servicesWithinCategoryForUser = (Map) currentUserServicesData.get(categoryName);
+
+                        currentUserServicesData.remove(categoryName);
+                        servicesWithinCategoryForUser.remove(serviceName);
+
+                        //this is in case no more services within a category
+                        if (!servicesWithinCategoryForUser.isEmpty()) {
+                            servicesWithinCategoryForUser.put(categoryName, servicesWithinCategoryForUser);
+                        }
+
+                        userData.remove("Services");
+                        userData.put("Services", currentUserServicesData);
+
+
+                        db.collection("users")
+                                .document(getIntent().getStringExtra("CurrentUser_UID")).set(userData)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, (serviceName + " deleted from category " + categoryName));
+                                        updateUI();
+
+                                    }
+                                });
+                    }
+                });
+
+    }
+
 
     public void allServicesBtnClicked(View buttonSeeAdminServices) {
 
