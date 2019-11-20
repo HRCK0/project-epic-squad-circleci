@@ -86,12 +86,15 @@ public class ProfileTest {
         final String description = "TESTING DESCRIPTION" + random.nextInt(10);
         final String company = "TESTING COMPANY" + random.nextInt(10);
 
-        onView(withId(R.id.phoneNumberEditText)).perform(clearText()).perform(typeText(phoneNumber), closeSoftKeyboard());
-        onView(withId(R.id.addressEditText)).perform(clearText()).perform(typeText(address), closeSoftKeyboard());
-        onView(withId(R.id.descriptionEditText)).perform(clearText()).perform(typeText(description), closeSoftKeyboard());
-        onView(withId(R.id.nameOfCompanyEditText)).perform(clearText()).perform(typeText(company), closeSoftKeyboard());
+        Thread.sleep(2000);
 
-        onView(withId(R.id.saveButton)).perform(click());
+        onView(withId(R.id.addressEditText)).perform(clearText()).perform(typeText(address));
+        onView(withId(R.id.descriptionEditText)).perform(clearText()).perform(typeText(description));
+        onView(withId(R.id.nameOfCompanyEditText)).perform(clearText()).perform(typeText(company));
+       // onView(withId(R.id.phoneNumberEditText)).perform(clearText()).perform(typeText(phoneNumber));
+
+        Thread.sleep(2000);
+        onView(withText("Save")).perform(click());
         Thread.sleep(2000);
 
 
