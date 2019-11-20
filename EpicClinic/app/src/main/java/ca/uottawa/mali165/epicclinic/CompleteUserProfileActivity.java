@@ -102,6 +102,7 @@ public class CompleteUserProfileActivity extends AppCompatActivity {
     public void savedButtonClicked(View saveButton) {
         final String address = addressEditText.getText().toString();
         final String phoneNumber = phoneNumberEditText.getText().toString();
+        final String nameOfCompany = companyEditText.getText().toString();
         if (address.isEmpty()) {
             addressEditText.setError("Please enter an address"); //address is a mandatory field--> check
             addressEditText.requestFocus();
@@ -112,10 +113,15 @@ public class CompleteUserProfileActivity extends AppCompatActivity {
             phoneNumberEditText.setError("Please enter a phone number"); //phone number is a mandatory field--> check
             phoneNumberEditText.requestFocus();
 
-        } else {
+        }
+        else if(nameOfCompany.isEmpty())
+        {
+            companyEditText.setError("Please enter the name of the company"); //phone number is a mandatory field--> check
+            companyEditText.requestFocus();
+        }
+        else {
 
             final String description = descriptionEditText.getText().toString();
-            final String nameOfCompany = companyEditText.getText().toString();
             final boolean licensed;
 
             int selectedId = licensedRadioGroup.getCheckedRadioButtonId();
