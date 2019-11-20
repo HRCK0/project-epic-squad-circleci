@@ -49,7 +49,7 @@ To test espresso tests for deliverable 1 contents (login) please run LoginActivi
 - Password: password
 
 ### Relevant Information 
-By loggining in as an employee, you will be directed to the welcome screen with the aditional options: complete user profile, which includes additional information about the employee (name of company, address, licensed etc), add services (from the list of services provided by the admin), add availability. The employee will not be able to add services or add their availabilty until they complete the profile. The user is able to view and edit their services and availability. 
+By loggining in as an employee, you will be directed to the welcome screen with the additional options: complete user profile, which includes additional information about the employee (name of company, address, licensed etc), add services (from the list of services provided by the admin), add availability. The employee will not be able to add services or add their availabilty until they complete the profile. The user is able to view and edit their services and availability. 
  
  - The [UML Diagram](https://github.com/professor-forward/project-epic-squad/tree/f/deliverable03/docs/UML)
  - The [APK](https://github.com/professor-forward/project-epic-squad/blob/f/deliverable03/app-debug.apk)
