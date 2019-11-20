@@ -36,13 +36,23 @@ public class ProfileTest {
     @Rule
     public ActivityTestRule<LoginActivity> myActivtiyTestRule = new ActivityTestRule<>(LoginActivity.class);
 
+   /* @Test
+    public void checkUserProfile() throws InterruptedException
+    {
+        //runs both espresso tests, please call this method to run the code!
+        loginAndCheckFirebase();
+        Thread.sleep(2000);
+        editAndCheckFirebase();
+    }*/
+
+
     @Test
     public void loginAndCheckFirebase() throws InterruptedException {
 
         onView(withId(R.id.emailEditText)).perform(clearText()).perform(typeText("gabriel@ecare.com"), closeSoftKeyboard());
         onView(withId(R.id.passwordEditText)).perform(clearText()).perform(typeText("password"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
-        Thread.sleep(4000);
+        Thread.sleep(2000);
         onView(withId(R.id.profileBtn)).perform(click());
         Thread.sleep(3000);
 
@@ -69,11 +79,14 @@ public class ProfileTest {
     @Test
     public void editAndCheckFirebase() throws InterruptedException {
 
-        onView(withId(R.id.emailEditText)).perform(clearText()).perform(typeText("gabriel@ecare.com"), closeSoftKeyboard());
+
+       onView(withId(R.id.emailEditText)).perform(clearText()).perform(typeText("gabriel@ecare.com"), closeSoftKeyboard());
         onView(withId(R.id.passwordEditText)).perform(clearText()).perform(typeText("password"), closeSoftKeyboard());
-        onView(withId(R.id.loginButton)).perform(click());
-        Thread.sleep(4000);
-        onView(withId(R.id.profileBtn)).perform(click());
+        onView(withId(R.id.loginButton)).perform(click()); //changes activity*/
+        Thread.sleep(2000);
+        onView(withId(R.id.profileBtn)).perform(click()); //changes activity again
+
+
         Thread.sleep(3000);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -88,13 +101,17 @@ public class ProfileTest {
 
         Thread.sleep(2000);
 
-        onView(withId(R.id.addressEditText)).perform(clearText()).perform(typeText(address));
-        onView(withId(R.id.descriptionEditText)).perform(clearText()).perform(typeText(description));
-        onView(withId(R.id.nameOfCompanyEditText)).perform(clearText()).perform(typeText(company));
-       // onView(withId(R.id.phoneNumberEditText)).perform(clearText()).perform(typeText(phoneNumber));
 
+
+        onView(withId(R.id.addressEditText)).perform(clearText()).perform(typeText(address), closeSoftKeyboard());
+        onView(withId(R.id.saveButton)).perform(click());
+        onView(withId(R.id.descriptionEditText)).perform(clearText()).perform(typeText(description), closeSoftKeyboard());
+        onView(withId(R.id.nameOfCompanyEditText)).perform(clearText()).perform(typeText(company), closeSoftKeyboard());
         Thread.sleep(2000);
-        onView(withText("Save")).perform(click());
+        onView(withId(R.id.phoneNumberEditText)).perform(clearText()).perform(typeText(phoneNumber), closeSoftKeyboard());
+
+        Thread.sleep(3000);
+        onView(withId(R.id.saveButton)).perform(click());
         Thread.sleep(2000);
 
 
