@@ -149,6 +149,8 @@ public class WelcomeActivity extends AppCompatActivity {
     public void availabilityBtnClicked(View availabilityBtn) {
 
         Intent openAvailabilityWindow = new Intent(getApplicationContext(), AvailabilityActivity.class);
+        Employee employeeUser = (Employee) user;
+        openAvailabilityWindow.putExtra("employee", employeeUser);
         openAvailabilityWindow.putExtra("CurrentUser_UID", getIntent().getStringExtra("CurrentUser_UID"));
         startActivity(openAvailabilityWindow);
 
