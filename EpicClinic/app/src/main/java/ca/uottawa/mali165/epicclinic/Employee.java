@@ -3,17 +3,32 @@ package ca.uottawa.mali165.epicclinic;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 import ca.uottawa.mali165.epicclinic.Person;
 
 public class Employee extends Person implements Parcelable {
 
     boolean profileCompleted;
+    ArrayList<Service> servicesList= new ArrayList<Service> (100);
 
     public Employee(String firstName, String lastName, String emailAddress, String phoneNumber, boolean profileCompleted)
     {
         super(firstName, lastName, emailAddress, phoneNumber, Person.AccountType.EMPLOYEE );
         this.profileCompleted = profileCompleted;
     }
+
+    public void addService(Service service)
+    {
+        if(servicesList.indexOf(service)==-1) //when the program is terminated, the obejct is killed so when we have to reload pre-existing services, makes sure only one of each service exists
+            servicesList.add(service);
+    }
+
+    public void deleteService(Service service)
+    {
+        servicesList.remove(service);
+    }
+
     public boolean getProfileCompleted()
     {
         return profileCompleted;
@@ -22,6 +37,7 @@ public class Employee extends Person implements Parcelable {
     {
         this.profileCompleted=profileCompleted;
     }
+
     @Override
     public int describeContents() {
         return 0;

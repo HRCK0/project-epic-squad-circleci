@@ -48,6 +48,7 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
+    Employee user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +58,9 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
+        user = getIntent().getExtras().getParcelable("employee");
         updateUI();
+
     }
 
     public void showToast(String textToShow) {
@@ -106,6 +108,7 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
                                                     if(servicesWithinCategoryForAdmin.containsKey(service)){
                                                         Service serviceToAdd = new Service(serviceMap.get("name").toString(), serviceMap.get("price").toString(), category.toString());
                                                         serviceToDisplayList.add(serviceToAdd);
+                                                        user.addService(serviceToAdd);
 
                                                     }else{
 
@@ -173,6 +176,7 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
                 .start();
 
         deleteService(serviceName, price, categoryName);
+        user.deleteService(new Service(serviceName,price,categoryName)); //delete it locally
 
     }
 
