@@ -97,8 +97,6 @@ public class AvailabilityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final Map availabilityForEmployee = new HashMap();
-
                 String mondayFrom = mondayFromTime.getText().toString();
                 String mondayTo = mondayToTime.getText().toString();
                 String tuesdayFrom = tuesdayFromTime.getText().toString();
@@ -114,140 +112,206 @@ public class AvailabilityActivity extends AppCompatActivity {
                 String sundayFrom = sundayFromTime.getText().toString();
                 String sundayTo = sundayToTime.getText().toString();
 
-                String timeRegex = "^([01][0-9]|2[0-3]):[0-5][0-9]$";
+                boolean valid = checkTimeValidities(mondayFrom, mondayTo, tuesdayFrom, tuesdayTo, wednesdayFrom, wednesdayTo, thursdayFrom, thursdayTo, fridayFrom, fridayTo, saturdayFrom, saturdayTo, sundayFrom, sundayTo);
 
-                // check all time inputs
-                if (!mondayFrom.matches(timeRegex)){
-                    mondayFromTime.setError("Invalid Time Format. Please enter as HH:MM.");
-                    mondayFromTime.requestFocus();
-                } else if (!mondayTo.matches(timeRegex)) {
-                    mondayToTime.setError("Invalid Time Format. Please enter as HH:MM.");
-                    mondayToTime.requestFocus();
-                } else if (!tuesdayFrom.matches(timeRegex)) {
-                    tuesdayFromTime.setError("Invalid Time Format. Please enter as HH:MM.");
-                    tuesdayFromTime.requestFocus();
-                } else if (!tuesdayTo.matches(timeRegex)) {
-                    tuesdayToTime.setError("Invalid Time Format. Please enter as HH:MM.");
-                    tuesdayToTime.requestFocus();
-                } else if (!wednesdayFrom.matches(timeRegex)) {
-                    wednesdayFromTime.setError("Invalid Time Format. Please enter as HH:MM.");
-                    wednesdayFromTime.requestFocus();
-                } else if (!wednesdayTo.matches(timeRegex)) {
-                    wednesdayToTime.setError("Invalid Time Format. Please enter as HH:MM.");
-                    wednesdayToTime.requestFocus();
-                } else if (!thursdayFrom.matches(timeRegex)) {
-                    thursdayFromTime.setError("Invalid Time Format. Please enter as HH:MM.");
-                    thursdayFromTime.requestFocus();
-                } else if (!thursdayTo.matches(timeRegex)) {
-                    thursdayToTime.setError("Invalid Time Format. Please enter as HH:MM.");
-                    thursdayToTime.requestFocus();
-                } else if (!fridayFrom.matches(timeRegex)) {
-                    fridayFromTime.setError("Invalid Time Format. Please enter as HH:MM.");
-                    fridayFromTime.requestFocus();
-                } else if (!fridayTo.matches(timeRegex)) {
-                    fridayToTime.setError("Invalid Time Format. Please enter as HH:MM.");
-                    fridayToTime.requestFocus();
-                } else if (!saturdayFrom.matches(timeRegex)) {
-                    saturdayFromTime.setError("Invalid Time Format. Please enter as HH:MM.");
-                    saturdayFromTime.requestFocus();
-                } else if (!saturdayTo.matches(timeRegex)) {
-                    saturdayToTime.setError("Invalid Time Format. Please enter as HH:MM.");
-                    saturdayToTime.requestFocus();
-                } else if (!sundayFrom.matches(timeRegex)) {
-                    sundayFromTime.setError("Invalid Time Format. Please enter as HH:MM.");
-                    sundayFromTime.requestFocus();
-                } else if (!sundayTo.matches(timeRegex)) {
-                    sundayToTime.setError("Invalid Time Format. Please enter as HH:MM.");
-                    sundayToTime.requestFocus();
-                } else if (Integer.parseInt(mondayFrom.substring(0, 2)) > Integer.parseInt(mondayTo.substring(0, 2))){
-                    mondayFromTime.setError("Starting time cannot be before ending time");
-                    mondayFromTime.requestFocus();
-                } else if ((Integer.parseInt(mondayFrom.substring(0, 2)) == Integer.parseInt(mondayTo.substring(0, 2))) && (Integer.parseInt(mondayFrom.substring(3, 5)) > Integer.parseInt(mondayTo.substring(3, 5)))){
-                    mondayFromTime.setError("Starting time cannot be before ending time");
-                    mondayFromTime.requestFocus();
-                } else if (Integer.parseInt(tuesdayFrom.substring(0, 2)) > Integer.parseInt(tuesdayTo.substring(0, 2))){
-                    tuesdayFromTime.setError("Starting time cannot be before ending time");
-                    tuesdayFromTime.requestFocus();
-                } else if ((Integer.parseInt(tuesdayFrom.substring(0, 2)) == Integer.parseInt(tuesdayTo.substring(0, 2))) && (Integer.parseInt(tuesdayFrom.substring(3, 5)) > Integer.parseInt(tuesdayTo.substring(3, 5)))){
-                    tuesdayFromTime.setError("Starting time cannot be before ending time");
-                    tuesdayFromTime.requestFocus();
-                } else if (Integer.parseInt(wednesdayFrom.substring(0, 2)) > Integer.parseInt(wednesdayTo.substring(0, 2))){
-                    wednesdayFromTime.setError("Starting time cannot be before ending time");
-                    wednesdayFromTime.requestFocus();
-                } else if ((Integer.parseInt(wednesdayFrom.substring(0, 2)) == Integer.parseInt(wednesdayTo.substring(0, 2))) && (Integer.parseInt(wednesdayFrom.substring(3, 5)) > Integer.parseInt(wednesdayTo.substring(3, 5)))){
-                    wednesdayFromTime.setError("Starting time cannot be before ending time");
-                    wednesdayFromTime.requestFocus();
-                } else if (Integer.parseInt(thursdayFrom.substring(0, 2)) > Integer.parseInt(thursdayTo.substring(0, 2))){
-                    thursdayFromTime.setError("Starting time cannot be before ending time");
-                    thursdayFromTime.requestFocus();
-                } else if ((Integer.parseInt(thursdayFrom.substring(0, 2)) == Integer.parseInt(thursdayTo.substring(0, 2))) && (Integer.parseInt(thursdayFrom.substring(3, 5)) > Integer.parseInt(thursdayTo.substring(3, 5)))){
-                    thursdayFromTime.setError("Starting time cannot be before ending time");
-                    thursdayFromTime.requestFocus();
-                } else if (Integer.parseInt(fridayFrom.substring(0, 2)) > Integer.parseInt(fridayTo.substring(0, 2))){
-                    fridayFromTime.setError("Starting time cannot be before ending time");
-                    fridayFromTime.requestFocus();
-                } else if ((Integer.parseInt(fridayFrom.substring(0, 2)) == Integer.parseInt(fridayTo.substring(0, 2))) && (Integer.parseInt(fridayFrom.substring(3, 5)) > Integer.parseInt(fridayTo.substring(3, 5)))){
-                    fridayFromTime.setError("Starting time cannot be before ending time");
-                    fridayFromTime.requestFocus();
-                } else if (Integer.parseInt(saturdayFrom.substring(0, 2)) > Integer.parseInt(saturdayTo.substring(0, 2))){
-                    saturdayFromTime.setError("Starting time cannot be before ending time");
-                    saturdayFromTime.requestFocus();
-                } else if ((Integer.parseInt(saturdayFrom.substring(0, 2)) == Integer.parseInt(saturdayFrom.substring(0, 2))) && (Integer.parseInt(saturdayFrom.substring(3, 5)) > Integer.parseInt(saturdayTo.substring(3, 5)))){
-                    saturdayFromTime.setError("Starting time cannot be before ending time");
-                    saturdayFromTime.requestFocus();
-                } else if (Integer.parseInt(sundayFrom.substring(0, 2)) > Integer.parseInt(sundayTo.substring(0, 2))){
-                    sundayFromTime.setError("Starting time cannot be before ending time");
-                    sundayFromTime.requestFocus();
-                } else if ((Integer.parseInt(sundayFrom.substring(0, 2)) == Integer.parseInt(sundayTo.substring(0, 2))) && (Integer.parseInt(sundayFrom.substring(3, 5)) > Integer.parseInt(sundayTo.substring(3, 5)))){
-                    sundayFromTime.setError("Starting time cannot be before ending time");
-                    sundayFromTime.requestFocus();
-                } else {
-
-                    availabilityForEmployee.put("MondayFrom", mondayFrom);
-                    availabilityForEmployee.put("MondayTo", mondayTo);
-                    availabilityForEmployee.put("TuesdayFrom", tuesdayFrom);
-                    availabilityForEmployee.put("TuesdayTo", tuesdayTo);
-                    availabilityForEmployee.put("WednesdayFrom", wednesdayFrom);
-                    availabilityForEmployee.put("WednesdayTo", wednesdayTo);
-                    availabilityForEmployee.put("ThursdayFrom", thursdayFrom);
-                    availabilityForEmployee.put("ThursdayTo", thursdayTo);
-                    availabilityForEmployee.put("FridayFrom", fridayFrom);
-                    availabilityForEmployee.put("FridayTo", fridayTo);
-                    availabilityForEmployee.put("SaturdayFrom", saturdayFrom);
-                    availabilityForEmployee.put("SaturdayTo", saturdayTo);
-                    availabilityForEmployee.put("SundayFrom", sundayFrom);
-                    availabilityForEmployee.put("SundayTo", sundayTo);
-
-                    db.collection("users")
-                            .document(empId).get()
-                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                @Override
-                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    Map empData = documentSnapshot.getData();
-
-                                    if(empData.containsKey("availability")){
-                                        empData.remove("availability");
-                                    }
-
-                                    empData.put("availability", availabilityForEmployee);
-
-                                    db.collection("users").document(empId).set(empData)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Log.d(TAG, "Availability Updated Succesfully");
-                                                }
-                                            });
-                                    updateUI(availabilityForEmployee);
-
-                                }
-                            });
+                if (valid) {
+                    updateAvailability(mondayFrom, mondayTo, tuesdayFrom, tuesdayTo, wednesdayFrom, wednesdayTo, thursdayFrom, thursdayTo, fridayFrom, fridayTo, saturdayFrom, saturdayTo, sundayFrom, sundayTo);
                 }
 
 
             }
         });
 
+    }
+
+    public boolean checkTimeValidities(String mondayFrom, String mondayTo, String tuesdayFrom, String tuesdayTo, String wednesdayFrom,
+                                   String wednesdayTo, String thursdayFrom, String thursdayTo, String fridayFrom, String fridayTo,
+                                   String saturdayFrom, String saturdayTo, String sundayFrom, String sundayTo) {
+
+        // check all time inputs
+        // ctrl-c + ctrl-v at its finest
+        // sorry to whoever has to read this :/
+
+        String timeRegex = "^([01][0-9]|2[0-3]):[0-5][0-9]$";
+
+
+        if (!mondayFrom.matches(timeRegex) && !mondayFrom.isEmpty()){
+            mondayFromTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
+            mondayFromTime.requestFocus();
+            return false;
+        } else if (!mondayTo.matches(timeRegex) && !mondayFrom.isEmpty() && !mondayTo.isEmpty()) {
+            mondayToTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
+            mondayToTime.requestFocus();
+            return false;
+        } else if (!tuesdayFrom.matches(timeRegex) && !tuesdayFrom.isEmpty()) {
+            tuesdayFromTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
+            tuesdayFromTime.requestFocus();
+            return false;
+        } else if (!tuesdayTo.matches(timeRegex) && !tuesdayFrom.isEmpty() && !tuesdayTo.isEmpty()) {
+            tuesdayToTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
+            tuesdayToTime.requestFocus();
+            return false;
+        } else if (!wednesdayFrom.matches(timeRegex) && !wednesdayFrom.isEmpty()) {
+            wednesdayFromTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
+            wednesdayFromTime.requestFocus();
+            return false;
+        } else if (!wednesdayTo.matches(timeRegex) && !wednesdayFrom.isEmpty() && !wednesdayTo.isEmpty()) {
+            wednesdayToTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
+            wednesdayToTime.requestFocus();
+            return false;
+        } else if (!thursdayFrom.matches(timeRegex) && !thursdayFrom.isEmpty()) {
+            thursdayFromTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
+            thursdayFromTime.requestFocus();
+            return false;
+        } else if (!thursdayTo.matches(timeRegex) && !thursdayFrom.isEmpty() && !thursdayTo.isEmpty()) {
+            thursdayToTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
+            thursdayToTime.requestFocus();
+            return false;
+        } else if (!fridayFrom.matches(timeRegex) && !fridayFrom.isEmpty()) {
+            fridayFromTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
+            fridayFromTime.requestFocus();
+            return false;
+        } else if (!fridayTo.matches(timeRegex) && !fridayFrom.isEmpty() && !fridayTo.isEmpty()) {
+            fridayToTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
+            fridayToTime.requestFocus();
+            return false;
+        } else if (!saturdayFrom.matches(timeRegex) && !saturdayFrom.isEmpty()) {
+            saturdayFromTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
+            saturdayFromTime.requestFocus();
+            return false;
+        } else if (!saturdayTo.matches(timeRegex) && !saturdayTo.isEmpty() && !saturdayTo.isEmpty()) {
+            saturdayToTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
+            saturdayToTime.requestFocus();
+            return false;
+        } else if (!sundayFrom.matches(timeRegex) && !sundayFrom.isEmpty()) {
+            sundayFromTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
+            sundayFromTime.requestFocus();
+            return false;
+        } else if (!sundayTo.matches(timeRegex) && !sundayFrom.isEmpty() && !sundayTo.isEmpty()) {
+            sundayToTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
+            sundayToTime.requestFocus();
+            return false;
+        }
+
+        if (!mondayFrom.isEmpty()) {
+            if (Integer.parseInt(mondayFrom.substring(0, 2)) > Integer.parseInt(mondayTo.substring(0, 2)) && !mondayFrom.isEmpty() && !mondayFrom.isEmpty()){
+                mondayFromTime.setError("Starting time cannot be before ending time");
+                mondayFromTime.requestFocus();
+                return false;
+            } else if ((Integer.parseInt(mondayFrom.substring(0, 2)) == Integer.parseInt(mondayTo.substring(0, 2))) && (Integer.parseInt(mondayFrom.substring(3, 5)) > Integer.parseInt(mondayTo.substring(3, 5))) && !mondayFrom.isEmpty() && !mondayFrom.isEmpty()){
+                mondayFromTime.setError("Starting time cannot be before ending time");
+                mondayFromTime.requestFocus();
+                return false;
+            }
+        } else if (!tuesdayFrom.isEmpty()) {
+            if (Integer.parseInt(tuesdayFrom.substring(0, 2)) > Integer.parseInt(tuesdayTo.substring(0, 2)) && !mondayFrom.isEmpty()){
+                tuesdayFromTime.setError("Starting time cannot be before ending time");
+                tuesdayFromTime.requestFocus();
+                return false;
+            } else if ((Integer.parseInt(tuesdayFrom.substring(0, 2)) == Integer.parseInt(tuesdayTo.substring(0, 2))) && (Integer.parseInt(tuesdayFrom.substring(3, 5)) > Integer.parseInt(tuesdayTo.substring(3, 5))) && !mondayFrom.isEmpty() && !mondayFrom.isEmpty()){
+                tuesdayFromTime.setError("Starting time cannot be before ending time");
+                tuesdayFromTime.requestFocus();
+                return false;
+            }
+        } else if (!wednesdayFrom.isEmpty()) {
+            if (Integer.parseInt(wednesdayFrom.substring(0, 2)) > Integer.parseInt(wednesdayTo.substring(0, 2)) && !mondayFrom.isEmpty() && !mondayFrom.isEmpty()){
+                wednesdayFromTime.setError("Starting time cannot be before ending time");
+                wednesdayFromTime.requestFocus();
+                return false;
+            } else if ((Integer.parseInt(wednesdayFrom.substring(0, 2)) == Integer.parseInt(wednesdayTo.substring(0, 2))) && (Integer.parseInt(wednesdayFrom.substring(3, 5)) > Integer.parseInt(wednesdayTo.substring(3, 5))) && !mondayFrom.isEmpty() && !mondayFrom.isEmpty()){
+                wednesdayFromTime.setError("Starting time cannot be before ending time");
+                wednesdayFromTime.requestFocus();
+                return false;
+            }
+        } else if (!thursdayFrom.isEmpty()) {
+            if (Integer.parseInt(thursdayFrom.substring(0, 2)) > Integer.parseInt(thursdayTo.substring(0, 2)) && !mondayFrom.isEmpty() && !mondayFrom.isEmpty()){
+                thursdayFromTime.setError("Starting time cannot be before ending time");
+                thursdayFromTime.requestFocus();
+                return false;
+            } else if ((Integer.parseInt(thursdayFrom.substring(0, 2)) == Integer.parseInt(thursdayTo.substring(0, 2))) && (Integer.parseInt(thursdayFrom.substring(3, 5)) > Integer.parseInt(thursdayTo.substring(3, 5))) && !mondayFrom.isEmpty() && !mondayFrom.isEmpty()){
+                thursdayFromTime.setError("Starting time cannot be before ending time");
+                thursdayFromTime.requestFocus();
+                return false;
+            }
+        } else if (!fridayFrom.isEmpty()) {
+            if (Integer.parseInt(fridayFrom.substring(0, 2)) > Integer.parseInt(fridayTo.substring(0, 2)) && !mondayFrom.isEmpty() && !mondayFrom.isEmpty()){
+                fridayFromTime.setError("Starting time cannot be before ending time");
+                fridayFromTime.requestFocus();
+                return false;
+            } else if ((Integer.parseInt(fridayFrom.substring(0, 2)) == Integer.parseInt(fridayTo.substring(0, 2))) && (Integer.parseInt(fridayFrom.substring(3, 5)) > Integer.parseInt(fridayTo.substring(3, 5))) && !mondayFrom.isEmpty() && !mondayFrom.isEmpty()){
+                fridayFromTime.setError("Starting time cannot be before ending time");
+                fridayFromTime.requestFocus();
+                return false;
+            }
+        } else if (!saturdayFrom.isEmpty()) {
+            if (Integer.parseInt(saturdayFrom.substring(0, 2)) > Integer.parseInt(saturdayTo.substring(0, 2)) && !mondayFrom.isEmpty() && !mondayFrom.isEmpty()){
+                saturdayFromTime.setError("Starting time cannot be before ending time");
+                saturdayFromTime.requestFocus();
+                return false;
+            } else if ((Integer.parseInt(saturdayFrom.substring(0, 2)) == Integer.parseInt(saturdayFrom.substring(0, 2))) && (Integer.parseInt(saturdayFrom.substring(3, 5)) > Integer.parseInt(saturdayTo.substring(3, 5))) && !mondayFrom.isEmpty() && !mondayFrom.isEmpty()){
+                saturdayFromTime.setError("Starting time cannot be before ending time");
+                saturdayFromTime.requestFocus();
+                return false;
+            }
+        } else if (!sundayFrom.isEmpty()) {
+            if (Integer.parseInt(sundayFrom.substring(0, 2)) > Integer.parseInt(sundayTo.substring(0, 2)) && !mondayFrom.isEmpty() && !mondayFrom.isEmpty()){
+                sundayFromTime.setError("Starting time cannot be before ending time");
+                sundayFromTime.requestFocus();
+                return false;
+            } else if ((Integer.parseInt(sundayFrom.substring(0, 2)) == Integer.parseInt(sundayTo.substring(0, 2))) && (Integer.parseInt(sundayFrom.substring(3, 5)) > Integer.parseInt(sundayTo.substring(3, 5))) && !mondayFrom.isEmpty() && !mondayFrom.isEmpty()){
+                sundayFromTime.setError("Starting time cannot be before ending time");
+                sundayFromTime.requestFocus();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void updateAvailability(String mondayFrom, String mondayTo, String tuesdayFrom, String tuesdayTo, String wednesdayFrom,
+                                   String wednesdayTo, String thursdayFrom, String thursdayTo, String fridayFrom, String fridayTo,
+                                   String saturdayFrom, String saturdayTo, String sundayFrom, String sundayTo) {
+
+        final Map availabilityForEmployee = new HashMap();
+
+        availabilityForEmployee.put("MondayFrom", mondayFrom);
+        availabilityForEmployee.put("MondayTo", mondayTo);
+        availabilityForEmployee.put("TuesdayFrom", tuesdayFrom);
+        availabilityForEmployee.put("TuesdayTo", tuesdayTo);
+        availabilityForEmployee.put("WednesdayFrom", wednesdayFrom);
+        availabilityForEmployee.put("WednesdayTo", wednesdayTo);
+        availabilityForEmployee.put("ThursdayFrom", thursdayFrom);
+        availabilityForEmployee.put("ThursdayTo", thursdayTo);
+        availabilityForEmployee.put("FridayFrom", fridayFrom);
+        availabilityForEmployee.put("FridayTo", fridayTo);
+        availabilityForEmployee.put("SaturdayFrom", saturdayFrom);
+        availabilityForEmployee.put("SaturdayTo", saturdayTo);
+        availabilityForEmployee.put("SundayFrom", sundayFrom);
+        availabilityForEmployee.put("SundayTo", sundayTo);
+
+        db.collection("users")
+                .document(empId).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Map empData = documentSnapshot.getData();
+
+                        if(empData.containsKey("availability")){
+                            empData.remove("availability");
+                        }
+
+                        empData.put("availability", availabilityForEmployee);
+
+                        db.collection("users").document(empId).set(empData)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "Availability Updated Succesfully");
+                                    }
+                                });
+                        updateUI(availabilityForEmployee);
+
+                    }
+                });
     }
 
     /**
