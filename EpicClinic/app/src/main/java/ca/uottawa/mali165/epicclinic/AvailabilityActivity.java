@@ -139,59 +139,59 @@ public class AvailabilityActivity extends AppCompatActivity {
         String timeRegex = "(([01][0-9]|2[0-3]):[0-5][0-9]$)|[\" \"]";
 
 
-        if (!mondayFrom.matches(timeRegex)){
+        if (!mondayFrom.matches(timeRegex) && !(mondayFrom.isEmpty() && mondayTo.isEmpty())){
             mondayFromTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
             mondayFromTime.requestFocus();
             return false;
-        } else if (!mondayTo.matches(timeRegex)) {
+        } else if (!mondayTo.matches(timeRegex) && !(mondayFrom.isEmpty() && mondayTo.isEmpty())) {
             mondayToTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
             mondayToTime.requestFocus();
             return false;
-        } else if (!tuesdayFrom.matches(timeRegex)) {
+        } else if (!tuesdayFrom.matches(timeRegex) && !(tuesdayFrom.isEmpty() && tuesdayTo.isEmpty())) {
             tuesdayFromTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
             tuesdayFromTime.requestFocus();
             return false;
-        } else if (!tuesdayTo.matches(timeRegex)) {
+        } else if (!tuesdayTo.matches(timeRegex) && !(tuesdayFrom.isEmpty() && tuesdayTo.isEmpty())) {
             tuesdayToTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
             tuesdayToTime.requestFocus();
             return false;
-        } else if (!wednesdayFrom.matches(timeRegex)) {
+        } else if (!wednesdayFrom.matches(timeRegex) && !(wednesdayFrom.isEmpty() && wednesdayTo.isEmpty())) {
             wednesdayFromTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
             wednesdayFromTime.requestFocus();
             return false;
-        } else if (!wednesdayTo.matches(timeRegex)) {
+        } else if (!wednesdayTo.matches(timeRegex) && !(wednesdayFrom.isEmpty() && wednesdayFrom.isEmpty())) {
             wednesdayToTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
             wednesdayToTime.requestFocus();
             return false;
-        } else if (!thursdayFrom.matches(timeRegex)) {
+        } else if (!thursdayFrom.matches(timeRegex) && !(thursdayFrom.isEmpty() && thursdayTo.isEmpty())) {
             thursdayFromTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
             thursdayFromTime.requestFocus();
             return false;
-        } else if (!thursdayTo.matches(timeRegex)) {
+        } else if (!thursdayTo.matches(timeRegex) && !(thursdayFrom.isEmpty() && thursdayTo.isEmpty())) {
             thursdayToTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
             thursdayToTime.requestFocus();
             return false;
-        } else if (!fridayFrom.matches(timeRegex)) {
+        } else if (!fridayFrom.matches(timeRegex) && !(fridayFrom.isEmpty() && fridayTo.isEmpty())) {
             fridayFromTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
             fridayFromTime.requestFocus();
             return false;
-        } else if (!fridayTo.matches(timeRegex)) {
+        } else if (!fridayTo.matches(timeRegex) && !(fridayFrom.isEmpty() && fridayTo.isEmpty())) {
             fridayToTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
             fridayToTime.requestFocus();
             return false;
-        } else if (!saturdayFrom.matches(timeRegex)) {
+        } else if (!saturdayFrom.matches(timeRegex) && !(saturdayFrom.isEmpty() && saturdayTo.isEmpty())) {
             saturdayFromTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
             saturdayFromTime.requestFocus();
             return false;
-        } else if (!saturdayTo.matches(timeRegex)) {
+        } else if (!saturdayTo.matches(timeRegex) && !(saturdayFrom.isEmpty() && saturdayTo.isEmpty())) {
             saturdayToTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
             saturdayToTime.requestFocus();
             return false;
-        } else if (!sundayFrom.matches(timeRegex)) {
+        } else if (!sundayFrom.matches(timeRegex) && !(sundayFrom.isEmpty() && sundayTo.isEmpty())) {
             sundayFromTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
             sundayFromTime.requestFocus();
             return false;
-        } else if (!sundayTo.matches(timeRegex)) {
+        } else if (!sundayTo.matches(timeRegex) && !(sundayFrom.isEmpty() && sundayTo.isEmpty())) {
             sundayToTime.setError("Invalid Time Format. Please enter as HH:MM (24 hour time) or leave both start and end empty for this day.");
             sundayToTime.requestFocus();
             return false;
