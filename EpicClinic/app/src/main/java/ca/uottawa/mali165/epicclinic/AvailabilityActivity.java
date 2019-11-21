@@ -22,6 +22,8 @@ public class AvailabilityActivity extends AppCompatActivity {
     private static final String TAG = "AvailabilityActivity";
     String empId;
 
+    Employee employee;
+
     EditText mondayFromTime;
     EditText mondayToTime;
 
@@ -49,6 +51,8 @@ public class AvailabilityActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_availability);
+
+        employee = getIntent().getExtras().getParcelable("employee");
 
         Button updateButton = findViewById(R.id.updateAvailabilityBtn);
 
@@ -271,22 +275,24 @@ public class AvailabilityActivity extends AppCompatActivity {
                                    String wednesdayTo, String thursdayFrom, String thursdayTo, String fridayFrom, String fridayTo,
                                    String saturdayFrom, String saturdayTo, String sundayFrom, String sundayTo) {
 
-        final Map availabilityForEmployee = new HashMap();
+        final HashMap availabilityMap = new HashMap();
 
-        availabilityForEmployee.put("MondayFrom", mondayFrom);
-        availabilityForEmployee.put("MondayTo", mondayTo);
-        availabilityForEmployee.put("TuesdayFrom", tuesdayFrom);
-        availabilityForEmployee.put("TuesdayTo", tuesdayTo);
-        availabilityForEmployee.put("WednesdayFrom", wednesdayFrom);
-        availabilityForEmployee.put("WednesdayTo", wednesdayTo);
-        availabilityForEmployee.put("ThursdayFrom", thursdayFrom);
-        availabilityForEmployee.put("ThursdayTo", thursdayTo);
-        availabilityForEmployee.put("FridayFrom", fridayFrom);
-        availabilityForEmployee.put("FridayTo", fridayTo);
-        availabilityForEmployee.put("SaturdayFrom", saturdayFrom);
-        availabilityForEmployee.put("SaturdayTo", saturdayTo);
-        availabilityForEmployee.put("SundayFrom", sundayFrom);
-        availabilityForEmployee.put("SundayTo", sundayTo);
+        availabilityMap.put("MondayFrom", mondayFrom);
+        availabilityMap.put("MondayTo", mondayTo);
+        availabilityMap.put("TuesdayFrom", tuesdayFrom);
+        availabilityMap.put("TuesdayTo", tuesdayTo);
+        availabilityMap.put("WednesdayFrom", wednesdayFrom);
+        availabilityMap.put("WednesdayTo", wednesdayTo);
+        availabilityMap.put("ThursdayFrom", thursdayFrom);
+        availabilityMap.put("ThursdayTo", thursdayTo);
+        availabilityMap.put("FridayFrom", fridayFrom);
+        availabilityMap.put("FridayTo", fridayTo);
+        availabilityMap.put("SaturdayFrom", saturdayFrom);
+        availabilityMap.put("SaturdayTo", saturdayTo);
+        availabilityMap.put("SundayFrom", sundayFrom);
+        availabilityMap.put("SundayTo", sundayTo);
+
+        employee.updateAvailability(availabilityMap);
 
         db.collection("users")
                 .document(empId).get()
@@ -299,7 +305,7 @@ public class AvailabilityActivity extends AppCompatActivity {
                             empData.remove("availability");
                         }
 
-                        empData.put("availability", availabilityForEmployee);
+                        empData.put("availability", availabilityMap);
 
                         db.collection("users").document(empId).set(empData)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -308,7 +314,7 @@ public class AvailabilityActivity extends AppCompatActivity {
                                         Log.d(TAG, "Availability Updated Succesfully");
                                     }
                                 });
-                        updateUI(availabilityForEmployee);
+                        updateUI(availabilityMap);
 
                     }
                 });

@@ -4,12 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import ca.uottawa.mali165.epicclinic.Person;
 
 public class Employee extends Person implements Parcelable {
 
     boolean profileCompleted;
+    HashMap availabilty;
+
     ArrayList<Service> servicesList= new ArrayList<Service> (100);
 
     public Employee(String firstName, String lastName, String emailAddress, String phoneNumber, boolean profileCompleted)
@@ -72,6 +75,10 @@ public class Employee extends Person implements Parcelable {
         dest.writeString(getEmail());
         dest.writeString(getPhoneNumber());
         dest.writeString(this.getAccountType().name());
+    }
+
+    public void updateAvailability(HashMap availability) {
+        this.availabilty = availability;
     }
 
 }
