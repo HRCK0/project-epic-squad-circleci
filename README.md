@@ -2,6 +2,8 @@
 
 ## Team Members
 
+[![Build Status](https://circleci.com/gh/SEG2105F18/ProductCatalog.png?branch=master)](https://circleci.com/gh/professor-forward/project-epic-squad/tree/f%2Fdeliverable04)
+
 | Name | Student Number |
 | --- | --- |
 | Ruwani De Alwis | 300057076 |
