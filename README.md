@@ -2,7 +2,7 @@
 
 ## Team Members
 Current build status \[CircleCI\]: 
-[![Build Status](https://circleci.com/gh/professor-forward/project-epic-squad.png)](https://circleci.com/gh/professor-forward/project-epic-squad)
+[![Build Status](https://circleci.com/gh/professor-forward/project-epic-squad.png?branch=deliverable04)](https://circleci.com/gh/professor-forward/project-epic-squad)
 
 | Name | Student Number |
 | --- | --- |
