@@ -131,7 +131,7 @@ public class WelcomeActivity extends AppCompatActivity {
         }
         else
         {
-            Intent openServicesWindow = new Intent(getApplicationContext(), ServicesActivityNonAdmin.class);
+            Intent openServicesWindow = new Intent(getApplicationContext(), PatientServices.class);
             startActivity(openServicesWindow);
         }
 
