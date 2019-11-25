@@ -377,22 +377,20 @@ public class ServicesActivity extends AppCompatActivity {
                 Map servicesData = documentSnapshot.getData();
                 boolean alreadyExists = false;
 
-                if(!serviceNameInitial.equals(newServiceName) || !categoryNameInitial.equals(newCategoryName)){
-                  //below code verifes that service does not already exist
-                  if (servicesData.containsKey(newCategoryName)) {
-                    Map servicesWithinNewCategoryMap = (Map) servicesData.get(newCategoryName);
+                if(categoryNameInitial.equals(newCategoryName) && roleNameInitial.equals(newRoleName)){
 
-                    //to verify that service name within a preexisting category does not already exist
-                    if (servicesWithinNewCategoryMap.get(newServiceName) != null) {
-                      showToast("Service already exists");
-                      alreadyExists = true;
-                    }
-                  }
-                }else{
-                  alreadyExists=false;
                 }
 
+                //below code verifes that service does not already exist
+                if (servicesData.containsKey(newCategoryName)) {
+                  Map servicesWithinNewCategoryMap = (Map) servicesData.get(newCategoryName);
 
+                  //to verify that service name within a preexisting category does not already exist
+                  if (servicesWithinNewCategoryMap.get(newServiceName) != null) {
+                    showToast("Service already exists");
+                    alreadyExists = true;
+                  }
+                }
 
                 //add new service with the edited data and remove old one
                 //the below delete service is special method as it will also call the add method within it to add the updated service

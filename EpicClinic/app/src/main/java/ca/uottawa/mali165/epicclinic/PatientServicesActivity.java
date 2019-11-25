@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -15,6 +16,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +50,18 @@ public class PatientServicesActivity extends AppCompatActivity {
 
     }
 
+    public Map getAvailability(){
+        Map availabilityMap = new HashMap<String, List<String>>();
+        Spinner daySpinner = findViewById(R.id.daySpinner);
+        Spinner fromSpinner = findViewById(R.id.fromSpinner);
+        Spinner toSpinner = findViewById(R.id.toSpinner);
+        List times = new LinkedList<String>();
+        times.add(fromSpinner.getSelectedItem().toString());
+        times.add(toSpinner.getSelectedItem().toString());
+        availabilityMap.put(daySpinner.getSelectedItem().toString(), times);
+        return availabilityMap;
+    }
+
     public void updateUI() {
 
         final Activity t = this;
@@ -71,7 +85,8 @@ public class PatientServicesActivity extends AppCompatActivity {
 
                                     String serviceName = (String) serviceData.get("name");
                                     String price = (String) serviceData.get("price");
-                                    list.add(new Service(serviceName, price, category.toString()));
+                                    String role = (String) serviceData.get("role");
+                                    list.add(new Service(serviceName, price, category.toString(), role));
 
 
                                 }
