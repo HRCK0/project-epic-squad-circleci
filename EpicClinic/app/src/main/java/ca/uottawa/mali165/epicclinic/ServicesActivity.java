@@ -71,7 +71,7 @@ public class ServicesActivity extends AppCompatActivity {
    */
   public void onClickAddNewService(View newServiceBtn) {
 
-    createAlertDialogToAddOrEditService("", "", "", false);
+    createAlertDialogToAddOrEditService("", "", "", "",false);
 
   }
 
@@ -94,7 +94,17 @@ public class ServicesActivity extends AppCompatActivity {
     final String categoryNameInitial = categoryNameView.getText().toString();
     final String priceNameInitial = priceNameView.getText().toString();
 
-    createAlertDialogToAddOrEditService(serviceNameInitial, priceNameInitial, categoryNameInitial, true);
+    db.collection("services").document("services").get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+              @Override
+              public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Map servicesData = documentSnapshot.getData();
+                Map categoryData = (Map) servicesData.get(categoryNameInitial);
+                Map serviceWithinCategoryData = (Map) categoryData.get(serviceNameInitial);
+                createAlertDialogToAddOrEditService(serviceNameInitial, priceNameInitial, categoryNameInitial, serviceWithinCategoryData.get("role").toString(), true);
+              }
+            });
+
 
   }
 
@@ -122,7 +132,7 @@ public class ServicesActivity extends AppCompatActivity {
             .setDuration(duration)
             .start();
 
-    deleteService(serviceName, price, categoryName, null, null, null, null);
+    deleteService(serviceName, price, categoryName, null, null, null, null, null);
 
   }
 
@@ -143,32 +153,38 @@ public class ServicesActivity extends AppCompatActivity {
    * @param category    : the category field
    * @return : a boolean thats true if the fields in the alert dialog are not empty
    */
-  private boolean validateDialogFieldsAndDisplayIfEmpty(EditText serviceName, EditText price, EditText category) {
+  private boolean validateDialogFieldsAndDisplayIfEmpty(EditText serviceName, EditText price, EditText category, EditText role) {
 
     boolean serviceNameEmpty = serviceName.getText().toString().isEmpty();
     boolean priceEmpty = price.getText().toString().isEmpty();
     boolean categoryEmpty = category.getText().toString().isEmpty();
+    boolean roleEmpty = role.getText().toString().isEmpty();
 
-    if (!serviceNameEmpty && !priceEmpty && !categoryEmpty) {
+    if (!serviceNameEmpty && !priceEmpty && !categoryEmpty && !roleEmpty) {
       return true;
     }
 
-    if (serviceNameEmpty && !priceEmpty && !categoryEmpty) {
+    if (serviceNameEmpty && !priceEmpty && !categoryEmpty && !roleEmpty) {
       serviceName.setError("Please fill service name");
       serviceName.requestFocus();
-    } else if (priceEmpty && !serviceNameEmpty && !categoryEmpty) {
+    } else if (priceEmpty && !serviceNameEmpty && !categoryEmpty && !roleEmpty) {
       price.setError("Please fill price field");
       price.requestFocus();
-    } else if (categoryEmpty && !serviceNameEmpty && !priceEmpty) {
+    } else if (categoryEmpty && !serviceNameEmpty && !priceEmpty && !roleEmpty) {
       category.setError("Please fill category field");
       category.requestFocus();
-    } else {
+    } else if(!categoryEmpty && !serviceNameEmpty && !priceEmpty && roleEmpty){
+      role.setError("Please fill role field");
+      role.requestFocus();
+    }else {
       serviceName.setError("Please fill service name");
       serviceName.requestFocus();
       price.setError("Please fill price field");
       price.requestFocus();
       category.setError("Please fill category field");
       category.requestFocus();
+      role.setError("Please fill role field");
+      role.requestFocus();
     }
 
     return false;
@@ -182,9 +198,10 @@ public class ServicesActivity extends AppCompatActivity {
    * @param serviceNameInitial : the initial name to be in the service name field
    * @param priceNameInitial   : the initial name ot be in the price name field
    * @param categoryInitial    : the initial name to be in the category field
+   * @param roleInitial        : the inital value to be put into the role field
    * @param editBtnClicked     : if a service was being edited, this would true otherwise false
    */
-  public void createAlertDialogToAddOrEditService(final String serviceNameInitial, final String priceNameInitial, final String categoryInitial, final boolean editBtnClicked) {
+  public void createAlertDialogToAddOrEditService(final String serviceNameInitial, final String priceNameInitial, final String categoryInitial, final String roleInitial, final boolean editBtnClicked) {
 
     //building dialog below
     final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -208,16 +225,23 @@ public class ServicesActivity extends AppCompatActivity {
     categoryInput.setHint("Category of Service");
     categoryInput.setText(categoryInitial);
     categoryInput.setText(categoryInitial);
+    final EditText roleInput = new EditText(this);
+    roleInput.setHint("Role (Doctor, Nurse, etc)");
+    roleInput.setText(roleInitial);
+    roleInput.setText(roleInitial);
+
 
     //setting input types of text fields
     serviceNameInput.setInputType(InputType.TYPE_CLASS_TEXT);
     servicePriceInput.setInputType(InputType.TYPE_CLASS_NUMBER);
     categoryInput.setInputType(InputType.TYPE_CLASS_TEXT);
+    roleInput.setInputType(InputType.TYPE_CLASS_TEXT);
 
     //adding text fields to linear layout and then to builder
     layout.addView(serviceNameInput);
     layout.addView(servicePriceInput);
     layout.addView(categoryInput);
+    layout.addView(roleInput);
 
     builder.setView(layout);
 
@@ -248,12 +272,13 @@ public class ServicesActivity extends AppCompatActivity {
         final String newServiceName = serviceNameInput.getText().toString();
         final String newPrice = servicePriceInput.getText().toString();
         final String newCategoryName = categoryInput.getText().toString();
+        final String newRole = roleInput.getText().toString();
 
-        if (validateDialogFieldsAndDisplayIfEmpty(serviceNameInput, servicePriceInput, categoryInput)) { //validate the fields
+        if (validateDialogFieldsAndDisplayIfEmpty(serviceNameInput, servicePriceInput, categoryInput, roleInput)) { //validate the fields
           if (editBtnClicked) { //being edited
-            editService(serviceNameInitial, priceNameInitial, categoryInitial, newServiceName, newPrice, newCategoryName, dialog); // will close dialog by itself if successfuly added
+            editService(serviceNameInitial, priceNameInitial, categoryInitial, roleInitial, newServiceName, newPrice, newCategoryName, newRole, dialog); // will close dialog by itself if successfuly added
           } else { //new service being added
-            addService(newServiceName, newPrice, newCategoryName, dialog); //will close dialog if successfuly edited
+            addService(newServiceName, newPrice, newCategoryName, newRole, dialog); //will close dialog if successfuly edited
           }
         }
       }
@@ -270,10 +295,11 @@ public class ServicesActivity extends AppCompatActivity {
    * @param categoryName : category name of service
    * @param dialog : the alert dialog from which the service data was entered
    */
-  public void addService(final String serviceName, final String servicePrice, final String categoryName, final AlertDialog dialog) {
+  public void addService(final String serviceName, final String servicePrice, final String categoryName, final String roleName, final AlertDialog dialog) {
     final HashMap serviceToAdd = new HashMap();
     serviceToAdd.put("name", serviceName);
     serviceToAdd.put("price", servicePrice);
+    serviceToAdd.put("role", roleName);
 
     db.collection("services").document("services").get()
             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -341,7 +367,7 @@ public class ServicesActivity extends AppCompatActivity {
    * @param newPrice        : edited price name
    * @param dialog          : the dialog in which the service data was edited
    */
-  public void editService(final String serviceNameInitial, final String priceNameInitial, final String categoryNameInitial, final String newServiceName, final String newPrice, final String newCategoryName, final AlertDialog dialog) {
+  public void editService(final String serviceNameInitial, final String priceNameInitial, final String categoryNameInitial, final String roleNameInitial, final String newServiceName, final String newPrice, final String newCategoryName, final String newRoleName, final AlertDialog dialog) {
 
     db.collection("services")
             .document("services").get()
@@ -351,21 +377,27 @@ public class ServicesActivity extends AppCompatActivity {
                 Map servicesData = documentSnapshot.getData();
                 boolean alreadyExists = false;
 
-                //below code verifes that service does not already exist
-                if (servicesData.containsKey(newCategoryName)) {
-                  Map servicesWithinNewCategoryMap = (Map) servicesData.get(newCategoryName);
+                if(!serviceNameInitial.equals(newServiceName) || !categoryNameInitial.equals(newCategoryName)){
+                  //below code verifes that service does not already exist
+                  if (servicesData.containsKey(newCategoryName)) {
+                    Map servicesWithinNewCategoryMap = (Map) servicesData.get(newCategoryName);
 
-                  //to verify that service name within a preexisting category does not already exist
-                  if (servicesWithinNewCategoryMap.get(newServiceName) != null) {
-                    showToast("Service already exists");
-                    alreadyExists = true;
+                    //to verify that service name within a preexisting category does not already exist
+                    if (servicesWithinNewCategoryMap.get(newServiceName) != null) {
+                      showToast("Service already exists");
+                      alreadyExists = true;
+                    }
                   }
+                }else{
+                  alreadyExists=false;
                 }
+
+
 
                 //add new service with the edited data and remove old one
                 //the below delete service is special method as it will also call the add method within it to add the updated service
                 if (!alreadyExists) {
-                  deleteService(serviceNameInitial, priceNameInitial, categoryNameInitial, newServiceName, newPrice, newCategoryName, dialog);
+                  deleteService(serviceNameInitial, priceNameInitial, categoryNameInitial, newServiceName, newPrice, newCategoryName, newRoleName, dialog);
                 }
                 //no need to update ui as above methods already do so
 
@@ -381,7 +413,7 @@ public class ServicesActivity extends AppCompatActivity {
    * @param categoryName : the name of the category for the service being deleted
    * All the new params and the dialog are if the service being deleted is to be replaced by another one (meanig this method called from edit), null if its not
    */
-  public void deleteService(final String serviceName, final String price, final String categoryName, final String newServiceName, final String newPrice, final String newCategory, final AlertDialog dialog) {
+  public void deleteService(final String serviceName, final String price, final String categoryName, final String newServiceName, final String newPrice, final String newCategory, final String newRoleName, final AlertDialog dialog) {
 
     db.collection("services")
             .document("services").get()
@@ -407,7 +439,7 @@ public class ServicesActivity extends AppCompatActivity {
                             Log.d(TAG, (serviceName + " deleted from category " + categoryName));
                             updateUI();
                             if(newCategory!=null && newPrice!=null && newServiceName!=null){
-                              addService(newServiceName, newPrice, newCategory, dialog);
+                              addService(newServiceName, newPrice, newCategory, newRoleName, dialog);
                             }
                           }
                         });
