@@ -2,7 +2,7 @@
 
 ## Team Members
 
-[![Build Status](https://circleci.com/gh/professor-forward/project-epic-squad?branch=master)](https://circleci.com/gh/professor-forward/project-epic-squad)
+[![Build Status](https://circleci.com/gh/professor-forward/project-epic-squad.png?branch=master)](https://circleci.com/gh/professor-forward/project-epic-squad)
 
 | Name | Student Number |
 | --- | --- |
