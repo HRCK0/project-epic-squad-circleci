@@ -1,8 +1,5 @@
 package ca.uottawa.mali165.epicclinic;
 
-import ca.uottawa.mali165.epicclinic.R;
-import ca.uottawa.mali165.epicclinic.Person;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,7 +9,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -128,10 +124,8 @@ public class WelcomeActivity extends AppCompatActivity {
             openServicesWindow.putExtra("employee", employeeUser);
             openServicesWindow.putExtra("CurrentUser_UID", getIntent().getStringExtra("CurrentUser_UID"));
             startActivity(openServicesWindow);
-        }
-        else
-        {
-            Intent openServicesWindow = new Intent(getApplicationContext(), PatientServices.class);
+        } else {
+            Intent openServicesWindow = new Intent(getApplicationContext(), PatientServicesActivity.class);
             startActivity(openServicesWindow);
         }
 
