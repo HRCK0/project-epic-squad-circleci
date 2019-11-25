@@ -1,8 +1,8 @@
 # eCare Inc.
 
 ## Team Members
-
-[![Build Status](https://circleci.com/gh/professor-forward/project-epic-squad.png?branch=master)](https://circleci.com/gh/professor-forward/project-epic-squad)
+Current build status \[CircleCI\]: 
+[![Build Status](https://circleci.com/gh/professor-forward/project-epic-squad.png)](https://circleci.com/gh/professor-forward/project-epic-squad)
 
 | Name | Student Number |
 | --- | --- |
