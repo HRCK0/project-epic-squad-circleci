@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.Button;
 
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -74,6 +75,10 @@ public class RegisterActivity extends AppCompatActivity {
         user.put("email", email);
         user.put("phoneNumber", phoneNumber);
         user.put("role", role);
+
+        if (role.toUpperCase().equals("EMPLOYEE")) {
+            user.put("profileCompleted", false);
+        }
 
         if (email.isEmpty()) {
             emailEditText.setError("Please enter an email");

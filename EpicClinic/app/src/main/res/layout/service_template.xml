@@ -102,7 +102,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:background="@drawable/edit_icon"
-                        android:onClick="onEditServiceClick" />
+                        android:onClick="onClickEditService" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -117,7 +117,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:background="@drawable/delete_icon"
-                        android:onClick="onDeleteService" />
+                        android:onClick="onClickDeleteService" />
 
                 </LinearLayout>
 

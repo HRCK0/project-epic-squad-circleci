@@ -1,17 +1,31 @@
 package ca.uottawa.mali165.epicclinic;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.rpc.Help;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -23,14 +37,18 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
 
     private final Context t = this;
 
-    private static final String TAG = "ServicesActivityNonAdmin";
+    private static final String TAG = "ServicesNonAdmin";
 
     List<Service> serviceList = new LinkedList<>();
+    List<String> categoryList = new LinkedList<>();
+    List<String> serviceList2 = new LinkedList<>();
+
 
     ListView listView;
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
+    Employee user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,47 +58,201 @@ public class ServicesActivityNonAdmin extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
+        user = getIntent().getExtras().getParcelable("employee");
         updateUI();
+
+    }
+
+    public void showToast(String textToShow) {
+        Toast.makeText(ServicesActivityNonAdmin.this, textToShow, Toast.LENGTH_SHORT).show();
     }
 
     public void updateUI() {
         // implement code to update list with firebase services
 
+
         final Activity t = this;
 
         db.collection("services")
                 .document("services").get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        final Map servicesData = (Map) documentSnapshot.getData();
 
-                        if (task.isSuccessful()) {
-                            ArrayList<Service> list = new ArrayList<>();
-                            Map categories = task.getResult().getData();
+                        //querying users database
+                        db.collection("users")
+                                .document(getIntent().getStringExtra("CurrentUser_UID")).get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                            for (Object category : categories.keySet()) {
-                                Map categoryData = (Map) categories.get(category);
+                                        List serviceToDisplayList = new LinkedList();
 
-                                for (Object service : categoryData.keySet()) {
-                                    Map serviceData = (Map) categoryData.get(service);
+                                        if(!documentSnapshot.getData().containsKey("Services")){return;}
 
-                                    String serviceName = serviceData.get("name").toString();
-                                    String price = serviceData.get("price").toString();
-                                    list.add(new Service(serviceName, price, (String) category));
 
-                                }
+                                        Map userData = (Map) documentSnapshot.getData();
+                                        final Map currentUserServicesData = (Map) userData.get("Services");
 
-                            }
-                            serviceList = list;
-                        }
-                        ServicesListViewAdapterNonAdmin servicesListViewAdapter = new ServicesListViewAdapterNonAdmin(t, serviceList);
-                        listView.setAdapter(servicesListViewAdapter);
+                                        List servicesThatNoLongerExist = new LinkedList();
+                                        List categorysThatNoLongerExist = new LinkedList();
 
-                    }
-                });
-        // this code doesnt work
+
+                                        for(Object category : currentUserServicesData.keySet()){
+                                            if(servicesData.containsKey(category)){ //making sure that category of users service is a valid category
+                                                Map servicesWithinCategoryForAdmin = (Map) servicesData.get(category);
+                                                Map servicesWithinCategoryForUser = (Map) currentUserServicesData.get(category);
+                                                for(Object service : servicesWithinCategoryForUser.keySet()){ //if the category of users service was valid, then check to see if service name is valid
+                                                    Map serviceMap = (Map) servicesWithinCategoryForUser.get(service);
+                                                    if(servicesWithinCategoryForAdmin.containsKey(service)){
+                                                        Service serviceToAdd = new Service(serviceMap.get("name").toString(), serviceMap.get("price").toString(), category.toString());
+                                                        serviceToDisplayList.add(serviceToAdd);
+                                                        user.addService(serviceToAdd);
+
+                                                    }else{
+
+                                                        Service serviceThatNoLongerExists = new Service(serviceMap.get("name").toString(), serviceMap.get("price").toString(), category.toString());
+                                                        servicesThatNoLongerExist.add(serviceThatNoLongerExists);
+
+                                                    }
+                                                }
+                                            }else{
+                                                categorysThatNoLongerExist.add(category);
+                                            }
+                                        }
+
+                                        userData.remove("Services");
+
+                                        //removing all categories that no longer exist from current users db
+                                        for(Object category : categorysThatNoLongerExist){
+                                            currentUserServicesData.remove(category.toString());
+                                        }
+
+                                        //removing all services that no longer exist from current users db
+                                        for(Object service : servicesThatNoLongerExist){
+                                            Service serviceToRemove = (Service) service;
+                                            Map servicesWithinCategoryContainingServiceToRemove = (Map) currentUserServicesData.remove(serviceToRemove.getCategory());
+                                            servicesWithinCategoryContainingServiceToRemove.remove(serviceToRemove.getName());
+                                            if(!servicesWithinCategoryContainingServiceToRemove.isEmpty()){ //ensuring that service removed wasnt last in category
+                                                currentUserServicesData.put(serviceToRemove.getCategory(), servicesWithinCategoryContainingServiceToRemove);
+                                            }
+                                        }
+
+                                        userData.put("Services", currentUserServicesData);
+
+                                        ServicesListViewAdapterNonAdmin servicesListViewAdapter = new ServicesListViewAdapterNonAdmin(t, serviceToDisplayList);
+                                        listView.setAdapter(servicesListViewAdapter);
+
+                                        db.collection("users").document(getIntent().getStringExtra("CurrentUser_UID")).set(userData)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Log.d(TAG, "Employee services updated succesfully");
+                                                    }
+                                                });
+                                    }});
+                    }});
+    }
+
+    public void onClickDeleteService(View delServiceBtn){
+
+        //Using the delete button that was clicked to get the other textfields relative to it
+        //specifcially text in service name field, category field and price field
+        LinearLayout serviceLayout = (LinearLayout) delServiceBtn.getParent().getParent().getParent().getParent();
+        TextView serviceNameView = serviceLayout.findViewById(R.id.serviceName2);
+        TextView categoryNameView = serviceLayout.findViewById(R.id.category2);
+        TextView priceView = serviceLayout.findViewById(R.id.price2);
+        final String serviceName = serviceNameView.getText().toString();
+        final String categoryName = categoryNameView.getText().toString();
+        final String price = priceView.getText().toString();
+
+        //Animating the service from black to red
+        int colorFrom = Color.BLACK;
+        int colorTo = Color.RED;
+        int duration = 1000;
+        ObjectAnimator.ofObject(serviceLayout, "backgroundColor", new ArgbEvaluator(), colorFrom, colorTo)
+                .setDuration(duration)
+                .start();
+
+        deleteService(serviceName, price, categoryName);
+        user.deleteService(new Service(serviceName,price,categoryName)); //delete it locally
 
     }
 
+    public void deleteService(final String serviceName, final String price, final String categoryName) {
+
+        db.collection("users")
+                .document(getIntent().getStringExtra("CurrentUser_UID")).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        Map userData = (Map) documentSnapshot.getData();
+                        Map currentUserServicesData = (Map) userData.get("Services");
+                        Map servicesWithinCategoryForUser = (Map) currentUserServicesData.get(categoryName);
+
+                        currentUserServicesData.remove(categoryName);
+                        servicesWithinCategoryForUser.remove(serviceName);
+
+                        //this is in case no more services within a category
+                        if (!servicesWithinCategoryForUser.isEmpty()) {
+                            currentUserServicesData.put(categoryName, servicesWithinCategoryForUser);
+                        }
+
+                        userData.remove("Services");
+                        userData.put("Services", currentUserServicesData);
+
+
+                        db.collection("users")
+                                .document(getIntent().getStringExtra("CurrentUser_UID")).set(userData)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, (serviceName + " deleted from category " + categoryName));
+                                        updateUI();
+
+                                    }
+                                });
+                    }
+                });
+
+    }
+
+
+    public void allServicesBtnClicked(View buttonSeeAdminServices) {
+
+        Intent openServicesWindow = new Intent(getApplicationContext(), ServicesActivityNonAdmin_2.class);
+//        Employee employeeUser = (Employee) user;
+//        openServicesWindow.putExtra("employee", employeeUser);
+        openServicesWindow.putExtra("CurrentUser_UID", getIntent().getStringExtra("CurrentUser_UID"));
+        startActivity(openServicesWindow);
+    }
+
+    public void deleteFromDB(final String category, final String service) {
+
+        db.collection("users")
+                .document(getIntent().getStringExtra("CurrentUser_UID")).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        Map empData = documentSnapshot.getData();
+                        Map services = (Map) documentSnapshot.get("Services");
+
+
+                        empData.remove("Services");
+
+                        if (service == null){
+                            services.remove(category);
+                        }else {
+                            Map servicesWithinCategoryMap = (Map) services.remove(category);
+                            servicesWithinCategoryMap.remove(service);
+                            services.put(category,servicesWithinCategoryMap);
+                        }
+                        empData.put("Services", services);
+                        db.collection("users").document(getIntent().getStringExtra("CurrentUser_UID")).set(empData);
+                    }
+                });
+    }
 }

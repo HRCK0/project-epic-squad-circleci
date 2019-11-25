@@ -14,13 +14,14 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Intent;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -42,8 +43,6 @@ public class ServicesActivity extends AppCompatActivity {
 
   List<Service> serviceList = new LinkedList<>();
 
-
-
   ListView listView;
 
   FirebaseAuth mAuth;
@@ -63,22 +62,285 @@ public class ServicesActivity extends AppCompatActivity {
     updateUI();
   }
 
-  public void showToast(String textToShow){
+  /**
+   * Will create an alert dialog where a user can input details about the new service being added
+   * The editBtnClicked param is false because this method is for adding not editing
+   *
+   * @param newServiceBtn : the add button that was clicked
+   */
+  public void onClickAddNewService(View newServiceBtn) {
+
+    createAlertDialogToAddOrEditService("", "", "", false);
+
+  }
+
+  /**
+   * Will create an alert dialog where a user can change the details about the service they want to edit
+   * The editBtnClicked param is true as this method is editing a service
+   *
+   * @param editServiceBtn : the edit button that was clicked
+   */
+  public void onClickEditService(View editServiceBtn) {
+
+    //Using the edit button that was clicked to get the other textfields relative to it
+    //specifcially text in service name field, category field and price field
+
+    LinearLayout serviceLayout = (LinearLayout) editServiceBtn.getParent().getParent().getParent().getParent();
+    TextView serviceNameView = serviceLayout.findViewById(R.id.serviceName);
+    TextView categoryNameView = serviceLayout.findViewById(R.id.category);
+    TextView priceNameView = serviceLayout.findViewById(R.id.price);
+    final String serviceNameInitial = serviceNameView.getText().toString();
+    final String categoryNameInitial = categoryNameView.getText().toString();
+    final String priceNameInitial = priceNameView.getText().toString();
+
+    createAlertDialogToAddOrEditService(serviceNameInitial, priceNameInitial, categoryNameInitial, true);
+
+  }
+
+  /**
+   * Method called when del buttn clicked and animates the deletion and delete the service from db and UI
+   * @param delServiceBtn : the button clicked to delete a given service
+   */
+  public void onClickDeleteService(View delServiceBtn){
+
+    //Using the delete button that was clicked to get the other textfields relative to it
+    //specifcially text in service name field, category field and price field
+    LinearLayout serviceLayout = (LinearLayout) delServiceBtn.getParent().getParent().getParent().getParent();
+    TextView serviceNameView = serviceLayout.findViewById(R.id.serviceName);
+    TextView categoryNameView = serviceLayout.findViewById(R.id.category);
+    TextView priceView = serviceLayout.findViewById(R.id.price);
+    final String serviceName = serviceNameView.getText().toString();
+    final String categoryName = categoryNameView.getText().toString();
+    final String price = priceView.getText().toString();
+
+    //Animating the service from black to red
+    int colorFrom = Color.BLACK;
+    int colorTo = Color.RED;
+    int duration = 1000;
+    ObjectAnimator.ofObject(serviceLayout, "backgroundColor", new ArgbEvaluator(), colorFrom, colorTo)
+            .setDuration(duration)
+            .start();
+
+    deleteService(serviceName, price, categoryName, null, null, null, null);
+
+  }
+
+  /**
+   * Creates a popup at the bottom of the screen for a quick message to the user
+   *
+   * @param textToShow : message to show to user
+   */
+  private void showToast(String textToShow) {
     Toast.makeText(ServicesActivity.this, textToShow, Toast.LENGTH_SHORT).show();
   }
 
-  public void updateDBAndUIToAddService(String servicename, String priceName, String cat, AlertDialog alertDialog){
-    final String category = cat;
-    final String serviceName = servicename;
-    final String price = priceName;
-    final AlertDialog dialog = alertDialog;
+  /**
+   * Will validate that the text input fields within the dialog box are not empty and if they are, will display on screen
+   *
+   * @param serviceName : the service name field
+   * @param price       : the price field
+   * @param category    : the category field
+   * @return : a boolean thats true if the fields in the alert dialog are not empty
+   */
+  private boolean validateDialogFieldsAndDisplayIfEmpty(EditText serviceName, EditText price, EditText category) {
 
-    db = FirebaseFirestore.getInstance();
+    boolean serviceNameEmpty = serviceName.getText().toString().isEmpty();
+    boolean priceEmpty = price.getText().toString().isEmpty();
+    boolean categoryEmpty = category.getText().toString().isEmpty();
 
-    final HashMap service = new HashMap();
-    final Activity t = this;
-    service.put("name", serviceName);
-    service.put("price", price);
+    if (!serviceNameEmpty && !priceEmpty && !categoryEmpty) {
+      return true;
+    }
+
+    if (serviceNameEmpty && !priceEmpty && !categoryEmpty) {
+      serviceName.setError("Please fill service name");
+      serviceName.requestFocus();
+    } else if (priceEmpty && !serviceNameEmpty && !categoryEmpty) {
+      price.setError("Please fill price field");
+      price.requestFocus();
+    } else if (categoryEmpty && !serviceNameEmpty && !priceEmpty) {
+      category.setError("Please fill category field");
+      category.requestFocus();
+    } else {
+      serviceName.setError("Please fill service name");
+      serviceName.requestFocus();
+      price.setError("Please fill price field");
+      price.requestFocus();
+      category.setError("Please fill category field");
+      category.requestFocus();
+    }
+
+    return false;
+
+  }
+
+  /**
+   * Will create a alert dialog that allows entry of service name, price name and category
+   * Will call edit/add methods depending on of editBtnClicked passed is null or not
+   *
+   * @param serviceNameInitial : the initial name to be in the service name field
+   * @param priceNameInitial   : the initial name ot be in the price name field
+   * @param categoryInitial    : the initial name to be in the category field
+   * @param editBtnClicked     : if a service was being edited, this would true otherwise false
+   */
+  public void createAlertDialogToAddOrEditService(final String serviceNameInitial, final String priceNameInitial, final String categoryInitial, final boolean editBtnClicked) {
+
+    //building dialog below
+    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    String title = editBtnClicked ? "Editing Service" : "Adding a new Service";
+    builder.setTitle(title);
+
+    //linear layout for dialog
+    LinearLayout layout = new LinearLayout(this);
+    layout.setOrientation(LinearLayout.VERTICAL);
+
+    //creating text fields inside dialog and setting initial values
+    final EditText serviceNameInput = new EditText(this);
+    serviceNameInput.setHint("Name");
+    serviceNameInput.setText(serviceNameInitial);
+    serviceNameInput.setText(serviceNameInitial);
+    final EditText servicePriceInput = new EditText(this);
+    servicePriceInput.setHint("Price");
+    servicePriceInput.setText(priceNameInitial);
+    servicePriceInput.setText(priceNameInitial);
+    final EditText categoryInput = new EditText(this);
+    categoryInput.setHint("Category of Service");
+    categoryInput.setText(categoryInitial);
+    categoryInput.setText(categoryInitial);
+
+    //setting input types of text fields
+    serviceNameInput.setInputType(InputType.TYPE_CLASS_TEXT);
+    servicePriceInput.setInputType(InputType.TYPE_CLASS_NUMBER);
+    categoryInput.setInputType(InputType.TYPE_CLASS_TEXT);
+
+    //adding text fields to linear layout and then to builder
+    layout.addView(serviceNameInput);
+    layout.addView(servicePriceInput);
+    layout.addView(categoryInput);
+
+    builder.setView(layout);
+
+    builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        //being overwritten below to precisely control when to close dialog
+      }
+    });
+
+    //cancel button
+    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        showToast("Cancelled dialog");
+        dialog.dismiss();
+      }
+    });
+
+    final AlertDialog dialog = builder.create();
+    dialog.show();
+
+    //This is to overwrte the previos positive button onclick and precisely control when to accept the okay click
+    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+
+        final String newServiceName = serviceNameInput.getText().toString();
+        final String newPrice = servicePriceInput.getText().toString();
+        final String newCategoryName = categoryInput.getText().toString();
+
+        if (validateDialogFieldsAndDisplayIfEmpty(serviceNameInput, servicePriceInput, categoryInput)) { //validate the fields
+          if (editBtnClicked) { //being edited
+            editService(serviceNameInitial, priceNameInitial, categoryInitial, newServiceName, newPrice, newCategoryName, dialog); // will close dialog by itself if successfuly added
+          } else { //new service being added
+            addService(newServiceName, newPrice, newCategoryName, dialog); //will close dialog if successfuly edited
+          }
+        }
+      }
+    });
+
+  }
+
+  /**
+   * Will add a service to the database (if it does not already exist) AND updates the UI accordingly
+   * Needs to be passed a dialog in which the data was entered
+   *
+   * @param serviceName  : name of service to be added
+   * @param servicePrice : price of service to be added
+   * @param categoryName : category name of service
+   * @param dialog : the alert dialog from which the service data was entered
+   */
+  public void addService(final String serviceName, final String servicePrice, final String categoryName, final AlertDialog dialog) {
+    final HashMap serviceToAdd = new HashMap();
+    serviceToAdd.put("name", serviceName);
+    serviceToAdd.put("price", servicePrice);
+
+    db.collection("services").document("services").get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+              @Override
+              public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Map servicesData = documentSnapshot.getData();
+
+                //if category already exists
+                if (servicesData.containsKey(categoryName)) {
+                  Map servicesWithinCategoryMap = (Map) servicesData.remove(categoryName);
+                  Map serviceMap = (Map) servicesWithinCategoryMap.get(serviceName);
+
+                  //verifying that the service name within same category does not already exist
+                  if (serviceMap != null) {
+                    showToast("Service Name Already Exists for Category");
+                    return;
+                  }
+
+                  servicesWithinCategoryMap.put(serviceName, serviceToAdd);
+                  servicesData.put(categoryName, servicesWithinCategoryMap);
+
+                  //reinserting the whole service data back into the services document with updated category info
+                  db.collection("services").document("services").set(servicesData)
+                          .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                              Log.d(TAG, "New Service with old category succesfully Created");
+                              dialog.dismiss();
+                              updateUI();
+                            }
+                          });
+
+                } else { //category does not already exist
+
+                  Map categoryData = new HashMap();
+                  categoryData.put(serviceName, serviceToAdd);
+                  servicesData.put(categoryName, categoryData);
+
+                  //inserting a whole new category with the new service into db
+                  db.collection("services").document("services").set(servicesData)
+                          .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                              Log.d(TAG, "New service with new category successfuly created");
+                              dialog.dismiss();
+                              updateUI();
+                            }
+                          });
+
+                }
+              }
+            });
+    user.addService(new Service(serviceName,servicePrice,categoryName));
+  }
+
+  /**
+   * Method will update a service in the db and the UI with new details as specified by the params
+   * Needs to be passed dialog in which the service data was edited
+   *
+   * @param serviceNameInitial : the initial vale of the service name being being edited
+   * @param priceNameInitial : the initial value of the price before editing
+   * @param categoryNameInitial : the inital value of the category being editing
+   * @param newServiceName  : the edited name of the service
+   * @param newCategoryName : the edited category name
+   * @param newPrice        : edited price name
+   * @param dialog          : the dialog in which the service data was edited
+   */
+  public void editService(final String serviceNameInitial, final String priceNameInitial, final String categoryNameInitial, final String newServiceName, final String newPrice, final String newCategoryName, final AlertDialog dialog) {
 
     db.collection("services")
             .document("services").get()
@@ -86,163 +348,79 @@ public class ServicesActivity extends AppCompatActivity {
               @Override
               public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Map servicesData = documentSnapshot.getData();
-                if (servicesData.containsKey(category)) {
+                boolean alreadyExists = false;
 
-                  Map servicesWithinCategoryMap = (Map) servicesData.remove(category);
-                  for(Object service : servicesWithinCategoryMap.keySet()){
-                    Map serviceMap = (Map) servicesWithinCategoryMap.get(service);
-                    if(serviceMap.get("name").equals(serviceName)){
-                      showToast("Service Name Already Exists for Category");
-                      return;
-                    }
+                //below code verifes that service does not already exist
+                if (servicesData.containsKey(newCategoryName)) {
+                  Map servicesWithinNewCategoryMap = (Map) servicesData.get(newCategoryName);
+
+                  //to verify that service name within a preexisting category does not already exist
+                  if (servicesWithinNewCategoryMap.get(newServiceName) != null) {
+                    showToast("Service already exists");
+                    alreadyExists = true;
                   }
-
-                  servicesWithinCategoryMap.put(serviceName, service);
-                  servicesData.put(category, servicesWithinCategoryMap);
-                  db.collection("services").document("services").set(servicesData)
-                          .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                              Log.d(TAG, "New Service Succesfully Created");
-                            }
-                          });
-                } else {
-                  Map categoryData = new HashMap();
-                  categoryData.put(serviceName, service);
-                  servicesData.put(category, categoryData);
-                  db.collection("services").document("services").set(servicesData);
                 }
-                if(dialog!=null){dialog.dismiss();}
-                updateUI(); //TEST
-                serviceList.add(0,new Service(serviceName, price, category)); //add the new element
 
-                ServicesListViewAdapter servicesListViewAdapter = new ServicesListViewAdapter(t,serviceList);
-                listView.setAdapter(servicesListViewAdapter);
-
-
+                //add new service with the edited data and remove old one
+                //the below delete service is special method as it will also call the add method within it to add the updated service
+                if (!alreadyExists) {
+                  deleteService(serviceNameInitial, priceNameInitial, categoryNameInitial, newServiceName, newPrice, newCategoryName, dialog);
+                }
+                //no need to update ui as above methods already do so
 
               }
             });
+
   }
 
-  public void addNewService(View newServiceBtn, final String defServiceName, final String defPrice, final String defCat, final boolean edit){
+  /**
+   * Method that deletes a service from the db and updates UI
+   * @param serviceName : The name of the service that is being deleted
+   * @param price : the price of the service being deleted
+   * @param categoryName : the name of the category for the service being deleted
+   * All the new params and the dialog are if the service being deleted is to be replaced by another one (meanig this method called from edit), null if its not
+   */
+  public void deleteService(final String serviceName, final String price, final String categoryName, final String newServiceName, final String newPrice, final String newCategory, final AlertDialog dialog) {
 
-    final String serviceNameDefault;
-    final String categoryDefault;
-    final String priceDefault;
-
-
-    if(defServiceName==null){
-      serviceNameDefault="";
-    } else{
-      serviceNameDefault=defServiceName;
-    }
-
-    if(defPrice==null){
-      priceDefault="";
-    } else{
-      priceDefault=defPrice;
-    }
-
-    if(defCat==null){
-      categoryDefault="";
-    } else{
-      categoryDefault=defCat;
-    }
-
-    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    String title = edit ? "Editing Service" : "Adding a new Service";
-    builder.setTitle(title);
-
-    LinearLayout layout = new LinearLayout(this);
-    layout.setOrientation(LinearLayout.VERTICAL);
-
-    final EditText serviceNameInput = new EditText(this);
-    serviceNameInput.setHint("Name");
-    serviceNameInput.setText(serviceNameDefault);
-    final EditText servicePriceInput = new EditText(this);
-    servicePriceInput.setHint("Price");
-    servicePriceInput.setText(priceDefault);
-    final EditText categoryInput = new EditText(this);
-    categoryInput.setHint("Category of Service");
-    categoryInput.setText(categoryDefault);
-
-
-    serviceNameInput.setInputType(InputType.TYPE_CLASS_TEXT);
-    servicePriceInput.setInputType(InputType.TYPE_CLASS_NUMBER);
-    categoryInput.setInputType(InputType.TYPE_CLASS_TEXT);
-
-    layout.addView(serviceNameInput);
-    layout.addView(servicePriceInput);
-    layout.addView(categoryInput);
-
-    builder.setView(layout);
-
-    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        if(edit){
-
-          updateDBAndUIToAddService(serviceNameDefault, priceDefault, categoryDefault, null);
-        }
-        finish();
-      }
-    });
-
-    builder.setPositiveButton("Save",
-            new DialogInterface.OnClickListener()
-            {
+    db.collection("services")
+            .document("services").get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
               @Override
-              public void onClick(DialogInterface dialog, int which)
-              {}
+              public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                Map servicesData = (Map) documentSnapshot.getData();
+                Map categoryData = (Map) servicesData.remove(categoryName);
+
+                categoryData.remove(serviceName);
+
+                //this is in case no more services within a category
+                if (!categoryData.isEmpty()) {
+                  servicesData.put(categoryName, categoryData);
+                }
+
+                db.collection("services")
+                        .document("services").set(servicesData)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                          @Override
+                          public void onSuccess(Void aVoid) {
+                            Log.d(TAG, (serviceName + " deleted from category " + categoryName));
+                            updateUI();
+                            if(newCategory!=null && newPrice!=null && newServiceName!=null){
+                              addService(newServiceName, newPrice, newCategory, dialog);
+                            }
+                          }
+                        });
+
+              }
             });
-
-    final AlertDialog dialog = builder.create();
-    dialog.setCancelable(false);
-    dialog.setCanceledOnTouchOutside(false);
-    dialog.show();
-
-    //Overriding the handler immediately after show is probably a better approach than OnShowListener as described below
-    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
-    {
-      @Override
-      public void onClick(View v)
-      {
-        final String serviceName = serviceNameInput.getText().toString();
-        final String price = servicePriceInput.getText().toString();
-        final String category = categoryInput.getText().toString();
-
-        if (serviceName.isEmpty()){
-          serviceNameInput.setError("Please enter a service name");
-          serviceNameInput.requestFocus();
-        } else if (price.isEmpty()) {
-          servicePriceInput.setError("Please enter a price");
-          servicePriceInput.requestFocus();
-        } else if (category.isEmpty()) {
-          categoryInput.setError("Please enter a category");
-          categoryInput.requestFocus();
-        } else {
-          // successful
-
-          updateDBAndUIToAddService(serviceName, price, category, dialog);
-          if(edit==true)
-            user.editService(new Service(defServiceName, defPrice, defCat), new Service(serviceName,price,category));
-          else
-            user.addService(new Service(serviceName,price,category));
-
-        }
-      }
-    });
-  }
-
-  public void onClickAddNewService(View newServiceBtn) {
-
-  addNewService(newServiceBtn, null, null, null, false);
+    user.deleteService(new Service(serviceName, price, categoryName));
 
   }
 
+  /**
+   * Method that will query the database for all of the services and display them in the UI
+   */
   public void updateUI() {
-    // implement code to update list with firebase services
 
     final Activity t = this;
 
@@ -278,106 +456,5 @@ public class ServicesActivity extends AppCompatActivity {
               }
             });
 
-    // this code doesnt work
-
-  }
-
-  public void onEditServiceClick(View editBtn){
-    LinearLayout serviceLayout = (LinearLayout) editBtn.getParent().getParent().getParent().getParent();
-    TextView serviceNameView = serviceLayout.findViewById(R.id.serviceName);
-    TextView categoryNameView = serviceLayout.findViewById(R.id.category);
-    TextView priceNameView = serviceLayout.findViewById(R.id.price);
-    final String serviceNameInitial = serviceNameView.getText().toString();
-    final String categoryNameInitial = categoryNameView.getText().toString();
-    final String priceNameInitial = priceNameView.getText().toString();
-
-
-    db.collection("services")
-            .document("services").get()
-            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-              @Override
-              public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Map servicesData = documentSnapshot.getData();
-
-                //the code to verify the service being edited is there is not really necessary since by editing you assume its already in the db
-                boolean found = false;
-                if (servicesData.containsKey(categoryNameInitial)) {
-
-                  Map servicesWithinCategoryMap = (Map) servicesData.remove(categoryNameInitial);
-                  for (Object service : servicesWithinCategoryMap.keySet()) {
-                    Map serviceMap = (Map) servicesWithinCategoryMap.get(service);
-                    if (serviceMap.get("name").equals(serviceNameInitial)) {
-                      found = true;
-                    }
-                  }
-                  if(found){
-                    servicesWithinCategoryMap.remove(serviceNameInitial);
-                  }
-                  if(!servicesWithinCategoryMap.isEmpty()){
-                    servicesData.put(categoryNameInitial, servicesWithinCategoryMap);
-                  }
-                }
-
-                db.collection("services").document("services").set(servicesData)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                          @Override
-                          public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "Old Service Removed to Edit New One");
-                            addNewService(findViewById(R.id.addNewServiceBtn), serviceNameInitial, priceNameInitial, categoryNameInitial, true);
-
-                          }
-                        });
-              }
-            });
-  }
-
-  public void onDeleteService(View deleteBtn) {
-
-    LinearLayout serviceLayout = (LinearLayout) deleteBtn.getParent().getParent().getParent().getParent();
-
-    RelativeLayout relativeLayout = (RelativeLayout) serviceLayout.getParent();
-
-    int colorFrom = Color.BLACK;
-    int colorTo = Color.RED;
-    int duration = 1000;
-    ObjectAnimator.ofObject(serviceLayout, "backgroundColor", new ArgbEvaluator(), colorFrom, colorTo)
-            .setDuration(duration)
-            .start();
-
-    TextView serviceNameView = serviceLayout.findViewById(R.id.serviceName);
-    TextView categoryNameView = serviceLayout.findViewById(R.id.category);
-    TextView priceNameView = serviceLayout.findViewById(R.id.price);
-
-    final String serviceName = serviceNameView.getText().toString();
-    final String categoryName = categoryNameView.getText().toString();
-
-    db.collection("services")
-            .document("services").get()
-            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-              @Override
-              public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                Map servicesData = (Map) documentSnapshot.getData();
-                Map categoryData = (Map) servicesData.remove(categoryName);
-
-                categoryData.remove(serviceName);
-
-                if (!categoryData.isEmpty()) {
-                  servicesData.put(categoryName, categoryData);
-                }
-
-                db.collection("services")
-                        .document("services").set(servicesData)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                          @Override
-                          public void onSuccess(Void aVoid) {
-                            Log.d(TAG, (serviceName + " deleted from category " + categoryName));
-                            updateUI();
-                          }
-                        });
-
-              }
-            });
-    user.deleteService(new Service(serviceName,priceNameView.getText().toString(),categoryName));
   }
 }

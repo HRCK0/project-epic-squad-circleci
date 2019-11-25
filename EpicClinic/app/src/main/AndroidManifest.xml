@@ -9,8 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ServicesActivityNonAdmin"></activity>
-        <activity android:name=".ServicesActivity"></activity>
+        <activity android:name=".AvailabilityActivity"></activity>
+        <activity android:name=".CompleteUserProfileActivity" />
+        <activity android:name=".ServicesActivityNonAdmin" />
+        <activity android:name=".ServicesActivityNonAdmin_2" />
+        <activity android:name=".ServicesActivity" />
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" /> <!-- <activity -->

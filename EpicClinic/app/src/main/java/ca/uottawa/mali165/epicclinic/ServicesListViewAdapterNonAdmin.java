@@ -30,7 +30,7 @@ public class ServicesListViewAdapterNonAdmin extends ArrayAdapter {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.services_template2, null,true);
 
-        //this code gets references to objects in the service_template.xml file
+        //this code gets references to objects in the service_template1.xml file
         TextView serviceNameTextField = (TextView) rowView.findViewById(R.id.serviceName2);
         TextView priceTextField = (TextView) rowView.findViewById(R.id.price2);
         TextView categoryTextField = (TextView) rowView.findViewById(R.id.category2);

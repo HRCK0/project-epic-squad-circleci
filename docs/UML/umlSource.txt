@@ -43,6 +43,10 @@ class Employee
 {
   isA Person;
   1..* -- * Patient;
+  * -- * Service;
+  void updateAvailability(HashMap map){};
+  void addService(Service service){};
+  void removeService(Service service){};
 }
 
 class Patient
@@ -63,18 +67,19 @@ class Person
 class Admin
 {
   position 24 321 197 129;
-  position.association Admin__Employee 145,0 0,22;
-  position.association Admin__Patient 204,52 0,22;
+  position.association Admin__Employee 197,30 0,46;
+  position.association Admin__Patient 197,106 0,22;
   
 }
 
 class Employee
 {
-  position 372 279 89 84;
-  position.association Employee__Patient 94,39 4,0;
+  position 334 253 257 77;
+  position.association Employee__Patient 131,77 4,0;
+  position.association Employee__Service 44,0 160,72;
 }
 
 class Patient
 {
-  position 663 349 89 84;
+  position 649 436 103 56;
 }

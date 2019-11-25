@@ -8,9 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +28,10 @@ public class WelcomeActivity extends AppCompatActivity {
     private static final String TAG = "WelcomeActivity";
 
     TextView welcomeTextView;
+
+    Button profileBtn;
+    Button servicesBtn;
+    Button availabilityBtn;
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
@@ -47,6 +54,10 @@ public class WelcomeActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        profileBtn = findViewById(R.id.profileBtn);
+        servicesBtn = findViewById(R.id.servicesBtn);
+        availabilityBtn = findViewById(R.id.availabilityBtn);
+
 
         DocumentReference dr = db.collection("users").document(getIntent().getStringExtra("CurrentUser_UID"));
         dr.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -55,7 +66,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-
                         role = document.get("role").toString();
                         firstName = document.get("firstName").toString();
                         lastName = document.get("lastName").toString();
@@ -68,13 +78,27 @@ public class WelcomeActivity extends AppCompatActivity {
                         String welcomeMessage = "Welcome " + firstName + " " + lastName + ". You are logged in as " + role.toUpperCase() + ".";
                         welcomeTextView.setText(welcomeMessage);
 
-                        if(role.toLowerCase()=="admin")
+                        if (role.toLowerCase().equals("admin"))
                             System.out.println("hi");
                         if (role.toUpperCase().equals("EMPLOYEE")) {
-                            user = new Employee(firstName, lastName, email, phoneNumber);
+                            boolean profileCompleted = (boolean) document.get("profileCompleted");
+                            user = new Employee(firstName, lastName, email, phoneNumber, profileCompleted);
+
+                            if (!profileCompleted) {
+                                servicesBtn.setClickable(false);
+                                servicesBtn.setBackgroundColor(Color.parseColor("#5F6967"));
+                                availabilityBtn.setClickable(false);
+                                availabilityBtn.setBackgroundColor(Color.parseColor("#5F6967"));
+                            } else {
+
+                            }
                         } else if (role.toUpperCase().equals("PATIENT") ) {
+                            profileBtn.setVisibility(View.GONE);
+                            availabilityBtn.setVisibility(View.GONE);
                             user = new Patient(firstName, lastName, email, phoneNumber);
                         } else if (role.toUpperCase().equals("ADMIN")){
+                            profileBtn.setVisibility(View.GONE);
+                            availabilityBtn.setVisibility(View.GONE);
                             user = new Admin(firstName, lastName, email, phoneNumber);
                         }
 
@@ -89,7 +113,6 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void servicesBtnClicked(View servicesBtn) {
-        //edit this so a different serivce is opened based the current user instance
         if(role.toUpperCase().equals("ADMIN"))
         {
             Intent openServicesWindow = new Intent(getApplicationContext(), ServicesActivity.class);
@@ -97,11 +120,39 @@ public class WelcomeActivity extends AppCompatActivity {
             openServicesWindow.putExtra("admin",adminUser); //passing admin object to services page
             startActivity(openServicesWindow);
         }
+        else if (role.toUpperCase().equals("EMPLOYEE")) {
+            //TODO:
+            // rename this class because georges is fucking stupid
+            Intent openServicesWindow = new Intent(getApplicationContext(), ServicesActivityNonAdmin.class);
+            Employee employeeUser = (Employee) user;
+            openServicesWindow.putExtra("employee", employeeUser);
+            openServicesWindow.putExtra("CurrentUser_UID", getIntent().getStringExtra("CurrentUser_UID"));
+            startActivity(openServicesWindow);
+        }
         else
         {
             Intent openServicesWindow = new Intent(getApplicationContext(), ServicesActivityNonAdmin.class);
             startActivity(openServicesWindow);
         }
+
+    }
+    public void profileButtonClicked(View profileButtonClicked)
+    {
+        Intent openCompleteProfileWindow = new Intent(getApplicationContext(), CompleteUserProfileActivity.class);
+        Employee employeeUser = (Employee) user;
+        openCompleteProfileWindow.putExtra("employee", employeeUser);
+        openCompleteProfileWindow.putExtra("CurrentUser_UID", getIntent().getStringExtra("CurrentUser_UID"));
+
+        startActivity(openCompleteProfileWindow);
+    }
+
+    public void availabilityBtnClicked(View availabilityBtn) {
+
+        Intent openAvailabilityWindow = new Intent(getApplicationContext(), AvailabilityActivity.class);
+        Employee employeeUser = (Employee) user;
+        openAvailabilityWindow.putExtra("employee", employeeUser);
+        openAvailabilityWindow.putExtra("CurrentUser_UID", getIntent().getStringExtra("CurrentUser_UID"));
+        startActivity(openAvailabilityWindow);
 
     }
 }
