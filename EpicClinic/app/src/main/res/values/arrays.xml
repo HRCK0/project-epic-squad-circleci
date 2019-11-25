@@ -7,4 +7,7 @@
         <item>Category 4</item>
         <item>Category 5</item>
     </string-array>
+    <string-array name="days">["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
+        "Sunday"]
+    </string-array>
 </resources>
