@@ -84,7 +84,8 @@
                         android:id="@+id/daySpinner"
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
-                        android:background="#FFFFFF" />
+                        android:background="#FFFFFF"
+                        android:entries="@array/days" />
                 </LinearLayout>
 
                 <LinearLayout

@@ -99,11 +99,10 @@
 
                     <Button
                         android:id="@+id/serviceButton"
-                        android:layout_width="70dp"
-                        android:layout_height="45dp"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/star" />
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/info_icon"
+                        android:gravity="center_horizontal|center_vertical" />
 
                 </LinearLayout>
 
