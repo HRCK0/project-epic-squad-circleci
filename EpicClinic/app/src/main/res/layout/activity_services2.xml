@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
-            android:layout_weight="5"
+            android:layout_weight="2.5"
             android:background="#000000"
             android:orientation="horizontal">
 
@@ -27,7 +27,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="25dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
+                android:gravity="start|center_vertical"
                 android:orientation="vertical">
 
                 <TextView
@@ -35,19 +35,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_thin"
-                    android:gravity="center_horizontal"
+                    android:gravity="start|center_horizontal"
                     android:text="Services "
                     android:textColor="#FFFFFF"
                     android:textSize="60sp" />
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_weight="3"
-                android:gravity="center_horizontal|center_vertical"
-                android:orientation="vertical"></LinearLayout>
 
         </LinearLayout>
 
@@ -69,17 +61,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:gravity="center_horizontal"
+            android:layout_weight="2.5"
+            android:gravity="center_horizontal|center_vertical"
             android:orientation="vertical">
 
             <Button
                 android:id="@+id/buttonSeeAdminServices"
                 android:layout_width="150dp"
-                android:layout_height="59dp"
+                android:layout_height="40dp"
                 android:layout_margin="15dp"
+                android:background="@drawable/btn_rounded"
+                android:fontFamily="@font/roboto_thin"
                 android:onClick="allServicesBtnClicked"
-                android:text="See All Services" />
+                android:text="See All Services"
+                android:textColor="#FDFDFD" />
         </LinearLayout>
 
     </LinearLayout>

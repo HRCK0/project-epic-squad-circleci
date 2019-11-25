@@ -36,6 +36,7 @@
                     android:id="@+id/serviceName3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.8"
                     android:fontFamily="@font/roboto"
                     android:text="@string/service_name"
                     android:textColor="#D1CECE"
@@ -88,13 +89,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3.5"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/buttonPickService"
-                    android:layout_width="match_parent"
-                    android:layout_height="61dp"
-                    android:layout_weight="3.5"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:background="@drawable/add_icon"
                     android:gravity="center_horizontal|center_vertical"
                     android:onClick="onAdd"

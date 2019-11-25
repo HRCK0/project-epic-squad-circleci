@@ -30,6 +30,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -450,6 +451,9 @@ public class ServicesActivity extends AppCompatActivity {
                   }
                   serviceList = list;
                 }
+
+                Collections.sort(serviceList);
+
                 ServicesListViewAdapter servicesListViewAdapter = new ServicesListViewAdapter(t, serviceList);
                 listView.setAdapter(servicesListViewAdapter);
 
