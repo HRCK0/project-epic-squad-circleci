@@ -12,13 +12,21 @@ public class Employee extends Person implements Parcelable {
 
     boolean profileCompleted;
     HashMap availabilty;
-
+    HashMap rating;
     ArrayList<Service> servicesList= new ArrayList<Service> (100);
+
 
     public Employee(String firstName, String lastName, String emailAddress, String phoneNumber, boolean profileCompleted)
     {
         super(firstName, lastName, emailAddress, phoneNumber, Person.AccountType.EMPLOYEE );
         this.profileCompleted = profileCompleted;
+        rating=null;
+
+    }
+
+    public void addRating(HashMap rating)
+    {
+        this.rating=rating;
     }
 
     public void addService(Service service)
