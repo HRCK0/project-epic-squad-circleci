@@ -14,6 +14,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.rpc.Help;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +30,9 @@ public class PatientServicesActivity extends AppCompatActivity {
 
     private static final String TAG = "PatientServicesActivity";
 
-    List<Service> serviceList = new LinkedList<>();
+    List<String> companiesList = new LinkedList<>();
+    List<String> addressesList = new LinkedList<>();
+    List<String> ratingsList = new LinkedList<>();
 
     ListView listView;
 
@@ -66,39 +71,42 @@ public class PatientServicesActivity extends AppCompatActivity {
 
         final Activity t = this;
 
-        db.collection("services")
-                .document("services").get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            ArrayList<Service> list = new ArrayList<>();
 
-                            Map categories = task.getResult().getData();
+                            ArrayList<String> companies = new ArrayList<>();
+                            ArrayList<String> addresses = new ArrayList<>();
+                            ArrayList<String> ratings = new ArrayList<>();
 
-                            for (Object category : categories.keySet()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                Map categoryData = (Map) categories.get(category);
+                                Map user = document.getData();
+                                if (user.get("role").equals("employee")) {
+                                    if (user.get("profileCompleted").equals(true)){
+                                        String companyName = (String) user.get("Name of Company");
+                                        String address = (String) user.get("Address");
+                                        String rating = (String) user.get("rating");
 
-                                for (Object service : categoryData.keySet()) {
-                                    Map serviceData = (Map) categoryData.get(service);
-
-                                    String serviceName = (String) serviceData.get("name");
-                                    String price = (String) serviceData.get("price");
-                                    String role = (String) serviceData.get("role");
-                                    list.add(new Service(serviceName, price, category.toString(), role));
-
+                                        companies.add(companyName);
+                                        addresses.add(address);
+                                        ratings.add(rating);
+                                    }
 
                                 }
                             }
-                            serviceList = list;
+
+                            companiesList = companies;
+                            ratingsList = ratings;
+                            addressesList = addresses;
+
                         }
-                        BookingServicesListViewAdapter adapter = new BookingServicesListViewAdapter(t, serviceList);
+                        BookingServicesListViewAdapter adapter = new BookingServicesListViewAdapter(t, companiesList, addressesList, ratingsList);
                         listView.setAdapter(adapter);
                     }
-
                 });
-
-
     }
 }

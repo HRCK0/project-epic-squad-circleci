@@ -13,12 +13,16 @@ public class BookingServicesListViewAdapter extends ArrayAdapter {
 
     private final Activity context;
 
-    private final List<Service> serviceList;
+    private final List<String> companies;
+    private final List<String> addresses;
+    private final List<String> ratings;
 
-    public BookingServicesListViewAdapter(Activity context, List<Service> serviceList) {
-        super(context, R.layout.service_template, serviceList);
+    public BookingServicesListViewAdapter(Activity context, List<String> companies, List<String> addresses, List<String> ratings) {
+        super(context, R.layout.service_template_booking, companies);
         this.context = context;
-        this.serviceList = serviceList;
+        this.companies = companies;
+        this.addresses = addresses;
+        this.ratings = ratings;
 
     }
 
@@ -28,13 +32,13 @@ public class BookingServicesListViewAdapter extends ArrayAdapter {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.service_template_booking, null, true);
 
-        TextView serviceNameTextField = (TextView) rowView.findViewById(R.id.serviceNameBooking);
-        TextView priceTextField = (TextView) rowView.findViewById(R.id.priceBooking);
-        TextView categoryTextField = (TextView) rowView.findViewById(R.id.categoryBooking);
+        TextView companyNameTextField = (TextView) rowView.findViewById(R.id.companyName);
+        TextView addressTextField = (TextView) rowView.findViewById(R.id.address);
+        TextView ratingTextField = (TextView) rowView.findViewById(R.id.rating);
 
-        serviceNameTextField.setText(serviceList.get(position).getName());
-        priceTextField.setText(serviceList.get(position).getPrice());
-        categoryTextField.setText(serviceList.get(position).getCategory());
+        companyNameTextField.setText(companies.get(position));
+        addressTextField.setText(addresses.get(position));
+        ratingTextField.setText(ratings.get(position));
 
         return rowView;
 
