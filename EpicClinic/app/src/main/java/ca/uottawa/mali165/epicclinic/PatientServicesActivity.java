@@ -6,7 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,6 +39,11 @@ public class PatientServicesActivity extends AppCompatActivity {
     List<String> companiesList = new LinkedList<>();
     List<String> addressesList = new LinkedList<>();
     List<String> ratingsList = new LinkedList<>();
+    Spinner daySpinner;
+    Spinner fromSpinner;
+    Spinner toSpinner;
+    CheckBox applyAvailabilityFilter;
+    RatingBar ratingBar;
 
     ListView listView;
 
@@ -40,31 +51,83 @@ public class PatientServicesActivity extends AppCompatActivity {
     FirebaseFirestore db;
     Patient user;
 
+    private Filters filters;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_services);
 
+        daySpinner = findViewById(R.id.daySpinner);
+        fromSpinner = findViewById(R.id.fromSpinner);
+        toSpinner = findViewById(R.id.toSpinner);
+
+        applyAvailabilityFilter = findViewById(R.id.applyAvailabilityFilter);
+
+        ratingBar = findViewById(R.id.ratingBar);
+        ratingBar.setRating(Float.parseFloat("5.0"));
+
+
+        filters = new Filters();
+
+        //Will listen to the radio button that checks to see wether to enable or disable avilability
+        applyAvailabilityFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filters.setApplyAvailabilityFilter(applyAvailabilityFilter.isChecked());
+                updateUI();
+            }
+        });
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                filters.setRating(ratingBar.getRating());
+            }
+        });
+
+        daySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                filters.setDay(daySpinner.getItemAtPosition(i).toString());
+                updateUI();
+            }
+
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+            }
+        });
+
+        fromSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                filters.setFromTime(fromSpinner.getItemAtPosition(i).toString());
+                updateUI();
+            }
+
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+            }
+        });
+
+        toSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                filters.setToTime(toSpinner.getItemAtPosition(i).toString());
+                updateUI();
+            }
+
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+            }
+        });
+
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
         listView = findViewById(R.id.listViewBookingServices);
 
+
         updateUI();
 
-    }
-
-    public Map getAvailability(){
-        Map availabilityMap = new HashMap<String, List<String>>();
-        Spinner daySpinner = findViewById(R.id.daySpinner);
-        Spinner fromSpinner = findViewById(R.id.fromSpinner);
-        Spinner toSpinner = findViewById(R.id.toSpinner);
-        List times = new LinkedList<String>();
-        times.add(fromSpinner.getSelectedItem().toString());
-        times.add(toSpinner.getSelectedItem().toString());
-        availabilityMap.put(daySpinner.getSelectedItem().toString(), times);
-        return availabilityMap;
     }
 
     public void updateUI() {
