@@ -56,7 +56,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2.5"
+                android:layout_weight="2.7"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -77,50 +77,58 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1.4"
                     android:gravity="center_horizontal|center_vertical"
                     android:orientation="horizontal">
 
-                    <Spinner
-                        android:id="@+id/daySpinner"
+                    <Button
+                        android:id="@+id/dateDialogButton"
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
-                        android:background="#FFFFFF"
-                        android:entries="@array/days" />
+                        android:layout_weight="1"
+                        android:background="#E7E7E7"
+                        android:fontFamily="@font/roboto"
+                        android:text="Date"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1.5"
                     android:gravity="center_horizontal|center_vertical"
                     android:orientation="horizontal">
 
                     <Spinner
                         android:id="@+id/fromSpinner"
+                        style="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
                         android:background="#FFFFFF"
-                        android:entries="@array/time" />
+                        android:entries="@array/time"
+                        android:spinnerMode="dialog" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="1.5"
                     android:gravity="center_horizontal|center_vertical"
                     android:orientation="horizontal">
 
                     <Spinner
                         android:id="@+id/toSpinner"
+                        style="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
                         android:background="#FFFFFF"
-                        android:entries="@array/time" />
+                        android:entries="@array/time"
+                        android:spinnerMode="dialog" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -129,7 +137,7 @@
                 android:id="@+id/checkBoxContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2.3"
+                android:layout_weight="2.5"
                 android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal">
 
@@ -138,14 +146,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:buttonTint="#FFFFFF"
                     android:shadowColor="#FFFFFF"
                     android:text="Set"
                     android:textColor="#FFFFFF"
                     android:textColorHighlight="#FFFFFF"
                     android:textColorHint="#FFFFFF"
-                    android:textColorLink="#FFFFFF"
-                    android:buttonTint="#FFFFFF"
-                    />
+                    android:textColorLink="#FFFFFF" />
 
             </LinearLayout>
 

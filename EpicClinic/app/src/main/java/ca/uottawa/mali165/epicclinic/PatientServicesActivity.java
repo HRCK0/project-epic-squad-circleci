@@ -4,11 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -25,6 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.rpc.Help;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,11 +47,12 @@ public class PatientServicesActivity extends AppCompatActivity {
     List<String> companiesList = new LinkedList<>();
     List<String> addressesList = new LinkedList<>();
     List<String> ratingsList = new LinkedList<>();
-    Spinner daySpinner;
     Spinner fromSpinner;
     Spinner toSpinner;
     CheckBox applyAvailabilityFilter;
     RatingBar ratingBar;
+    Button dateBtn;
+    DatePickerDialog.OnDateSetListener mDateSetListener;
 
     ListView listView;
 
@@ -59,7 +68,6 @@ public class PatientServicesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_services);
 
-        daySpinner = findViewById(R.id.daySpinner);
         fromSpinner = findViewById(R.id.fromSpinner);
         toSpinner = findViewById(R.id.toSpinner);
 
@@ -68,8 +76,38 @@ public class PatientServicesActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);
         ratingBar.setRating(Float.parseFloat("5.0"));
 
+        dateBtn = findViewById(R.id.dateDialogButton);
 
         filters = new Filters();
+
+        dateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        PatientServicesActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        mDateSetListener,
+                        year, month, day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month++; //month starts at 0 need to incr
+                Log.d(TAG, "onDateSet: mm/dd/yy: " + month + "/" + dayOfMonth + "/" + year);
+
+                String date = month + "/" + dayOfMonth + "/" + year;
+                dateBtn.setText(date);
+            }
+        };
 
         //Will listen to the radio button that checks to see wether to enable or disable avilability
         applyAvailabilityFilter.setOnClickListener(new View.OnClickListener() {
@@ -84,17 +122,6 @@ public class PatientServicesActivity extends AppCompatActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 filters.setRating(ratingBar.getRating());
-            }
-        });
-
-        daySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                filters.setDay(daySpinner.getItemAtPosition(i).toString());
-                updateUI();
-            }
-
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                return;
             }
         });
 
