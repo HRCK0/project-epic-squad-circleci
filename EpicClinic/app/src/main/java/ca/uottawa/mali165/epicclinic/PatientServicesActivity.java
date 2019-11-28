@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.nfc.Tag;
@@ -19,11 +20,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -268,5 +271,19 @@ public class PatientServicesActivity extends AppCompatActivity {
                         listView.setAdapter(adapter);
                     }
                 });
+    }
+
+    public void onClickViewClinicInfo(View view) {
+
+        LinearLayout linearLayout = (LinearLayout) view.getParent().getParent().getParent().getParent();
+
+        TextView companyNameView = linearLayout.findViewById(R.id.companyName);
+        String companyName = companyNameView.getText().toString();
+
+        Log.d(TAG, "Company Name: " + companyName);
+        Intent openInfoWindow = new Intent(getApplicationContext(), ClinicDescriptionActivity.class);
+        openInfoWindow.putExtra("companyName", companyName);
+        startActivity(openInfoWindow);
+
     }
 }

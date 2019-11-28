@@ -4,6 +4,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:context=".ClinicDescriptionActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/clinicDescriptionName"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/clinicDescriptionAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:inputType="textPersonName"
+                android:text="Address"
+                android:textColor="#FFFFFF" />
+
+            <RatingBar
+                android:id="@+id/descriptionRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="5.0"
+                android:stepSize="0.25" />
+
+            <TextView
+                android:id="@+id/clinicDescriptionInfo"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:inputType="textPersonName"
+                android:text="Info"
+                android:textColor="#FFFFFF" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/rateButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rounded"
+                    android:text="Rate this Clinic" />
+
+                <Button
+                    android:id="@+id/bookAppointmentButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rounded"
+                    android:text="Book Appointment" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
