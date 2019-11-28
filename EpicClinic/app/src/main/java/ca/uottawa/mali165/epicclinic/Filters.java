@@ -1,20 +1,17 @@
 package ca.uottawa.mali165.epicclinic;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.xml.transform.dom.DOMLocator;
 
 public class Filters {
     private boolean filterByAvailability;
     private Map<String, String> availabilityData = new HashMap<>();
     private Float rating;
-    private List days = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+    private String searchQuery = "";
 
-    public String getDay(){
-        return availabilityData.get("day");
+    public String getDate(){
+        return availabilityData.get("date");
     }
     public String getFromTime(){
         return availabilityData.get("from");
@@ -25,10 +22,11 @@ public class Filters {
         public Float getMinRating(){
         return rating;
     }
+    public boolean getFilterByAavailability(){return filterByAvailability;}
+    public String getSearchQuery(){return searchQuery;}
 
-    public void setDay(String day) throws IllegalArgumentException{
-        if(day==null || !days.contains(day)){throw new IllegalArgumentException();}
-        availabilityData.put("day", day);
+    public void setDate(String date){ //in mm/dd/yy
+        availabilityData.put("date", date);
     }
 
     public void setFromTime(String fromTime){
@@ -45,6 +43,16 @@ public class Filters {
 
     public void setApplyAvailabilityFilter(boolean apply){
         filterByAvailability=apply;
+    }
+
+    public void setSearchQuery(String newQuery){
+        searchQuery=newQuery;
+    }
+
+    @Override
+    public String toString(){
+        return ("FilterByAvailability: " + filterByAvailability + ", Date: " + availabilityData.get("date")+ ", FromTime: " + availabilityData.get("from")+
+                ", ToTime: " + availabilityData.get("to") + ", MinRating: " + rating + ", SearchQuery: " + searchQuery);
     }
 
 }

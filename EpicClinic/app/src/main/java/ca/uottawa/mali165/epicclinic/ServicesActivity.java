@@ -61,6 +61,7 @@ public class ServicesActivity extends AppCompatActivity {
 
     user = getIntent().getExtras().getParcelable("admin");
     updateUI();
+
   }
 
   /**
@@ -327,7 +328,8 @@ public class ServicesActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                               Log.d(TAG, "New Service with old category succesfully Created");
-                              dialog.dismiss();
+                              if(dialog!=null)
+                                dialog.dismiss();
                               updateUI();
                             }
                           });
@@ -344,7 +346,8 @@ public class ServicesActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                               Log.d(TAG, "New service with new category successfuly created");
-                              dialog.dismiss();
+                              if(dialog!=null)
+                                dialog.dismiss();
                               updateUI();
                             }
                           });

@@ -36,7 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="@string/service_name"
+                    android:text="Company "
                     android:textColor="#D1CECE"
                     android:textSize="18sp" />
 
@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_thin"
-                    android:text="Category"
+                    android:text="Address"
                     android:textColor="#FAFFFFFF"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -70,7 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_thin"
-                    android:text="Price"
+                    android:text="Rating"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp" />
 
@@ -94,13 +94,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal|center_vertical"
-                    android:gravity="center_horizontal|center_vertical"
+                    android:gravity="right|center_vertical"
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/serviceButton"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:id="@+id/moreInfoBtn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:background="@drawable/info_icon"
                         android:gravity="center_horizontal|center_vertical" />
 

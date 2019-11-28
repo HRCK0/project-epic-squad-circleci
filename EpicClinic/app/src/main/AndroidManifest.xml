@@ -10,8 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".BookAppointmentActivity"></activity>
-        <activity android:name=".PatientServicesActivity"></activity>
-        <activity android:name=".Patient_Services" />
+        <activity android:name=".PatientServicesActivity"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
         <activity android:name=".AvailabilityActivity" />
         <activity android:name=".CompleteUserProfileActivity" />
         <activity android:name=".ServicesActivityNonAdmin" />

@@ -10,12 +10,15 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -52,6 +55,7 @@ public class PatientServicesActivity extends AppCompatActivity {
     CheckBox applyAvailabilityFilter;
     RatingBar ratingBar;
     Button dateBtn;
+    EditText searchBox;
     DatePickerDialog.OnDateSetListener mDateSetListener;
 
     ListView listView;
@@ -78,7 +82,29 @@ public class PatientServicesActivity extends AppCompatActivity {
 
         dateBtn = findViewById(R.id.dateDialogButton);
 
+        searchBox = findViewById(R.id.searchBox);
+
         filters = new Filters();
+
+        filters.setSearchQuery("");
+        filters.setApplyAvailabilityFilter(false);
+        filters.setRating(5.0f);
+
+        searchBox.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                filters.setSearchQuery(s.toString());
+                updateUI();
+            }
+        });
 
         dateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +132,9 @@ public class PatientServicesActivity extends AppCompatActivity {
 
                 String date = month + "/" + dayOfMonth + "/" + year;
                 dateBtn.setText(date);
+
+                filters.setDate(date);
+                updateUI();
             }
         };
 
@@ -122,6 +151,7 @@ public class PatientServicesActivity extends AppCompatActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 filters.setRating(ratingBar.getRating());
+                updateUI();
             }
         });
 
@@ -161,6 +191,14 @@ public class PatientServicesActivity extends AppCompatActivity {
 
         final Activity t = this;
 
+        final boolean availabilitySet = filters.getFilterByAavailability();
+        final String date = filters.getDate();
+        final String fromTime = filters.getFromTime();
+        final String toTime = filters.getToTime();
+        final float rating = filters.getMinRating();
+        final String searchQuery = filters.getSearchQuery();
+
+
         db.collection("users")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -175,15 +213,47 @@ public class PatientServicesActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 Map user = document.getData();
+
                                 if (user.get("role").equals("employee")) {
                                     if (user.get("profileCompleted").equals(true)){
-                                        String companyName = (String) user.get("Name of Company");
-                                        String address = (String) user.get("Address");
-                                        String rating = (String) user.get("rating");
 
-                                        companies.add(companyName);
-                                        addresses.add(address);
-                                        ratings.add(rating);
+                                        /*//skip if rating less than desired
+                                        if(Float.parseFloat(user.get("avgRating").toString())<rating){
+                                            continue;
+                                        }*/
+
+                                        boolean passesSearchQuery = false;
+
+                                        if(searchQuery.equals("")){
+                                            passesSearchQuery=true;
+                                        }else{
+                                            if(user.get("Services")!=null){
+                                                Map userCategories = (Map) user.get("Services");
+
+                                                //checking if any of the clinics services matches search query
+                                                for(Object category : userCategories.keySet()){
+                                                    Map userServicesWithinCategory = (Map) userCategories.get(category);
+                                                    for(Object service : userServicesWithinCategory.keySet()){
+                                                        if(service.toString().contains(searchQuery)){
+                                                            passesSearchQuery=true;
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+
+
+
+                                        if(passesSearchQuery){
+                                            String companyName = (String) user.get("Name of Company");
+                                            String address = (String) user.get("Address");
+                                            String rating = (String) user.get("rating");
+
+                                            companies.add(companyName);
+                                            addresses.add(address);
+                                            ratings.add(rating);
+                                        }
                                     }
 
                                 }
