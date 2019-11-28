@@ -14,7 +14,10 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.auth.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.RequiresApi;
@@ -62,7 +65,19 @@ public class RatingsActivity  extends AppCompatActivity {
                                     return;
                                 }
 
-                                Map[] ratings = (Map[]) clinicData.get("Ratings");
+                                ArrayList<Map> ratings = (ArrayList<Map>) clinicData.get("Ratings");
+                                List ratingsList = new LinkedList();
+                                Map ratingsMap = new HashMap();
+
+                                for (int i = 0; i < ratings.size(); i++){
+                                    ratingsMap = ratings.get(i);
+                                    Rating ratingToAdd = new Rating(ratingsMap.get("Name").toString(),Float.parseFloat(ratingsMap.get("Rating").toString()), ratingsMap.get("Comment").toString());
+                                    ratingsList.add(ratingToAdd);
+                                }
+
+                                //clinicData.remove("Rating");
+                                RatingListViewAdapter ratingListViewAdapter = new RatingListViewAdapter(t, ratingsList);
+                                listView.setAdapter(ratingListViewAdapter);
                             }
                         }
                     }
