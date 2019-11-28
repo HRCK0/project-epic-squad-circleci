@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ClinicDescriptionActivity"></activity>
+        <activity android:name=".RatingsActivity"></activity>
         <activity android:name=".BookAppointmentActivity" />
         <activity
             android:name=".PatientServicesActivity"

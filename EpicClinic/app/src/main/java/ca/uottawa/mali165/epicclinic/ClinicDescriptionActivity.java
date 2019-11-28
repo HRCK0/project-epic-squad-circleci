@@ -3,8 +3,10 @@ package ca.uottawa.mali165.epicclinic;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -73,6 +75,15 @@ public class ClinicDescriptionActivity extends AppCompatActivity {
                         ratingBar.setRating(Float.parseFloat(rating));
                     }
                 });
+
+    }
+
+    public void onClickRating(View ratingBtn){
+        companyName = getIntent().getExtras().getString("companyName");
+        Intent openServicesWindow = new Intent(getApplicationContext(), RatingsActivity.class);
+        openServicesWindow.putExtra("clinic", companyName);
+        openServicesWindow.putExtra("CurrentUser_UID", getIntent().getStringExtra("CurrentUser_UID"));
+        startActivity(openServicesWindow);
 
     }
 }

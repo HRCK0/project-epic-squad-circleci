@@ -71,6 +71,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_rounded"
+                    android:onClick="onClickRating"
                     android:text="Rate this Clinic" />
 
                 <Button
