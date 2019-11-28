@@ -81,7 +81,7 @@ public class ClinicDescriptionActivity extends AppCompatActivity {
     public void onClickRating(View ratingBtn){
         companyName = getIntent().getExtras().getString("companyName");
         Intent openServicesWindow = new Intent(getApplicationContext(), RatingsActivity.class);
-        openServicesWindow.putExtra("clinic", companyName);
+        openServicesWindow.putExtra("companyName", companyName);
         openServicesWindow.putExtra("CurrentUser_UID", getIntent().getStringExtra("CurrentUser_UID"));
         startActivity(openServicesWindow);
 

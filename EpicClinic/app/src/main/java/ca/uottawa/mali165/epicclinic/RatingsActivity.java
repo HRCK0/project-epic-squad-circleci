@@ -29,7 +29,7 @@ public class RatingsActivity  extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
-    Employee clinic;
+    String companyName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class RatingsActivity  extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        clinic = getIntent().getExtras().getParcelable("clinic");
+        companyName = getIntent().getExtras().getParcelable("companyName");
         updateUI();
     }
 
@@ -50,7 +50,9 @@ public class RatingsActivity  extends AppCompatActivity {
 
         // currently looks for the name of the company. will switch to email once i figure out how to find that object first
         // testing with hardcoded email
-        db.collection("users").whereEqualTo("email", "employee@ecare.com").get()
+        db.collection("users")
+                .whereEqualTo("Name of Company", companyName)
+                .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot QuerySnapshot) {
