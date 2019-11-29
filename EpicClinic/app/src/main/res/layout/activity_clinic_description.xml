@@ -125,6 +125,7 @@
                 android:layout_weight="1"
                 android:background="#00B86C"
                 android:fontFamily="@font/roboto_medium"
+                android:onClick="onClickBooking"
                 android:text="Book Appointment"
                 android:textColor="#000000"
                 android:textSize="18sp" />
