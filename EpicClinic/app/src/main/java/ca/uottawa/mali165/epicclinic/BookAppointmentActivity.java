@@ -4,13 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
-
+import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -44,7 +45,9 @@ public class BookAppointmentActivity extends AppCompatActivity {
     Button button1;
     Button button2;
     Button button3;
-    Button button4;Button button5;Button button6;
+    Button button4;
+    Button button5;
+    Button button6;
     Button button7;
     Button button8;
     Button button9;
@@ -63,11 +66,12 @@ public class BookAppointmentActivity extends AppCompatActivity {
     Button button22;
     Button button23;
     Button button24;
-    Button [] timeSlots;
+    Button[] timeSlots;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
     String companyName;
-
+    String patientId;
+    String datePickedString;
 
 
     @Override
@@ -81,51 +85,63 @@ public class BookAppointmentActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         companyName = getIntent().getExtras().getString("companyName");
 
-        button1 = findViewById(R.id.button1);  button2 = findViewById(R.id.button2);  button3 = findViewById(R.id.button3); button4 = findViewById(R.id.button4); button5 = findViewById(R.id.button5); button6 = findViewById(R.id.button6); button7 = findViewById(R.id.button7); button8 = findViewById(R.id.button8);
-        button9 = findViewById(R.id.button9); button10 = findViewById(R.id.button10); button11 = findViewById(R.id.button11); button12 = findViewById(R.id.button12); button13 = findViewById(R.id.button13); button14 = findViewById(R.id.button14); button15 = findViewById(R.id.button15); button16 = findViewById(R.id.button16);
-        button17 = findViewById(R.id.button17); button18 = findViewById(R.id.button18); button19 = findViewById(R.id.button19); button20 = findViewById(R.id.button20); button21 = findViewById(R.id.button21); button22 = findViewById(R.id.button22); button23 = findViewById(R.id.button23); button24 = findViewById(R.id.button24);
-        timeSlots = new Button []{button1,button2,button3,button4,button5,button6,button7,button8,button9,button10,button11,button12,button13,button14,button15,button16,button17,button18,button19,button20,button21,button22,button23,button24};
+        button1 = findViewById(R.id.button1);
+        button2 = findViewById(R.id.button2);
+        button3 = findViewById(R.id.button3);
+        button4 = findViewById(R.id.button4);
+        button5 = findViewById(R.id.button5);
+        button6 = findViewById(R.id.button6);
+        button7 = findViewById(R.id.button7);
+        button8 = findViewById(R.id.button8);
+        button9 = findViewById(R.id.button9);
+        button10 = findViewById(R.id.button10);
+        button11 = findViewById(R.id.button11);
+        button12 = findViewById(R.id.button12);
+        button13 = findViewById(R.id.button13);
+        button14 = findViewById(R.id.button14);
+        button15 = findViewById(R.id.button15);
+        button16 = findViewById(R.id.button16);
+        button17 = findViewById(R.id.button17);
+        button18 = findViewById(R.id.button18);
+        button19 = findViewById(R.id.button19);
+        button20 = findViewById(R.id.button20);
+        button21 = findViewById(R.id.button21);
+        button22 = findViewById(R.id.button22);
+        button23 = findViewById(R.id.button23);
+        button24 = findViewById(R.id.button24);
+        timeSlots = new Button[]{button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11, button12, button13, button14, button15, button16, button17, button18, button19, button20, button21, button22, button23, button24};
 
-        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener()
-       {
+        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
             @Override
             public void onSelectedDayChange(CalendarView calendarView, int year, int month, int date) {
 
                 myDate = date;
                 myYear = year;
-                myMonth = month +1;
-                String a = date + "/" + myMonth + "/" + year;
-                Log.d(TAG, a);
+                myMonth = month + 1;
+                datePickedString = date + "/" + myMonth + "/" + year;
+                Log.d(TAG, datePickedString);
                 Date datePicked;
 
-                try
-                {
-                    datePicked=new SimpleDateFormat("dd/MM/yyyy").parse(a);
+                try {
+                    datePicked = new SimpleDateFormat("dd/MM/yyyy").parse(datePickedString);
                     Date dateNow = new Date();
-                    Log.d(TAG,datePicked.toString());
-                    Log.d(TAG,dateNow.toString());
-                    boolean b=datePicked.before(dateNow);
-                    if(b==true)
-                        Log.d(TAG,"hi");
+                    Log.d(TAG, datePicked.toString());
+                    Log.d(TAG, dateNow.toString());
+                    boolean b = datePicked.before(dateNow);
+                    if (b == true)
+                        Log.d(TAG, "hi");
 
 
-
-
-                    if(datePicked.before(dateNow))
-                    {
-                        for(int i=0;i<timeSlots.length;i++)
-                        {
+                    if (datePicked.before(dateNow)) {
+                        for (int i = 0; i < timeSlots.length; i++) {
                             timeSlots[i].setClickable(false); //date picked has already passed, cannot book appointments in the past
-                            timeSlots[i].setBackgroundColor(Color.parseColor("#5F6967"));
+                            timeSlots[i].setBackgroundTintList(ColorStateList.valueOf((Color.GRAY)));
                         }
-                    }
-                    else
-                        determineUnclickable(a);
-                }
-                catch (ParseException e)
-                {
-                    Log.d(TAG,"parse Error");
+                    } else
+                        determineUnclickable(datePickedString);
+                } catch (ParseException e) {
+                    Log.d(TAG, "parse Error");
                 }
                 // Now you can uses year, month date to sent
                 //must get the time slots from the clinic based on free time slots --> first get availability for the employee that was passed
@@ -134,19 +150,18 @@ public class BookAppointmentActivity extends AppCompatActivity {
         });
     }
 
-    public  void determineUnclickable(String date)
-    {
+    public void determineUnclickable(String date) {
         final Activity t = this;
         final String datePicked = date;
 
         // currently looks for the name of the company. will switch to email once i figure out how to find that object first
         // testing with hardcoded email
-        db.collection("users").whereEqualTo("Name of Company",companyName ).get()
+        db.collection("users").whereEqualTo("Name of Company", companyName).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot QuerySnapshot) {
                         if (QuerySnapshot.isEmpty()) {
-                            Log.d("QUERY SNAPSHOT","no documents found");
+                            Log.d("QUERY SNAPSHOT", "no documents found");
                         } else {
                             for (DocumentSnapshot document : QuerySnapshot) {
                                 Log.d("SEARCHING FOR DOCUMENT", document.getId() + " => " + document.getData());
@@ -158,7 +173,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
                                     for (int i = 0; i < timeSlots.length; i++) {
                                         timeSlots[i].setClickable(false);
-                                        timeSlots[i].setBackgroundColor(Color.parseColor("#5F6967"));
+                                        timeSlots[i].setBackgroundTintList(ColorStateList.valueOf((Color.GRAY)));
                                     }
                                 } else {
                                     Map availabilityMap = (Map) clinicData.get("availability");
@@ -168,9 +183,10 @@ public class BookAppointmentActivity extends AppCompatActivity {
                                         Date datePickedDate = new SimpleDateFormat("dd/MM/yyyy").parse(datePicked);
                                         c.setTime(datePickedDate);
                                         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK); //get day of week
+                                        Log.d(TAG, String.valueOf(dayOfWeek));
                                         c.setTime(datePickedDate);
-                                        LocalTime timeFrom=null;
-                                        LocalTime timeTo=null;
+                                        LocalTime timeFrom = null;
+                                        LocalTime timeTo = null;
 
                                         if (dayOfWeek == 1) {
                                             String sundayFrom = availabilityMap.get("SundayFrom").toString();
@@ -211,14 +227,14 @@ public class BookAppointmentActivity extends AppCompatActivity {
                                             String thursdayFrom = availabilityMap.get("ThursdayFrom").toString().trim();
                                             String thursdayTo = availabilityMap.get("ThursdayTo").toString().trim();
                                             if (thursdayFrom.equals("") == false) {
-                                                timeFrom = LocalTime.parse(thursdayTo);
-                                                timeTo = LocalTime.parse(thursdayFrom);
+                                                timeFrom = LocalTime.parse(thursdayFrom);
+                                                timeTo = LocalTime.parse(thursdayTo);
                                             }
 
 
                                         } else if (dayOfWeek == 6) {
-                                            String fridayFrom = availabilityMap.get("fridayFrom").toString();
-                                            String fridayTo = availabilityMap.get("fridayTo").toString();
+                                            String fridayFrom = availabilityMap.get("FridayFrom").toString();
+                                            String fridayTo = availabilityMap.get("FridayTo").toString();
                                             if (fridayFrom.equals("") == false) {
                                                 timeFrom = LocalTime.parse(fridayFrom);
                                                 timeTo = LocalTime.parse(fridayTo);
@@ -233,13 +249,11 @@ public class BookAppointmentActivity extends AppCompatActivity {
                                             }
 
                                         }
-                                        if(timeFrom==null)
-                                        {
+                                        if (timeFrom == null) {
                                             //clinic not open that day
-                                            for(int i=0;i<timeSlots.length;i++)
-                                            {
+                                            for (int i = 0; i < timeSlots.length; i++) {
                                                 timeSlots[i].setClickable(false); //date picked has already passed, cannot book appointments in the past
-                                                timeSlots[i].setBackgroundColor(Color.parseColor("#5F6967"));
+                                                timeSlots[i].setBackgroundTintList(ColorStateList.valueOf((Color.GRAY)));
                                             }
 
 
@@ -258,49 +272,49 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
                                             int startHourClinic = timeFrom.getHour();
                                             int endHourClinic = timeTo.getHour();
-
+                                            Log.d(TAG, String.valueOf(startHourClinic));
+                                            Log.d(TAG, String.valueOf(endHourClinic));
 
                                             for (int i = 0; i < 24; i++) {
                                                 int endTime = i + 1;
                                                 if (i < startHourClinic) {
-
-                                                    String a = i + ":00-" + endTime + ":00";
+                                                    Log.d(TAG, "IM HERE!!!!!!!!!!!!!");
+                                                    /*String a = i + ":00-" + endTime + ":00";
                                                     int idOfButton = getResources().getIdentifier(a, "id", getApplicationContext().getPackageName());
                                                     Button toDelete = findViewById(idOfButton);
                                                     toDelete.setClickable(false);
-                                                    toDelete.setBackgroundColor(Color.parseColor("#5F6967"));
+                                                    toDelete.setBackgroundColor(Color.parseColor("#5F6967"));*/
+                                                    timeSlots[i].setClickable(false);
+                                                    timeSlots[i].setBackgroundTintList(ColorStateList.valueOf((Color.GRAY)));
 
 
-                                                }
+                                                } else if (i >= endHourClinic) {
 
-                                                if (i >= endHourClinic) {
-
-                                                    String a = i + ":00-" + endTime + ":00";
+                                                   /* String a = i + ":00-" + endTime + ":00";
+                                                    Log.d(TAG,a);
                                                     int idOfButton = getResources().getIdentifier(a, "id", getApplicationContext().getPackageName());
                                                     Button toDelete = findViewById(idOfButton);
                                                     toDelete.setClickable(false);
-                                                    toDelete.setBackgroundColor(Color.parseColor("#5F6967"));
+                                                    toDelete.setBackgroundColor(Color.parseColor("#5F6967"));*/
+                                                    timeSlots[i].setClickable(false);
+                                                    timeSlots[i].setBackgroundTintList(ColorStateList.valueOf((Color.GRAY)));
 
 
+                                                } else {
+                                                    timeSlots[i].setClickable(true);
+                                                    timeSlots[i].setBackgroundTintList(ColorStateList.valueOf(Color.MAGENTA));
                                                 }
                                             }
-
-
-
-
                                         }
-                                    }
-                                    catch(ParseException e)
-                                    {
+                                    } catch (ParseException e) {
                                         //add later
                                     }
                                 }
 
 
-                                if (!clinicData.containsKey("Appointments")){
+                                if (!clinicData.containsKey("Appointments")) {
                                     return;
-                                }
-                                else {
+                                } else {
                                     Calendar c = Calendar.getInstance();
                                     try {
                                         Date datePickedDate = new SimpleDateFormat("dd/MM/yyyy").parse(datePicked);
@@ -324,37 +338,141 @@ public class BookAppointmentActivity extends AppCompatActivity {
                                             if (aptDate.equals(datePicked)) {
 
                                                 startTime = bookedAppointmentsMap.get("startTime").toString();
-                                                endTime = bookedAppointmentsMap.get("endTime").toString();
-                                                String name = startTime + ":" + endTime;
-                                                int idOfButton = getResources().getIdentifier(name, "id", getApplicationContext().getPackageName());
-                                                Button toDelete = findViewById(idOfButton);
-                                                toDelete.setClickable(false);
-                                                toDelete.setBackgroundColor(Color.parseColor("#5F6967"));
+
+                                                String b = Character.toString(startTime.charAt(0)) + Character.toString(startTime.charAt(1));
+
+                                                int j = Integer.parseInt(b);
+                                                timeSlots[i].setClickable(false);
+                                                //timeSlots[i].setBackgroundColor(Color.parseColor("#5F6967"));
+                                                timeSlots[j].setBackgroundTintList(ColorStateList.valueOf((Color.GRAY)));
                                             }
 
 
                                         }
-                                    }
-
-                                    catch (ParseException e)
-                                    {
+                                    } catch (ParseException e) {
                                         //add later
                                     }
 
 
+                                }
+
+
                             }
-
-
-
-                }
+                        }
+                    }
+                });
     }
-                }
-    });
+
+
+    public void showToast(String textToShow) {
+        Toast.makeText(BookAppointmentActivity.this, textToShow, Toast.LENGTH_SHORT).show();
     }
+
+    /*public void updateDatabaseClinic(String timeAdded) {
+        final String time =timeAdded;
+        db.collection("users").whereEqualTo("Name of Company", companyName).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot QuerySnapshot) {
+                        if (QuerySnapshot.isEmpty()) {
+                            Log.d("QUERY SNAPSHOT", "no documents found");
+                        } else {
+                            for (DocumentSnapshot document : QuerySnapshot) {
+                                Log.d("SEARCHING FOR DOCUMENT", document.getId() + " => " + document.getData());
+                                final Map clinicData = document.getData();
+
+
+                                if (!clinicData.containsKey("availability")) {
+
+
+                                    Map<String,String> appointmentInfo = new HashMap<String,String>();
+                                    String[] duration = time.split(":");
+                                    ArrayList<Map> infoApts = new ArrayList<>();
+
+                                    appointmentInfo.put("startTime",duration[0]);
+                                    appointmentInfo.put("endTime",duration[1]);
+                                    appointmentInfo.put("date",datePickedString);
+                                    infoApts.add(appointmentInfo);
+                                    clinicData.put("Appointments",appointmentInfo);
+
+                                }
+
+
+                                else
+                                {
+                                   //contains the key
+                                    ArrayList<Map> currentAptInfo= (ArrayList)clinicData.get("Appointments");
+
+
+                                    Map<String,String> appointmentInfo = new HashMap<String,String>();
+                                    String[] duration = time.split(":");
+                                    appointmentInfo.put("startTime",duration[0]);
+                                    appointmentInfo.put("endTime",duration[1]);
+                                    appointmentInfo.put("date",datePickedString);
+                                    currentAptInfo.add(appointmentInfo);
+                                    clinicData.remove("Appointments");
+                                    clinicData.put("Appointments",currentAptInfo);
+                                }
+                            }
+                        }
+                    }
+                });
+    }*/
+
+
+
+
+   /* public void updateDatabasePatient(String timeAdded) {
+        db = FirebaseFirestore.getInstance();
+        final String time =timeAdded;
+        patientId = getIntent().getStringExtra("CurrentUser_UID");
+
+        db.collection("users")
+                .document(patientId).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Map patientInfo = documentSnapshot.getData();
+                        String[] duration = time.split(":");
+
+                        if (patientInfo.containsKey("Appointments")) {
+
+                            //UPDATE PATIENT INFO
+                            ArrayList<Map> currentAptInfo= (ArrayList)patientInfo.get("Appointments");
+
+
+                            Map<String,String> appointmentInfo = new HashMap<String,String>();
+
+                            appointmentInfo.put("StartTime",duration[0]);
+                            appointmentInfo.put("EndTime",duration[1]);
+                            appointmentInfo.put("Date",datePickedString);
+                            appointmentInfo.put("Company",companyName);
+                            currentAptInfo.add(appointmentInfo);
+                            patientInfo.remove("Appointments");
+                            patientInfo.put("Appointments",currentAptInfo);
+
+
+                        }
+                        else {
+                            Map<String, String> appointmentInfo = new HashMap<String, String>();
+                            ArrayList<Map> infoApts = new ArrayList<>();
+                            appointmentInfo.put("StartTime", duration[0]);
+                            appointmentInfo.put("EndTime", duration[1]);
+                            appointmentInfo.put("Date", datePickedString);
+                            appointmentInfo.put("Company", companyName);
+                            infoApts.add(appointmentInfo);
+                            patientInfo.put("Appointments", infoApts);
+
+
+                        }}});
+    }*/
+
+
+
 
 
     public void buttonClicked(View view) {
-        String text;
+        String text="";
 
         for(int i=0;i<timeSlots.length;i++)
         {
@@ -363,6 +481,12 @@ public class BookAppointmentActivity extends AppCompatActivity {
                 text =timeSlots[i].getText().toString();
             }
         }
+
+        String s = "Appointment booked from " + text + " with " + companyName;
+        showToast( s);
+        //updateDatabasePatient(text);
+       // updateDatabaseClinic(text);
+
 
 
         //need to add to database -->!!!!
