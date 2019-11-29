@@ -64,7 +64,7 @@ public class ClinicDescriptionActivity extends AppCompatActivity {
                         List<DocumentSnapshot> data = snapshot.getDocuments();
                         Map company = (Map) data.get(0).getData();
 
-                        rating = (String) company.get("rating");
+                        rating = (String) company.get("avgRating");
                         address = (String) company.get("Address");
                         description = (String) company.get("Description");
 
@@ -72,7 +72,8 @@ public class ClinicDescriptionActivity extends AppCompatActivity {
                         addressView.setText(address);
                         descriptionView.setText(description);
 
-                        //ratingBar.setRating(Float.parseFloat(rating));
+
+                        ratingBar.setRating(Math.round(Float.parseFloat(rating)*4)/4f);
                     }
                 });
 

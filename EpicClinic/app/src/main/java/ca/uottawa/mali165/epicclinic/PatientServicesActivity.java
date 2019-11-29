@@ -220,10 +220,10 @@ public class PatientServicesActivity extends AppCompatActivity {
                                 if (user.get("role").equals("employee")) {
                                     if (user.get("profileCompleted").equals(true)){
 
-                                        /*//skip if rating less than desired
+                                        //skip if rating less than desired
                                         if(Float.parseFloat(user.get("avgRating").toString())<rating){
                                             continue;
-                                        }*/
+                                        }
 
                                         boolean passesSearchQuery = false;
 
@@ -251,7 +251,7 @@ public class PatientServicesActivity extends AppCompatActivity {
                                         if(passesSearchQuery){
                                             String companyName = (String) user.get("Name of Company");
                                             String address = (String) user.get("Address");
-                                            String rating = (String) user.get("rating");
+                                            String rating = (String) user.get("avgRating");
 
                                             companies.add(companyName);
                                             addresses.add(address);
