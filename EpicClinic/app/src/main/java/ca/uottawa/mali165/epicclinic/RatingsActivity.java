@@ -1,9 +1,11 @@
 package ca.uottawa.mali165.epicclinic;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,6 +33,8 @@ public class RatingsActivity  extends AppCompatActivity {
     FirebaseFirestore db;
     String companyName;
 
+    private static final String TAG = "RatingActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +43,7 @@ public class RatingsActivity  extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        companyName = getIntent().getExtras().getParcelable("companyName");
+        companyName = getIntent().getExtras().getString("companyName");
         updateUI();
     }
 
@@ -72,8 +76,27 @@ public class RatingsActivity  extends AppCompatActivity {
                                 Map ratingsMap = new HashMap();
 
                                 for (int i = 0; i < ratings.size(); i++){
+
                                     ratingsMap = ratings.get(i);
-                                    Rating ratingToAdd = new Rating(ratingsMap.get("Name").toString(),Float.parseFloat(ratingsMap.get("Rating").toString()), ratingsMap.get("Comment").toString());
+                                    if (ratingsMap.containsKey("Name")){
+                                        Log.d(TAG, "onSuccess: NAME FOUND");
+                                        if (ratingsMap.get("Name") == null){
+                                            Log.d(TAG, "onSuccess: NAME IS NULL");
+                                        }
+                                    }
+                                    if (ratingsMap.containsKey("Rating")){
+                                        Log.d(TAG, "onSuccess: RATING FOUND");
+                                        if (ratingsMap.get("Rating") == null){
+                                            Log.d(TAG, "onSuccess: RATING IS NULL");
+                                        }
+                                    }
+                                    if (ratingsMap.containsKey("Comment")){
+                                        Log.d(TAG, "onSuccess: Comment FOUND");
+                                        if (ratingsMap.get("Comment") == null){
+                                            Log.d(TAG, "onSuccess: COMMENT IS NULL");
+                                        }
+                                    }
+                                    Rating ratingToAdd = new Rating(ratingsMap.get("Name").toString(),ratingsMap.get("Rating").toString(), ratingsMap.get("Comment").toString());
                                     ratingsList.add(ratingToAdd);
                                 }
 
@@ -85,6 +108,16 @@ public class RatingsActivity  extends AppCompatActivity {
                     }
 
                 });
+
+    }
+
+    public void onClickAddRating(View addBtn){
+
+        companyName = getIntent().getExtras().getString("companyName");
+        Intent openServicesWindow = new Intent(getApplicationContext(), MakeRatingActivity.class);
+        openServicesWindow.putExtra("companyName", companyName);
+        openServicesWindow.putExtra("CurrentUser_UID", getIntent().getStringExtra("CurrentUser_UID"));
+        startActivity(openServicesWindow);
 
     }
 }

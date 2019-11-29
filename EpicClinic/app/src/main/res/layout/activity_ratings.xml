@@ -54,6 +54,7 @@
                     android:layout_height="50dp"
                     android:layout_margin="20dp"
                     android:background="@drawable/add_icon"
+                    android:onClick="onClickAddRating"
                     android:shadowColor="#A8CACACA"
                     android:shadowDx="5"
                     android:shadowDy="5"

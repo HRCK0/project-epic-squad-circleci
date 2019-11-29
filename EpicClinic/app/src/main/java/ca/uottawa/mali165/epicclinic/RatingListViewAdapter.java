@@ -35,7 +35,7 @@ public class RatingListViewAdapter extends ArrayAdapter {
 
         //this code sets the values of the objects to values from the arrays
         raterNameTextField.setText(ratingList.get(position).getRaterName());
-        ratingBar.setRating(ratingList.get(position).getRating());
+        ratingBar.setRating(Float.parseFloat(ratingList.get(position).getRating()));
         commentTextField.setText(ratingList.get(position).getComment());
 
         return rowView;
