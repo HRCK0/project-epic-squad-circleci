@@ -55,172 +55,202 @@
                 app:rowCount="6">
 
                 <Button
-                    android:id="@+id/button58"
+                    android:id="@+id/button1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="12:00-1:00"
+                    android:backgroundTint="#00C3E1"
                     android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button44"
+                    android:id="@+id/button2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1:00-2:00"
+                    android:backgroundTint="#00C3E1"
                     android:textSize="12sp"
                     app:layout_column="1"
                     app:layout_row="0" />
 
                 <Button
-                    android:id="@+id/button43"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Button" />
-
-                <Button
-                    android:id="@+id/button42"
+                    android:id="@+id/button3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2:00-3:00"
+                    android:backgroundTint="#00C3E1"
                     android:textSize="12sp"
                     app:layout_column="2"
                     app:layout_row="0" />
 
                 <Button
-                    android:id="@+id/button70"
+                    android:id="@+id/button4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3:00-4:00"
+                    android:backgroundTint="#00C3E1"
                     android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button65"
+                    android:id="@+id/button5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="#00C3E1"
                     android:text="4:00-5:00"
                     android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button69"
+                    android:id="@+id/button6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="#00C3E1"
                     android:text="5:00-6:00"
                     android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button67"
+                    android:id="@+id/button7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="6:00-7:00"
+                    android:backgroundTint="#00C3E1"
                     android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button68"
+                    android:id="@+id/button8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="7:00-8:00"
+                    android:backgroundTint="#00C3E1"
                     android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button41"
+                    android:id="@+id/button9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="#00C3E1"
                     android:text="8:00-9:00"
                     android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button66"
+                    android:id="@+id/button10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="#00C3E1"
                     android:text="9:00-10:00"
                     android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button64"
+                    android:id="@+id/button11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10:00-11:00"
+                    android:backgroundTint="#00C3E1"
                     android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button40"
+                    android:id="@+id/button12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="#00C3E1"
                     android:text="11:00-12:00"
                     android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button63"
+                    android:id="@+id/button13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="12:00-13:00"
+                    android:backgroundTint="#00C3E1"
                     android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button33"
+                    android:id="@+id/button14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="#00C3E1"
                     android:text="13:00-14:00"
                     android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button62"
+                    android:id="@+id/button15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="14:00-15:00" />
+                    android:backgroundTint="#00C3E1"
+                    android:text="14:00-15:00"
+                    android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button61"
+                    android:id="@+id/button16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="15:00-16:00" />
+                    android:text="15:00-16:00"
+                    android:backgroundTint="#00C3E1"
+
+                    android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button34"
+                    android:id="@+id/button17"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:backgroundTint="#00C3E1"
+                    android:text="16:00-17:00"
+                    android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button35"
+                    android:id="@+id/button18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:backgroundTint="#00C3E1"
+                    android:text="17:00-18:00"
+                    android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button60"
+                    android:id="@+id/button19"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:backgroundTint="#00C3E1"
+                    android:text="18:00-19:00"
+                    android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button59"
+                    android:id="@+id/button20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:backgroundTint="#00C3E1"
+                    android:text="19:00-20:00"
+                    android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button36"
+                    android:id="@+id/button21"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:backgroundTint="#00C3E1"
+                    android:text="20:00-21:00"
+                    android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button39"
+                    android:id="@+id/button22"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:backgroundTint="#00C3E1"
+                    android:text="21:00-22:00"
+                    android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button37"
+                    android:id="@+id/button23"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:backgroundTint="#00C3E1"
+                    android:text="22:00-23:00"
+                    android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/button38"
+                    android:id="@+id/button24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:backgroundTint="#00C3E1"
+                    android:text="23:00-24:00"
+                    android:textSize="12sp" />
+
             </androidx.gridlayout.widget.GridLayout>
         </LinearLayout>
 
