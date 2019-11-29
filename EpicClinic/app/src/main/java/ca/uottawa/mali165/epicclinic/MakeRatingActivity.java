@@ -77,6 +77,7 @@ public class MakeRatingActivity  extends AppCompatActivity {
                         } else {
                             for (DocumentSnapshot document : QuerySnapshot) {
                                 Log.d("SEARCHING FOR DOUCMENT", document.getId() + " => " + document.getData());
+                                String id = document.getId();
                                 final Map clinicData = document.getData();
 
                                 if (!clinicData.containsKey("Ratings")){
@@ -88,7 +89,7 @@ public class MakeRatingActivity  extends AppCompatActivity {
                                     ratings.add(ratingPost);
                                     clinicData.put("Ratings",ratings);
                                 }
-                                db.collection("users").document(whereEqualTo("Name of Company", companyName)).set(clinicData);
+                                db.collection("users").document(id).set(clinicData);
                             }
 
                         }
