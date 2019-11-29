@@ -24,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import ca.uottawa.mali165.epicclinic.R;
 
@@ -55,6 +56,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         radioGroup = findViewById(R.id.radioGroup);
         registerButton = findViewById(R.id.registerBtn);
+
+
+
+
     }
 
     public void RegisterBtnClicked(View loginBtn){

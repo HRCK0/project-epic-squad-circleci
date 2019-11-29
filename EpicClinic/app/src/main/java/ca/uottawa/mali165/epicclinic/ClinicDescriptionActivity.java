@@ -72,7 +72,7 @@ public class ClinicDescriptionActivity extends AppCompatActivity {
                         addressView.setText(address);
                         descriptionView.setText(description);
 
-                        ratingBar.setRating(Float.parseFloat(rating));
+                        //ratingBar.setRating(Float.parseFloat(rating));
                     }
                 });
 
@@ -81,6 +81,15 @@ public class ClinicDescriptionActivity extends AppCompatActivity {
     public void onClickRating(View ratingBtn){
         companyName = getIntent().getExtras().getString("companyName");
         Intent openServicesWindow = new Intent(getApplicationContext(), RatingsActivity.class);
+        openServicesWindow.putExtra("companyName", companyName);
+        openServicesWindow.putExtra("CurrentUser_UID", getIntent().getStringExtra("CurrentUser_UID"));
+        startActivity(openServicesWindow);
+
+    }
+
+    public void onClickBooking(View bookingBtn){
+        companyName = getIntent().getExtras().getString("companyName");
+        Intent openServicesWindow = new Intent(getApplicationContext(), BookAppointmentActivity.class);
         openServicesWindow.putExtra("companyName", companyName);
         openServicesWindow.putExtra("CurrentUser_UID", getIntent().getStringExtra("CurrentUser_UID"));
         startActivity(openServicesWindow);
