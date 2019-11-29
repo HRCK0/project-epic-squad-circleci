@@ -62,9 +62,9 @@ public class MakeRatingActivity  extends AppCompatActivity {
         float rating = ratingBar.getRating();
 
         ratingPost = new HashMap<>();
-        ratingPost.put("name", raterName);
-        ratingPost.put("rating", rating);
-        ratingPost.put("comment",comment);
+        ratingPost.put("Name", raterName);
+        ratingPost.put("Rating", rating);
+        ratingPost.put("Comment",comment);
 
         db.collection("users")
                 .whereEqualTo("Name of Company", companyName)
