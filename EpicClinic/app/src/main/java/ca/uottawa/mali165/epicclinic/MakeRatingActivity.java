@@ -96,6 +96,7 @@ public class MakeRatingActivity  extends AppCompatActivity {
                     }
 
                 });
+        finish();
     }
 
 }
