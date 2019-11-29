@@ -59,11 +59,12 @@ public class MakeRatingActivity  extends AppCompatActivity {
 
         String raterName = raterNameEditText.getText().toString();
         String comment = commentEditText.getText().toString();
-        float rating = ratingBar.getRating();
+        float rating =  ratingBar.getRating();
+        final String rating2 = Float.toString(rating);
 
         ratingPost = new HashMap<>();
         ratingPost.put("Name", raterName);
-        ratingPost.put("Rating", rating);
+        ratingPost.put("Rating", rating2);
         ratingPost.put("Comment",comment);
 
         db.collection("users")
@@ -78,17 +79,41 @@ public class MakeRatingActivity  extends AppCompatActivity {
                             for (DocumentSnapshot document : QuerySnapshot) {
                                 Log.d("SEARCHING FOR DOUCMENT", document.getId() + " => " + document.getData());
                                 String id = document.getId();
+
                                 final Map clinicData = document.getData();
+                                ArrayList<Map> ratings;
+                                String avgRating;
+                                float totalRating = 0;
+                                float avgRating2 = 0;
 
                                 if (!clinicData.containsKey("Ratings")){
-                                    ArrayList<Map> ratings = new ArrayList<Map>();
+                                    ratings = new ArrayList<Map>();
                                     ratings.add(ratingPost);
+                                    avgRating = rating2;
                                     clinicData.put("Ratings",ratings);
+                                    clinicData.put("avgRating", avgRating);
+
                                 }else {
-                                    ArrayList<Map> ratings = (ArrayList<Map>) clinicData.remove("Ratings");
+                                    ratings = (ArrayList<Map>) clinicData.remove("Ratings");
+
                                     ratings.add(ratingPost);
+
+                                    for (int i = 0; i < ratings.size(); i++){
+                                        Map currRating = ratings.get(i);
+                                        String currRatingValue = (String) currRating.get("Rating");
+                                        float currRatingValue2 = Float.parseFloat(currRatingValue);
+                                        totalRating += currRatingValue2;
+                                    }
+
+                                    avgRating2 = totalRating / (ratings.size());
+
+                                    avgRating = Float.toString((avgRating2));
+
                                     clinicData.put("Ratings",ratings);
+                                    clinicData.put("avgRating", avgRating);
                                 }
+
+
                                 db.collection("users").document(id).set(clinicData);
                             }
 
