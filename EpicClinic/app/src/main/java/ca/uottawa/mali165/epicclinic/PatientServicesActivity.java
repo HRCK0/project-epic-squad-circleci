@@ -251,7 +251,7 @@ public class PatientServicesActivity extends AppCompatActivity {
                                         if(passesSearchQuery){
                                             String companyName = (String) user.get("Name of Company");
                                             String address = (String) user.get("Address");
-                                            String rating = (String) user.get("rating");
+                                            String rating = (String) user.get("avgRating");
 
                                             companies.add(companyName);
                                             addresses.add(address);
