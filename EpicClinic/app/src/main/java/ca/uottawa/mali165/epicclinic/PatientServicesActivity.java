@@ -220,10 +220,10 @@ public class PatientServicesActivity extends AppCompatActivity {
                                 if (user.get("role").equals("employee")) {
                                     if (user.get("profileCompleted").equals(true)){
 
-                                        /*//skip if rating less than desired
+                                        //skip if rating less than desired
                                         if(Float.parseFloat(user.get("avgRating").toString())<rating){
                                             continue;
-                                        }*/
+                                        }
 
                                         boolean passesSearchQuery = false;
 
