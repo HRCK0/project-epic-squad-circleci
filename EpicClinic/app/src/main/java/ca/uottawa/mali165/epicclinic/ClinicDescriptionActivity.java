@@ -96,4 +96,13 @@ public class ClinicDescriptionActivity extends AppCompatActivity {
         startActivity(openServicesWindow);
 
     }
+
+    public void onClickCheckIn(View checkInBtn)
+    {
+        companyName = getIntent().getExtras().getString("companyName");
+        Intent openServicesWindow = new Intent(getApplicationContext(), CheckInActivity.class);
+        openServicesWindow.putExtra("companyName", companyName);
+        openServicesWindow.putExtra("CurrentUser_UID", getIntent().getStringExtra("CurrentUser_UID"));
+        startActivity(openServicesWindow);
+    }
 }

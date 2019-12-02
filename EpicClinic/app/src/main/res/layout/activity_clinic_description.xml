@@ -119,6 +119,16 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/checkInButton"
+                android:layout_width="437dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClickCheckIn"
+                android:text="CHECK IN"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Button
                 android:id="@+id/bookAppointmentButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -9,13 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ClinicDescriptionActivity"></activity>
-        <activity android:name=".RatingsActivity"></activity>
-        <activity android:name=".MakeRatingActivity"></activity>
+        <activity android:name=".CheckInActivity"></activity>
+        <activity android:name=".ClinicDescriptionActivity" />
+        <activity android:name=".RatingsActivity" />
+        <activity android:name=".MakeRatingActivity" />
         <activity android:name=".BookAppointmentActivity" />
         <activity
             android:name=".PatientServicesActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".AvailabilityActivity" />
         <activity android:name=".CompleteUserProfileActivity" />
         <activity android:name=".ServicesActivityNonAdmin" />

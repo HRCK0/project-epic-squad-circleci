@@ -126,6 +126,7 @@ public class WelcomeActivity extends AppCompatActivity {
             startActivity(openServicesWindow);
         } else {
             Intent openServicesWindow = new Intent(getApplicationContext(), PatientServicesActivity.class);
+            openServicesWindow.putExtra("CurrentUser_UID", getIntent().getStringExtra("CurrentUser_UID"));
             startActivity(openServicesWindow);
         }
 

@@ -283,6 +283,8 @@ public class PatientServicesActivity extends AppCompatActivity {
         Log.d(TAG, "Company Name: " + companyName);
         Intent openInfoWindow = new Intent(getApplicationContext(), ClinicDescriptionActivity.class);
         openInfoWindow.putExtra("companyName", companyName);
+        Log.d(TAG,getIntent().getStringExtra("CurrentUser_UID"));
+        openInfoWindow.putExtra("CurrentUser_UID",getIntent().getStringExtra("CurrentUser_UID"));
         startActivity(openInfoWindow);
 
     }

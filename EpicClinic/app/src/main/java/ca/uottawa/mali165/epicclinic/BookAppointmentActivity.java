@@ -84,7 +84,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         companyName = getIntent().getExtras().getString("companyName");
-
+        patientId= getIntent().getStringExtra("CurrentUser_UID");
         button1 = findViewById(R.id.button1);
         button2 = findViewById(R.id.button2);
         button3 = findViewById(R.id.button3);
@@ -278,7 +278,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
                                             for (int i = 0; i < 24; i++) {
                                                 int endTime = i + 1;
                                                 if (i < startHourClinic) {
-                                                    Log.d(TAG, "IM HERE!!!!!!!!!!!!!");
+
                                                     /*String a = i + ":00-" + endTime + ":00";
                                                     int idOfButton = getResources().getIdentifier(a, "id", getApplicationContext().getPackageName());
                                                     Button toDelete = findViewById(idOfButton);
@@ -368,7 +368,8 @@ public class BookAppointmentActivity extends AppCompatActivity {
         Toast.makeText(BookAppointmentActivity.this, textToShow, Toast.LENGTH_SHORT).show();
     }
 
-    /*public void updateDatabaseClinic(String timeAdded) {
+    public void updateDatabaseClinic(String timeAdded) {
+        Log.d(TAG, "NO APPOINTMENTS YET!!!!!!!!!!!!!");
         final String time =timeAdded;
         db.collection("users").whereEqualTo("Name of Company", companyName).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -379,21 +380,33 @@ public class BookAppointmentActivity extends AppCompatActivity {
                         } else {
                             for (DocumentSnapshot document : QuerySnapshot) {
                                 Log.d("SEARCHING FOR DOCUMENT", document.getId() + " => " + document.getData());
+                                String id = document.getId();
                                 final Map clinicData = document.getData();
 
 
-                                if (!clinicData.containsKey("availability")) {
+                                if (!clinicData.containsKey("Appointments")) {
 
-
+                                    Log.d(TAG, "NO APPOINTMENTS YET!!!!!!!!!!!!!");
                                     Map<String,String> appointmentInfo = new HashMap<String,String>();
-                                    String[] duration = time.split(":");
+                                    String[] duration = time.split("-");
                                     ArrayList<Map> infoApts = new ArrayList<>();
 
                                     appointmentInfo.put("startTime",duration[0]);
                                     appointmentInfo.put("endTime",duration[1]);
                                     appointmentInfo.put("date",datePickedString);
                                     infoApts.add(appointmentInfo);
-                                    clinicData.put("Appointments",appointmentInfo);
+                                    clinicData.put("Appointments",infoApts);
+                                    db.collection("users").document(id).set(clinicData)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d(TAG, "Appointments Updated Succesfully");
+                                                }
+                                            });
+
+
+
+                                    Log.d(TAG, " APPOINTMENTS ADDED!!!!!!!!!!!!!");
 
                                 }
 
@@ -402,38 +415,46 @@ public class BookAppointmentActivity extends AppCompatActivity {
                                 {
                                    //contains the key
                                     ArrayList<Map> currentAptInfo= (ArrayList)clinicData.get("Appointments");
-
-
+                                    Log.d(TAG, " APPOINTMENTS AREW HERE !!!!!!!!!!!!!");
                                     Map<String,String> appointmentInfo = new HashMap<String,String>();
-                                    String[] duration = time.split(":");
+                                    String[] duration = time.split("-");
                                     appointmentInfo.put("startTime",duration[0]);
                                     appointmentInfo.put("endTime",duration[1]);
                                     appointmentInfo.put("date",datePickedString);
                                     currentAptInfo.add(appointmentInfo);
                                     clinicData.remove("Appointments");
                                     clinicData.put("Appointments",currentAptInfo);
+                                    db.collection("users").document(id).set(clinicData)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d(TAG, "Appointments Updated Succesfully");
+                                                }
+                                            });
+
                                 }
                             }
                         }
                     }
                 });
-    }*/
+    }
 
 
 
 
-   /* public void updateDatabasePatient(String timeAdded) {
-        db = FirebaseFirestore.getInstance();
+    public void updateDatabasePatient(String timeAdded) {
+
         final String time =timeAdded;
-        patientId = getIntent().getStringExtra("CurrentUser_UID");
-
+        Log.d(TAG, patientId);
+        Log.d(TAG, "NO APPOINTMENTS YET!!!!!!!!!!!!!");
         db.collection("users")
                 .document(patientId).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Log.d(TAG, "NO sadjiaodjaidso YET!!!!!!!!!!!!!");
                         Map patientInfo = documentSnapshot.getData();
-                        String[] duration = time.split(":");
+                        String[] duration = time.split("-");
 
                         if (patientInfo.containsKey("Appointments")) {
 
@@ -450,6 +471,14 @@ public class BookAppointmentActivity extends AppCompatActivity {
                             currentAptInfo.add(appointmentInfo);
                             patientInfo.remove("Appointments");
                             patientInfo.put("Appointments",currentAptInfo);
+                            db.collection("users").document(patientId).set(patientInfo)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "Appointments Updated Succesfully");
+                                        }
+                                    });
+
 
 
                         }
@@ -462,10 +491,18 @@ public class BookAppointmentActivity extends AppCompatActivity {
                             appointmentInfo.put("Company", companyName);
                             infoApts.add(appointmentInfo);
                             patientInfo.put("Appointments", infoApts);
+                            db.collection("users").document(patientId).set(patientInfo)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "Appointments Updated Succesfully");
+                                        }
+                                    });
+
 
 
                         }}});
-    }*/
+    }
 
 
 
@@ -484,8 +521,9 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
         String s = "Appointment booked from " + text + " with " + companyName;
         showToast( s);
-        //updateDatabasePatient(text);
-       // updateDatabaseClinic(text);
+        updateDatabaseClinic(text);
+        updateDatabasePatient(text);
+
 
 
 
