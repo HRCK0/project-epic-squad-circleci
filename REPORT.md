@@ -1,12 +1,19 @@
 
 # eCare
-## Members:
-Mustafa Ali, Gabriel Granata, Ruwani De Alwis, Vanya Prokic, Georges Chamoun
+### Members:
+| Name | Student Number |
+| --- | --- |
+| Mustafa Ali | 1484511  |
+| Gabriel Granata | 1929204  |
+| Ruwani De Alwis | 2128439 |
+| Vanya Prokic | 111111 |
+| Georges Chamoun | 300060437 |
 
-## Course Section:
+
+### Course Section:
 SEG2105- A
 
-## Date of submission
+### Date of submission
 December 4th, 2019
 
 Upload SVG (or PNG) files to [/assets](/assets), and then
