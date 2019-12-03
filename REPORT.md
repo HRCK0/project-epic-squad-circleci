@@ -1,10 +1,13 @@
 
-Placeholder for your report to generate in [Deliverable 04](/docs/deliverable04.md)
+# eCare
+## Members:
+Mustafa Ali, Gabriel Granata, Ruwani De Alwis, Vanya Prokic, Georges Chamoun
 
-Refer to [Deliverable 04](/docs/deliverable04.md), but here's some help with markdown.
+## Course Section:
+SEG2105- A
 
-
-# An image
+## Date of submission
+December 4th, 2019
 
 Upload SVG (or PNG) files to [/assets](/assets), and then
 you can reference them using
