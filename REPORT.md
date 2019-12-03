@@ -66,4 +66,11 @@ Work was almost evenly split for Deliverable 1. Since it was the first, we were 
 | Gabriel Granata | Database expert | Assisted in report. Worked on validating fields. |
 | Ruwani De Alwis | Split work | Completed feature to book appointments and view wait times. Submitted Deliverable. |
 | Vanya Prokic | Android Studio researcher | Worked on CircleCI. Did UML. Worked on validating fields.|
-| Georges Chamoun | Set up meeting times | Completed feature to allow rating services. |
+| Georges Chamoun | Set up meeting times | Completed feature to allow rating of services. |
+
+
+# Screenshots 
+
+
+
+# Lessons learned
