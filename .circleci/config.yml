@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/project-epic-squad
+    working_directory: ~/project-epic-squad-circleci
     docker:
       - image: ccistaging/android:api-28
     environment:
